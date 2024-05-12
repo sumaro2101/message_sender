@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-i(7nvgjs=fiw$0*%qx3^!9-zgr0e0u%owrc+*$64^ysecc*amq
 DEBUG = True
 
 ALLOWED_HOSTS = []
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #debug_toolbar
+    'debug_toolbar',
+    #django-extensions
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    #debug-toolbar
+    'debug_toolbar.middlaware.DebugToolbarMiddlaware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -55,7 +64,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,7 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [ BASE_DIR / '/static']
+STATICFILES_DIRS = [ BASE_DIR / '/static' ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT =  BASE_DIR / 'media' 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

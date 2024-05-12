@@ -8,11 +8,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0.6"
-psycopg2-binary = "^2.9.9"
 django-debug-toolbar = "^4.3.0"
+psycopg2-binary = "^2.9.9"
 pillow = "^10.3.0"
 crontab = "^1.0.1"
+pytils = "^0.4.1"
+django-extensions = "^3.2.3"
 
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.24.0"
 
 [build-system]
 requires = ["poetry-core"]
