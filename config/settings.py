@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,11 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     
     #debug_toolbar
     'debug_toolbar',
     #django-extensions
-    'django_extensions'
+    'django_extensions',
+    
+    #custom apps
+    'mess.apps.MessConfig',
+    'users.apps.UsersConfig',
+    'our_clients.apps.OurClientsConfig',
+    'mail_center.apps.MailCenterConfig',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     #debug-toolbar
-    'debug_toolbar.middlaware.DebugToolbarMiddlaware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -130,12 +138,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [ BASE_DIR / '/static' ]
+STATICFILES_DIRS = [ BASE_DIR / 'static/' ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT =  BASE_DIR / 'media' 
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = 'users:login'
+LOGOUT_REDIRECT_URL = 'users:login'

@@ -1,0 +1,42 @@
+{% load static %}
+
+{% for message in messages %}
+<article class="card mt-4" style="padding: 16px 16px 12px;">
+    <div>
+        <header class="d-flex align-items-center justify-content-between flex-wrap-nowrap mb-2" style="height: 24px; margin: -4px; padding: 4px;">
+            <div class="d-flex" style="margin: 0 4px 0 0; max-width: 100%;">
+                <span class="d-flex align-items-center" style="max-width: 100%;">
+                    <span class="d-flex" style="align-items: baseline; flex-direction: row;">
+                        <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">{{ message.employee.username }}</div>
+                        {% if message.time_edit == message.time_create %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_create }}</div>
+                        {% else %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_edit }}</div>
+                        {% endif %}
+                    </span>
+                </span>
+            </div>
+            <div>
+                {% if request.user.is_staff or request.user.username == message.employee.username %}
+                <div>
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:update_mess' message.slug %}">Редактировать</a>
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:delete_mess' message.slug %}">Удалить</a>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <div class="posts-comment-body ms-3">
+            <div>
+                <p>
+                    <strong>{{ message.title_message }}</strong>
+                </p>
+            </div>
+            <div >
+                <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">
+                    {{ message.text_message }}
+                </p>
+            </div>
+        </div>
+    </div>
+</article>
+{% endfor %}

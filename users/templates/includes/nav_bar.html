@@ -1,0 +1,26 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MailSender</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            {% for category in nav_items %}
+                <li class="nav-item {% if category.nav_name == 'Для администратора' and is_staff %}dropdown{% endif %}">
+                    <a class="nav-link {% if catg_selected == category.pk %} active {% endif %}{% if category.nav_name == 'Для администратора' and is_staff %} dropdown-toggle{% elif category.nav_name == 'Для администратора' and not is_staff %} disabled {% endif %}"{% if category.nav_name == 'Для администратора'%} role="button" data-bs-toggle="dropdown" aria-expanded="false"{% endif %} aria-current="page"  href="{% url category.slug %}">{{ category.nav_name }}</a>
+                {% if category.nav_name == 'Для администратора' and is_staff %}
+                <ul class="dropdown-menu">
+                    {% for subcategory in category.sublist_set.all %}
+                            <li><a class="dropdown-item" href="{% url subcategory.slug %}">{{ subcategory.nav_sub_name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %} 
+                </li>   
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+</nav>

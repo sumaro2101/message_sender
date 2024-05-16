@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="card-title">
+            {% if message %}<h3>Редактирование сообщения</h3>{% else %}<h3>Создание сообщения</h3>{% endif %}
+        </div>
+        <div class="card-body">
+            {% include 'includes/messages/create_message.html' %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

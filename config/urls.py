@@ -17,16 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from . import settings
-from django.conf.urls import static
+from django.conf.urls.static import static
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
-    path('', include('messages.urls', namespace='messages'))
-]
+    path('', include('mess.urls', namespace='mess')),
+    path('', include('users.urls', namespace='users')),
+    path('', include('our_clients.urls', namespace='our_clients')),
+    path('', include('mail_center.urls', namespace='mail_center')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
-    urlpatterns += [path('__debug__/', include('debug_toolbar.urls')),]
+    urlpatterns += [ path('__debug__/', include('debug_toolbar.urls')), ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     

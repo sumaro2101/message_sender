@@ -1,12 +1,11 @@
 {% load static %}
-{% load tags_main %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+    <title>Вход</title>
     <link type="text/css" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'css/bootstrap-grid.min.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'css/bootstrap-utilities.min.css' %}" rel="stylesheet">
@@ -14,15 +13,7 @@
     <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    {% nav_bar_tag catg_selected %}
-    <div class="d-flex justify-content-end">
-        <form action="{% url 'users:logout' %}" method="post">
-            {% csrf_token %}
-            <button class="bnt border" type="submit">Выйти</button>
-        </form>
-    </div>
-    {% block content %}
-    {% endblock content %}
+    {% include 'includes/users/includes_login.html' %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
