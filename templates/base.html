@@ -15,12 +15,6 @@
 </head>
 <body>
     {% nav_bar_tag catg_selected %}
-    <div class="d-flex justify-content-end">
-        <form action="{% url 'users:logout' %}" method="post">
-            {% csrf_token %}
-            <button class="bnt border" type="submit">Выйти</button>
-        </form>
-    </div>
     {% block content %}
     {% endblock content %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

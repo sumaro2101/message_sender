@@ -4,8 +4,9 @@
 {% block content %}
 <div class="container">
     <div class="card p-3">
-        <div class="card-title">
-            {% if message %}<h3>Редактирование сообщения</h3>{% else %}<h3>Создание сообщения</h3>{% endif %}
+        <div class="d-flex card-title justify-content-between">
+            {% if message %}<h2>Редактирование сообщения</h2>{% else %}<h2>Создание сообщения</h2>{% endif %}
+            <a href="{% url 'mess:list' %}" class="btn border">Назад</a>
         </div>
         <div class="card-body">
             {% include 'includes/messages/create_message.html' %}

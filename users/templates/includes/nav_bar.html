@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top mb-5">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">MailSender</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,6 +21,15 @@
                 </li>   
             {% endfor %}
         </ul>
+      </div>
+      <div class="position-absolute top-50 translate-middle" style="right: 0;">
+          <div class="d-flex justify-content-center align-items-center">
+            <h6 class="m-0 me-2">{{ user }}</h6>
+            <form action="{% url 'users:logout' %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" type="submit">Выйти</button>
+            </form>
+          </div>
       </div>
     </div>
 </nav>

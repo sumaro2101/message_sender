@@ -2,11 +2,19 @@
 
 {% block content %}
 <div class="container">
-    <div class="card">
+    <div class="card p-3">
+        <div class="d-flex card-title justify-content-between">
+            <h2>Список клиентов</h2>
+            <a href="{% url 'our_clients:create_client' %}" class="btn border">Добавить клиента</a>
+        </div>
         <div class="card-body">
-            <h1>Список клиентов</h1>
-            <p>Приветствую {{ request.user }}</p>
+            <div class="row row-cols-3">
+                {% for client in clients %}
+                    {% include 'includes/our_clients/card_client.html' %}
+                {% endfor %}
+            </div>
         </div>
     </div>
+    {% include 'paginate.html' %}
 </div>
 {% endblock content %}

@@ -25,17 +25,20 @@
                 {% endif %}
             </div>
         </header>
-        <div class="posts-comment-body ms-3">
+        <div class="posts-comment-body ms-3 mb-3">
             <div>
                 <p>
                     <strong>{{ message.title_message }}</strong>
                 </p>
             </div>
-            <div >
+            <div>
                 <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">
                     {{ message.text_message }}
                 </p>
             </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-success" style="--bs-btn-padding-y: .50rem; --bs-btn-padding-x: .70rem; --bs-btn-font-size: .90rem;" href="#">Начать рассылку</a>
         </div>
     </div>
 </article>

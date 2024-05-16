@@ -8,12 +8,14 @@ register = template.Library()
 def nav_bar_tag(context, catg_selected=1):
     nav_items = NavBarList.objects.all()
     sub_nav_items = Sublist.objects.all()
+    user = context.request.user
     
     return {
         'nav_items': nav_items,
         'catg_selected': catg_selected,
         'sub_nav_items': sub_nav_items,
-        'is_staff': context.request.user.is_staff
+        'is_staff': user.is_staff,
+        'user': user.username,
     }
 
 @register.simple_tag(takes_context=True)
