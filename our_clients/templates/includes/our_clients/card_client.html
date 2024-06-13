@@ -14,12 +14,10 @@
                 </span>
             </div>
             <div>
-                {% if request.user.is_staff or request.user.username == client.employee.username %}
                 <div>
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:update_client' client.pk %}">Редактировать</a>
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:delete_client' client.pk %}">Удалить</a>
                 </div>
-                {% endif %}
             </div>
         </header>
         <div class="border mb-2" ></div>

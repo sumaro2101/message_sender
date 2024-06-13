@@ -17,6 +17,8 @@ class ClientsListView(mixins.LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
+        if not self.request.user.is_staff:
+            return queryset.select_related('employee').filter(employee=self.request.user)
         return queryset.select_related('employee')
     
     

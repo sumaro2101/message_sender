@@ -1,0 +1,202 @@
+[
+    {
+        "model": "mess.messageinfo",
+        "pk": 2,
+        "fields": {
+            "employee": 1,
+            "title_message": "Тест сообщения",
+            "text_message": "Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения",
+            "slug": "1-test-soobsheniya",
+            "time_create": "2024-05-15T12:38:58.184Z",
+            "time_edit": "2024-05-15T12:38:58.184Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 3,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Какое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщение Какое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщение",
+            "slug": "1-kakoe-to-soobshenie",
+            "time_create": "2024-05-15T13:06:04.574Z",
+            "time_edit": "2024-05-15T13:06:04.574Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 4,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание",
+            "slug": "root-kakoe-to-soobschenie",
+            "time_create": "2024-05-15T18:34:37.974Z",
+            "time_edit": "2024-05-15T18:34:37.974Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 5,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание",
+            "slug": "1-kakoe-to-soobschenie",
+            "time_create": "2024-05-15T18:34:58.130Z",
+            "time_edit": "2024-05-15T20:18:27.782Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 10,
+        "fields": {
+            "employee": 1,
+            "title_message": "fdsafdsgagdsag",
+            "text_message": "gdsagdsgasd",
+            "slug": "2-fdsafdsgagdsag",
+            "time_create": "2024-05-16T19:34:44.273Z",
+            "time_edit": "2024-05-16T19:34:44.273Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "users.navbarlist",
+        "pk": 1,
+        "fields": {
+            "nav_name": "Главная страница",
+            "slug": "mess:main"
+        }
+    },
+    {
+        "model": "users.navbarlist",
+        "pk": 2,
+        "fields": {
+            "nav_name": "Центр сообщений",
+            "slug": "mess:list"
+        }
+    },
+    {
+        "model": "users.navbarlist",
+        "pk": 3,
+        "fields": {
+            "nav_name": "Центр клиентов",
+            "slug": "our_clients:clients"
+        }
+    },
+    {
+        "model": "users.navbarlist",
+        "pk": 5,
+        "fields": {
+            "nav_name": "Центр рассылок",
+            "slug": "mail_center:mails"
+        }
+    },
+    {
+        "model": "users.navbarlist",
+        "pk": 6,
+        "fields": {
+            "nav_name": "Для администратора",
+            "slug": "users:login"
+        }
+    },
+    {
+        "model": "users.sublist",
+        "pk": 3,
+        "fields": {
+            "nav_main": 6,
+            "nav_sub_name": "Добавить персонал",
+            "slug": "users:reg"
+        }
+    },
+    {
+        "model": "users.sublist",
+        "pk": 4,
+        "fields": {
+            "nav_main": 6,
+            "nav_sub_name": "Панель администратора",
+            "slug": "admin:index"
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fsafs@fadsfa.fas",
+            "client_first_name": "fsafsf",
+            "client_last_name": "fasfasF",
+            "client_middle_name": null,
+            "client_info": "FASFDSFASDFADSFDSFADSFADSF",
+            "time_create": "2024-05-16T17:29:46.995Z",
+            "time_edit": "2024-05-16T18:13:05.070Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 2,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fsf@fasdfsd.faf",
+            "client_first_name": "fdsafdsf",
+            "client_last_name": "fdasfds",
+            "client_middle_name": null,
+            "client_info": "fsdafdsafasdf",
+            "time_create": "2024-05-16T17:30:50.902Z",
+            "time_edit": "2024-05-16T18:13:26.861Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 4,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fafafsf@faf.fsf",
+            "client_first_name": "fasfasf",
+            "client_last_name": "fasfasfasfs",
+            "client_middle_name": null,
+            "client_info": "fsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfd",
+            "time_create": "2024-05-16T17:49:58.072Z",
+            "time_edit": "2024-05-16T18:13:17.219Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 5,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fdsfsl@dsadl.dsad",
+            "client_first_name": "dsadsff",
+            "client_last_name": "fdsfdsaf",
+            "client_middle_name": null,
+            "client_info": "fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa",
+            "time_create": "2024-05-16T18:02:12.360Z",
+            "time_edit": "2024-05-16T18:13:11.432Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mail_center.sendingmessage",
+        "pk": 2,
+        "fields": {
+            "message": 5,
+            "date_first_send": "2024-05-15T20:41:51Z",
+            "date_last_send": "2024-05-16T20:41:53Z",
+            "periodicity": "2024-05-16T18:00:05Z",
+            "status": "create",
+            "clients": [
+                2,
+                4,
+                5,
+                1
+            ]
+        }
+    }
+]

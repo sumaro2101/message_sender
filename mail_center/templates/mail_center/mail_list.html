@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container">
-    <div class="card">
+    <div class="card p-3">
+        <div class="d-flex card-title justify-content-between">
+            <h2>Центр рассылок</h2>
+            <a href="{% url 'mess:list' %}" class="btn border">Добавить рассылку</a>
+        </div>
         <div class="card-body">
-            <h1>Центр оправки писем</h1>
-            <p>Приветствую {{ request.user }}</p>
+            {% for send in messages %}
+                {% include 'includes/mail_center/card_send.html' %}
+            {% endfor %}
         </div>
     </div>
 </div>
+{% include 'paginate.html' %}
 {% endblock content %}

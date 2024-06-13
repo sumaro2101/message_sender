@@ -17,12 +17,10 @@
                 </span>
             </div>
             <div>
-                {% if request.user.is_staff or request.user.username == message.employee.username %}
                 <div>
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:update_mess' message.slug %}">Редактировать</a>
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:delete_mess' message.slug %}">Удалить</a>
                 </div>
-                {% endif %}
             </div>
         </header>
         <div class="posts-comment-body ms-3 mb-3">

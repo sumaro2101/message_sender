@@ -1,13 +1,9 @@
 from django.contrib import admin
-from .models import NavBarList, Sublist
-# Register your models here.
+from users.models import User
 
-
-@admin.register(NavBarList)
-class NavBarListAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'nav_name', 'slug']
     
-@admin.register(Sublist)
-class SublistAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'nav_main', 'nav_sub_name', 'slug']
+@admin.register(User)
+class PostCommentAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'username', 'email', 'first_name', 'last_name', 'password')
+    search_fields = ('username', 'first_name', 'last_name', 'email')
     

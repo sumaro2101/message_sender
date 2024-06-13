@@ -1,41 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
+from django.urls import reverse
+from phonenumber_field.modelfields import PhoneNumberField
+from django_countries.fields import CountryField
 # Create your models here.
 
 
-class NavBarList(models.Model):
-    """Пункты навигации главного меню
-
-    Отношеня users:NavBarList
-    """    
-    
-    nav_name = models.CharField(max_length=50, verbose_name='пункт навигации', help_text='пункт навигации')
-    slug = models.CharField(max_length=50, unique=True, verbose_name='адресс')
-    
-    def __str__(self) -> str:
-        return self.nav_name
-
-  
-    class Meta:
-        verbose_name = 'пункты'
-        verbose_name_plural = 'пунк навигации'
-        ordering = ['pk']
-    
-    
-class Sublist(models.Model):
-    """Под категории главного меню
-
-    Отношеня users:Sublist
-    """    
-    
-    nav_main = models.ForeignKey("users.NavBarList", verbose_name='под пункты навигации', on_delete=models.CASCADE)
-    nav_sub_name = models.CharField(max_length=50, verbose_name='под пункт навигации', help_text='под пункт навигации')
-    slug = models.CharField(max_length=50, unique=True, verbose_name='адресс')
-    
-    def __str__(self) -> str:
-        return self.nav_sub_name
+class User(AbstractUser):
+    image = models.ImageField(upload_to='users/', blank=True, null=True, verbose_name='аватар')
+    email = models.EmailField(max_length=254, unique=True, verbose_name='эмеил')
+    is_verify_email = models.BooleanField(default=False, verbose_name='подтвержденный эмеил')
+    phone = PhoneNumberField(null=True, blank=False, unique=True, verbose_name='номер телефона')
+    country = CountryField(verbose_name='страна', null=True, blank_label='(select country)')
+    gender = models.CharField(verbose_name='пол', choices=(('men', 'Мужчина'), ('women', 'Женщина'), (None, 'Не выбрано')), null=True, default=None)
     
     class Meta:
-        verbose_name = 'пункты'
-        verbose_name_plural = 'под пункты навигации'
-    
+        db_table = 'user'
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
+            

@@ -15,6 +15,12 @@ crontab = "^1.0.1"
 pytils = "^0.4.1"
 django-extensions = "^3.2.3"
 docutils = "^0.21.2"
+django-phonenumber-field = "^7.3.0"
+django-countries = "^7.6.1"
+redis = "^5.0.5"
+hiredis = "^2.3.2"
+python-dotenv = "^1.0.1"
+django-phonenumbers = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

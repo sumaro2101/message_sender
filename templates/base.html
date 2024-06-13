@@ -1,5 +1,5 @@
 {% load static %}
-{% load tags_main %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@
     <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    {% nav_bar_tag catg_selected %}
+    {% include 'includes/nav_bar.html' %}
     {% block content %}
     {% endblock content %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

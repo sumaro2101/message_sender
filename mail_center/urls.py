@@ -1,10 +1,10 @@
 from django.urls import path
 from mail_center.apps import MailCenterConfig
-from mail_center.views import mail_center
+from mail_center.views import ListSendMessages
 
 app_name = MailCenterConfig.name
 
 urlpatterns = [
-    path('mails/', mail_center, name='mails'),
+    path('mails/', ListSendMessages.as_view(), name='mails'),
     
 ]
