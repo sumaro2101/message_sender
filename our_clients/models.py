@@ -4,14 +4,13 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 
-
-
 class ClientServise(models.Model):
     """Модель клиента для рассылок
     Имеет поля: ФИО, эмеил, описание
     
     Отношение: our_clients:ClientServise
-    """    
+    """   
+     
     employee = models.ForeignKey(get_user_model(), verbose_name='кем добавлено', on_delete=models.SET_NULL, blank=True, null=True)
     client_mail = models.EmailField(verbose_name='эмеил клиента', unique=True)
     client_first_name = models.CharField(max_length=80, verbose_name='имя клиента')
@@ -21,7 +20,6 @@ class ClientServise(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='время создания')
     time_edit = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='время редактирования')
     actual = models.BooleanField(default=True, verbose_name='актуальность')
-    
     
     class Meta:
         verbose_name = 'клиент'

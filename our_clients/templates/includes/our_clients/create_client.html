@@ -1,5 +1,5 @@
 
-<form class="p-3" action="{% if client_p %}{% url 'our_clients:update_client' client.pk %}{% else %}{% url 'our_clients:create_client' %}{% endif %}" method="post">
+<form class="p-3" action="{% if client_p %}{% url 'our_clients:update_client' client_p.pk %}{% else %}{% url 'our_clients:create_client' %}{% endif %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="text" value="{{ next }}"/>
     {% if form.non_field_errors %}

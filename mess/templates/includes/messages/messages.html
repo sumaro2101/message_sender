@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <a class="btn btn-success" style="--bs-btn-padding-y: .50rem; --bs-btn-padding-x: .70rem; --bs-btn-font-size: .90rem;" href="#">Начать рассылку</a>
+            <a class="btn btn-success" style="--bs-btn-padding-y: .50rem; --bs-btn-padding-x: .70rem; --bs-btn-font-size: .90rem;" href="{% url 'mail_center:mail_create' message.slug %}">Начать рассылку</a>
         </div>
     </div>
 </article>

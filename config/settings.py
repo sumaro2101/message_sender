@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     
+    #celery
+    'django_celery_beat',
+    'django_celery_results',
+    
     #debug_toolbar
     'debug_toolbar',
     #django-extensions
@@ -59,6 +63,8 @@ INSTALLED_APPS = [
     #phonenumber_field
     'phonenumber_field',
     
+    #django-formset
+    'formset',
     
     #custom apps
     'mess.apps.MessConfig',
@@ -146,19 +152,19 @@ if CACHE_ENABLE:
     match find_env('TEST'):
         case 'False':
             backend_cache = {
-            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'BACKEND': find_env('BACKEND_CACHE'),
             'LOCATION': find_env('LOCATION_CACHE'),
             'TIMEOUT': 60 * 10,
             }
         case _:
             backend_cache = {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+            'BACKEND': find_env('BACKEND_CACHE_TEST'),
     }
             
     CACHES = {
     'default': backend_cache,
     }
-    CACHE_MIDDLEWARE_KEY_PREFIX='el_shop_cache'
+    CACHE_MIDDLEWARE_KEY_PREFIX='messender_cache'
     CACHE_MIDDLEWARE_SECONDS=600
 
 
@@ -189,6 +195,13 @@ EMAIL_USE_TLS = True if YANDEX_MAIL.get('connecttype') == 'TLS' else False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+
+CELERY_BROKER_URL = find_env('BROKER_URL')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = find_env('DEFAULT_DATABASE_BEAT')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

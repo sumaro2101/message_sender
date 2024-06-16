@@ -65,64 +65,6 @@
         }
     },
     {
-        "model": "users.navbarlist",
-        "pk": 1,
-        "fields": {
-            "nav_name": "Главная страница",
-            "slug": "mess:main"
-        }
-    },
-    {
-        "model": "users.navbarlist",
-        "pk": 2,
-        "fields": {
-            "nav_name": "Центр сообщений",
-            "slug": "mess:list"
-        }
-    },
-    {
-        "model": "users.navbarlist",
-        "pk": 3,
-        "fields": {
-            "nav_name": "Центр клиентов",
-            "slug": "our_clients:clients"
-        }
-    },
-    {
-        "model": "users.navbarlist",
-        "pk": 5,
-        "fields": {
-            "nav_name": "Центр рассылок",
-            "slug": "mail_center:mails"
-        }
-    },
-    {
-        "model": "users.navbarlist",
-        "pk": 6,
-        "fields": {
-            "nav_name": "Для администратора",
-            "slug": "users:login"
-        }
-    },
-    {
-        "model": "users.sublist",
-        "pk": 3,
-        "fields": {
-            "nav_main": 6,
-            "nav_sub_name": "Добавить персонал",
-            "slug": "users:reg"
-        }
-    },
-    {
-        "model": "users.sublist",
-        "pk": 4,
-        "fields": {
-            "nav_main": 6,
-            "nav_sub_name": "Панель администратора",
-            "slug": "admin:index"
-        }
-    },
-    {
         "model": "our_clients.clientservise",
         "pk": 1,
         "fields": {
@@ -180,23 +122,6 @@
             "time_create": "2024-05-16T18:02:12.360Z",
             "time_edit": "2024-05-16T18:13:11.432Z",
             "actual": true
-        }
-    },
-    {
-        "model": "mail_center.sendingmessage",
-        "pk": 2,
-        "fields": {
-            "message": 5,
-            "date_first_send": "2024-05-15T20:41:51Z",
-            "date_last_send": "2024-05-16T20:41:53Z",
-            "periodicity": "2024-05-16T18:00:05Z",
-            "status": "create",
-            "clients": [
-                2,
-                4,
-                5,
-                1
-            ]
         }
     }
 ]

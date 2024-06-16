@@ -39,7 +39,7 @@ class ClientUpdateView(mixins.LoginRequiredMixin, UpdateView):
     extra_context = {'title': 'update', 'catg_selected': 3}
     
     def form_valid(self, form):
-        form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.title_message)}'
+        form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.client_last_name)}'
         return super().form_valid(form)
 
 
