@@ -3,9 +3,12 @@ from django.shortcuts import render
 from django.contrib.auth import decorators, mixins
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+
+from pytils.translit import slugify
+
 from .models import MessageInfo
 from .forms import CreateMessageForm
-from pytils.translit import slugify
+from .mixins import OwnerOrStaffPermissionMixin
 # Create your views here.
 
 
@@ -40,7 +43,8 @@ class MessageCreateView(mixins.LoginRequiredMixin, CreateView):
         form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.title_message)}'
         return super().form_valid(form)
     
-class MessageUpdateView(mixins.LoginRequiredMixin, UpdateView):
+    
+class MessageUpdateView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateView):
     model = MessageInfo
     form_class = CreateMessageForm
     template_name = 'messages/messageinfo_form.html'
@@ -52,8 +56,13 @@ class MessageUpdateView(mixins.LoginRequiredMixin, UpdateView):
         form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.title_message)}'
         return super().form_valid(form)
 
-
-class MessageDeleteView(mixins.LoginRequiredMixin, DeleteView):
+    def test_func(self) -> bool | None:
+        return self.request.user.is_staff or\
+            self.request.user.is_superuser or\
+                self.request.user == self.get_object().employee
+    
+    
+class MessageDeleteView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DeleteView):
     model = MessageInfo
     template_name = 'messages/message_delete.html'
     context_object_name = 'message'

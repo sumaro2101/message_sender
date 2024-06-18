@@ -1,28 +1,32 @@
-<div class="card p-2 mb-3">
-    <div class="card-title d-flex justify-content-between">
-        <h6>Рассылка: {{ send.message.title_message }}</h6>
-        <div>
-            {% if send.status == 'run' %}
-            <p class="text-success">Запущено</p>
-            {% elif send.status == 'create' %}
-            <p class="text-warning">Созданно</p>
-            {% elif send.status == 'end' %}
-            <p class="text-secondary">Завершено</p>
+<a class="link-underline link-underline-opacity-0" href="{{ send.get_absolute_url }}">
+    <div class="card p-2 mb-3">
+        <div class="card-title d-flex justify-content-between">
+            <h6>Рассылка: {{ send.message.title_message }}</h6>
+            <div>
+                {% if send.status == 'run' %}
+                <p class="text-success">Запущено</p>
+                {% elif send.status == 'create' %}
+                <p class="text-warning">Созданно</p>
+                {% elif send.status == 'freeze' %}
+                <p class="text-info">Заморожено</p>
+                {% elif send.status == 'end' %}
+                <p class="text-secondary">Завершено</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% if send.date_first_send %}
+            <p>Время первой отправки: {{send.date_first_send}}</p>
+            {% endif %}
+            {% if send.date_last_send %}
+            <p>Время последней отправки: {{send.date_first_send}}</p>
+            {% endif %}
+            {% if send.periodicity %}
+            <p>Установлена периодичность каждые {{ send.periodicity }}</p>
             {% endif %}
         </div>
+        <div class="card-footer">
+            <p>Описание рассылки:<br> {{ send.message.text_message }}</p>
+        </div>
     </div>
-    <div class="card-body">
-        {% if send.date_first_send %}
-        <p>Время первой отправки: {{send.date_first_send}}</p>
-        {% endif %}
-        {% if send.date_last_send %}
-        <p>Время последней отправки: {{send.date_first_send}}</p>
-        {% endif %}
-        {% if send.periodicity %}
-        <p>Установлена периодичность каждые {{ send.periodicity }}</p>
-        {% endif %}
-    </div>
-    <div class="card-footer">
-        <p>Описание рассылки:<br> {{ send.message.text_message }}</p>
-    </div>
-</div>
+</a>

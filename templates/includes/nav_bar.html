@@ -20,6 +20,7 @@
             <li class="nav-item ">
                 <a class="nav-link  {% if catg_selected == 5 %} active {% endif %} " aria-current="page" href="/mails/">Центр рассылок</a>
             </li>
+            {% if request.user.is_superuser %}
             <li class="nav-item dropdown">
                 <a class="nav-link  dropdown-toggle {% if catg_selected == 6 %} active {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page" href="/login/">Для администратора</a>
                 <ul class="dropdown-menu">
@@ -27,6 +28,7 @@
                     <li><a class="dropdown-item" href="/admin/">Панель администратора</a></li>
                 </ul>
             </li>
+            {% endif %}
         </ul>
       </div>
       <div class="position-absolute top-50 translate-middle" style="right: 0;">
