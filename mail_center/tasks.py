@@ -1,9 +1,10 @@
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django_celery_beat.models import PeriodicTask
 
 from typing import List, Union
 
 from .services import send_mails, _convert_unique_name_to_id
-from .models import SendingMessage
+from .models import SendingMessage, ResultsSendMessages
 from mail_center.celery import app
 
 
@@ -18,4 +19,6 @@ def send(object_unique_name: Union[str, None]= None) -> None:
     model_check = SendingMessage._default_manager.get(pk=pk)
     user_email = [client.client_mail for client in model_check.clients.get_queryset() if client.actual]
     
-    return send_mails(user_email)
+    try:
+        send_mails(user_email)
+        
