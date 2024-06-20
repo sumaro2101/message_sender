@@ -134,9 +134,11 @@ def _convert_unique_name_to_id(unique_name: str) -> Tuple[str]:
         unique_name (str): Уникальное имя события
     """    
     if not isinstance(unique_name, str):
-        raise ValueError(f'{unique_name} должен быть сторокой')
+        raise TypeError(f'{unique_name} должен быть сторокой')
     try:
         pk = unique_name.split('_')[-1]
+        if not len(pk):
+            raise
     except:
         raise ValueError(f'{unique_name} не является именем события')
     
