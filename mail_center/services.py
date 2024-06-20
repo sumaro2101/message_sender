@@ -267,7 +267,6 @@ def create_task_interval(object_: Model,
         task (_type_): Обьект события который будет вызыватся
         interval (timedelta): Интервал обязательно должен быть timedelta()
         start_time: (datetime | None): Время старта события по рассписанию
-        type_processing ('create', 'update', 'delete'): Тип обработки объекта
         changed_data (None, Dict) = None: Словарь с изменяемыми полями
     """
      
@@ -292,14 +291,13 @@ def update_task_interval(object_: Model,
                          changed_data: Union[None, List[str]] = [],
                          *args,
                          **kwargs: Any) -> None:
-    """Создает событие которое работает по рассписанию
+    """Обновляет событие которое работает по рассписанию
 
    Args:
         object_ (Model): Обьект для построения уникального имени
         task (_type_): Обьект события который будет вызыватся
         interval (timedelta): Интервал обязательно должен быть timedelta()
         start_time: (datetime | None): Время старта события по рассписанию
-        type_processing ('create', 'update', 'delete'): Тип обработки объекта
         changed_data (None, List) = None: Словарь с изменяемыми полями
     """
     type_processing = 'update'
@@ -321,7 +319,6 @@ def delete_task_interval(object_: Model) -> None:
 
    Args:
         object_ (Model): Обьект для построения уникального имени
-        type_processing ('create', 'update', 'delete'): Тип обработки объекта
     """
     type_processing = 'delete'
     name = _unique_name_task(object_)

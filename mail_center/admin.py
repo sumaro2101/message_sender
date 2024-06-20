@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
-from django.forms import ModelForm
+from django.db.models import Model
 
 from pytils.translit import slugify
 
-from typing import Any
+from typing import Any, List, Tuple, Union
 
 from .models import SendingMessage, ResultsSendMessages
 from mail_center.services import create_task_interval, update_task_interval, delete_task_interval
@@ -33,7 +33,9 @@ class SendingMessageAdmin(admin.ModelAdmin):
         })
     )
     
-    def clients(self, obj):
+    def clients(self, obj: Model) -> List[Model] :
+        """Поле ManyToMany для вывода клиетов
+        """        
         return [client for client in obj.clients.get_queryset()]
     
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
@@ -45,9 +47,22 @@ class SendingMessageAdmin(admin.ModelAdmin):
             self.readonly_fields = ('status')
         return super().get_readonly_fields(request, obj)
     
-    def _change_status(self, obj):
-        obj = obj
-        update_fields = []
+    def _change_status(self, obj: Model) -> Tuple[List[str], Model]:
+        """Логика автоматизированного изменения статуса исходя из атрибутов
+
+        Args:
+            obj (Model): Целевая модель
+
+        Returns:
+            tuple(list(str), Model): Возвращает готовый список и измененую модель
+        """        
+        obj: Model = obj
+        
+        if not isinstance(obj, Model):
+            raise TypeError(f'{obj} должен быть классом модели')
+        
+        update_fields: List[str] = []
+        
         if not obj.date_first_send and not obj.status == 'create':
                 obj.status = 'freeze'
                 update_fields.append('status')
@@ -57,7 +72,10 @@ class SendingMessageAdmin(admin.ModelAdmin):
             
         return update_fields, obj
     
-    def log_addition(self, request: HttpRequest, obj: Any, message: Any) -> LogEntry: 
+    # CRUD система по редактированию рассписания в зависимости от изменения целевого объекта
+    def log_addition(self, request: HttpRequest, obj: Any, message: Any) -> LogEntry:
+        """Создание рассписания
+        """        
         update_fields, obj = self._change_status(obj) 
         obj.slug = f'{request.user.id}-{slugify(request.user.username)}-{obj.pk}-{slugify(obj.message.title_message)}'
         update_fields.append('slug')
@@ -68,12 +86,20 @@ class SendingMessageAdmin(admin.ModelAdmin):
         return super().log_addition(request, obj, message)
     
     def log_change(self, request: HttpRequest, obj: Any, message: Any) -> LogEntry:
+        """Изменения рассписания
+        """        
         change_data = ['periodicity', 'date_first_send', 'status']
         _, obj = self._change_status(obj)
         obj.save(update_fields=change_data)
         
         update_task_interval(object_=obj, interval=obj.periodicity, start_time=obj.date_first_send, changed_data=change_data)
         return super().log_change(request, obj, message)
+    
+    def log_deletion(self, request: HttpRequest, obj: Any, object_repr: str) -> LogEntry:
+        """Удаление рассписания
+        """        
+        delete_task_interval(obj)
+        return super().log_deletion(request, obj, object_repr)
     
     
 @admin.register(ResultsSendMessages)
