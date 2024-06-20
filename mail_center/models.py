@@ -13,7 +13,7 @@ class SendingMessage(models.Model):
     clients = models.ManyToManyField("our_clients.ClientServise", verbose_name='клиенты для рассылки')
     date_first_send = models.DateTimeField(verbose_name='время первой отправки', default=None, blank=True, null=True)
     periodicity = models.DurationField(verbose_name='периодичность отправки', choices=choise_period_time, default=choise_period_time[9])
-    slug = models.SlugField(max_length=256, null=True)
+    slug = models.SlugField(max_length=256, null=True, unique=True)
     status = models.CharField(max_length=50, choices=[('end', 'Завершено'), ('create', 'Созданно'), ('freeze', 'Заморожено'), ('run', 'Запущено')], default='create')
 
     class Meta:
