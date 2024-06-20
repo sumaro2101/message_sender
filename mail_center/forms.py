@@ -1,4 +1,4 @@
-from django.forms import fields, ModelForm, DateTimeInput
+from django.forms import fields, ModelForm, DateTimeInput, Form
 from django.db.models import Q, QuerySet
 
 from formset.widgets import DateTimeInput
@@ -24,7 +24,9 @@ class FormSendMesssage(ModelForm):
         """Здесь реализованно изменение вывода поля клиентов в зависимости от пользователя
         """
         if not self.user.is_staff and not self.user.is_superuser:
-            self.fields['clients'].queryset = self.fields['clients'].queryset.filter(Q(employee=self.user, actual=True))
+            self.fields['clients'].queryset = self.fields['clients'].queryset.filter(Q(employee=self.user, actual=True)).order_by('client_first_name')
+        else:
+            self.fields['clients'].queryset = self.fields['clients'].queryset.order_by('-actual', 'client_first_name')
 
         return super().get_initial_for_field(field, field_name)
     

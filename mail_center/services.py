@@ -1,13 +1,15 @@
-from django.http.request import HttpRequest
 from django.http.response import Http404
 from django.db.models import Model, Q
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, PermissionDenied
+from django.template.exceptions import TemplateDoesNotExist
+from django.urls import NoReverseMatch
 from django.conf import settings
+from django.template import loader
+from django.core.mail import EmailMultiAlternatives
 
-from typing import Any, Union, Tuple, List, Literal, Dict, Callable
+from typing import Any, Union, Tuple, List, Literal, Callable
 from datetime import timedelta, datetime, timezone
 import json
 
@@ -55,27 +57,53 @@ def check_message(model_message: Model, message_id: str) -> Union[Http404, Model
         raise TypeError(f'{message_id} аргумент не является строкой')
     if issubclass(model_message, Model):
         message = get_object_or_404(model_message, **{'slug': message_id})
+        if not message.actual:
+            raise PermissionDenied()
         return message
     raise TypeError(f'{model_message} не является моделью')
 
 
-def send_mails(emails: List[str]) -> None:
+def send_mails(model_subject: Model, emails: List[str], template_render: Union[str, None]= None) -> None:
     """Функция для оправки письма, является внутренней начинкой другой функции TASK
 
     Args:
+        model_subject (Model): Модель которая имеет ссылку на сообщение
         emails (List[str]): Список целевых эмеилов для оправки
+        template_render (str, None): Ссылка на html для отправки письма
      """  
-       
-    subject: str = 'test send mail'
-    body: str = 'this test mail'
+    email_template_name = template_render
+    subject_template_name = "mail_form/mail_send_subject.txt"
+    subject: str = model_subject.title_message
+    body: str = model_subject.text_message
     server_mail: str = settings.EMAIL_HOST_USER
     users: List[str] = emails
     
-    send_mail(subject=subject,
-              message=body,
-              from_email=server_mail,
-              recipient_list=users,
-              fail_silently=False)
+    if email_template_name:
+        
+        context = {
+        "name": model_subject.employee,
+        "title": subject,
+        "body": body,
+        }
+
+        try:
+            subject = loader.render_to_string(subject_template_name, context=context)
+            subject = "".join(subject.splitlines())
+        except TemplateDoesNotExist:
+            raise TemplateDoesNotExist(f'По заданному пути: {subject_template_name} - шаблон не был найден')
+        except NoReverseMatch:
+            raise NoReverseMatch('Ошибка при постоении пути')
+        
+        try:
+            body = loader.render_to_string(email_template_name, context=context)
+        except TemplateDoesNotExist:
+            raise TemplateDoesNotExist(f'По заданному пути: {email_template_name} - шаблон не был найден')
+        except NoReverseMatch:
+            raise NoReverseMatch('Ошибка при постоении пути')
+        
+
+    email_message = EmailMultiAlternatives(subject, body, server_mail, users)
+    email_message.send()
 
 
 def _unique_name_task(model: Model) -> Union[str, TypeError]:
@@ -108,12 +136,11 @@ def _convert_unique_name_to_id(unique_name: str) -> Tuple[str]:
     if not isinstance(unique_name, str):
         raise ValueError(f'{unique_name} должен быть сторокой')
     try:
-        _, pk = unique_name.split('_')
-        model_name = _[-1].split('.')[-1]
+        pk = unique_name.split('_')[-1]
     except:
         raise ValueError(f'{unique_name} не является именем события')
     
-    return model_name, pk
+    return pk
     
     
 def _check_task(name_task: str) -> PeriodicTask:
@@ -139,7 +166,7 @@ def _core_task(name: str,
                 interval: Union[timedelta, None]= None,
                 start_time: Union[datetime, None]= None,
                 type_processing: Literal['create', 'update', 'delete']= 'update',
-                changed_data: Union[None, List[str]]= None,
+                changed_data: Union[None, List[str]]= [],
                 *args,
                 **kwargs: Any) -> None:
     """Ядро обработки события по рассписанию
@@ -158,32 +185,32 @@ def _core_task(name: str,
     """ 
        
     if interval:
-        interval_parse = False
         
-        if interval.seconds:
-            every, period = (interval.seconds, 'seconds')
-            interval_parse = True
+        if not isinstance(interval, timedelta):
+            raise TypeError(f'interval должен быть timedelta значением')
+        else:
+            if interval.seconds:
+                every, period = (interval.seconds, 'seconds')   
+            elif interval.days:
+                every, period = (interval.days, 'days')
             
-        if interval.days:
-            every, period = (interval.days, 'days')
-            interval_parse = True
-        
-        if not interval_parse:
-            raise ValueError('interval должен быть timedelta значением')
+        schedule = IntervalSchedule.objects.filter(Q(every=every, period=period))
+        if schedule.exists():
+            try:
+                interval = schedule.get()
+            except MultipleObjectsReturned:
+                raise MultipleObjectsReturned(f'{interval} вернул больше одного значения, необходимо проверить объекты интервалов')
+        else:
+            raise ObjectDoesNotExist(f'Не было найдено не одного интервала по значению {interval}')
     
     args = json.dumps(args) if args else []
+    kwargs = kwargs['kwargs'] if kwargs.get('kwargs') else kwargs
     kwargs = json.dumps(kwargs) if kwargs else {}
       
     match type_processing:
         case 'create':
             if not task:
                 raise BadArgumentsProcessingTask('Для создания события необходим целевой обьект для работы')
-            schedule = IntervalSchedule.objects.filter(Q(every=every, period=period))
-            
-            if schedule.exists():
-                interval = schedule.get()
-            else:
-                interval = None
             
             PeriodicTask.objects.create(name=name,
                                         task=task,
@@ -199,7 +226,7 @@ def _core_task(name: str,
             
             if 'periodicity' in changed_data:
                 update_fields.append('interval')
-                task_object.interval = IntervalSchedule.objects.get(Q(every=every, period=period))
+                task_object.interval = interval
                 
             if 'date_first_send' in changed_data:
                 update_fields.append('start_time')
@@ -229,8 +256,8 @@ def _core_task(name: str,
 def create_task_interval(object_: Model,
                          task,
                          interval: timedelta,
-                         start_time: Union[datetime, None],
-                         changed_data: Union[None, List[str]] = None,
+                         start_time: Union[datetime, None]= None,
+                         changed_data: Union[None, List[str]] = [],
                          *args,
                          **kwargs: Any) -> None:
     """Создает событие которое работает по рассписанию
@@ -246,7 +273,6 @@ def create_task_interval(object_: Model,
      
     type_processing = 'create'
     name = _unique_name_task(object_)
-    kwargs = kwargs
     kwargs.update(**{'object_unique_name': name})
     
     _core_task(name=name,
@@ -262,8 +288,8 @@ def create_task_interval(object_: Model,
     
 def update_task_interval(object_: Model,
                          interval: timedelta,
-                         start_time: Union[datetime, None],
-                         changed_data: Union[None, List[str]] = None,
+                         start_time: Union[datetime, None] = None,
+                         changed_data: Union[None, List[str]] = [],
                          *args,
                          **kwargs: Any) -> None:
     """Создает событие которое работает по рассписанию
@@ -278,7 +304,6 @@ def update_task_interval(object_: Model,
     """
     type_processing = 'update'
     name = _unique_name_task(object_)
-    kwargs = kwargs
     kwargs.update(**{'object_unique_name': name})
     
     _core_task(name=name,

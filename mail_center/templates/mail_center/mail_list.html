@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags_url %}
 
 {% block content %}
 <div class="container">
@@ -8,6 +9,23 @@
             <h2>Центр рассылок</h2>
             <a href="{% url 'mess:list' %}" class="btn border">Добавить рассылку</a>
         </div>
+        <ul class="nav nav-pills ms-3 mt-2">
+            <li class="nav-item">
+                <a class="nav-link {% if filter_select == '1' %}active{% endif %} " href="?">Все</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if filter_select == '2' %}active{% endif %}" href="?{% add_params status='run' %}">Активные</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if filter_select == '3' %}active{% endif %}" href="?{% add_params status='create' %}">Созданные</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if filter_select == '4' %}active{% endif %}" href="?{% add_params status='freeze' %}">Замороженные</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if filter_select == '5' %}active{% endif %}" href="?{% add_params status='end' %}">Завершенные</a>
+            </li>
+        </ul>
         <div class="card-body">
             {% for send in messages %}
                 {% include 'includes/mail_center/card_send.html' %}

@@ -1,18 +1,18 @@
 <a class="link-underline link-underline-opacity-0" href="{{ send.get_absolute_url }}">
     <div class="card p-2 mb-3">
-        <div class="card-title d-flex justify-content-between">
-            <h6>Рассылка: {{ send.message.title_message }}</h6>
+        <div class="card-title d-block">
             <div>
                 {% if send.status == 'run' %}
-                <p class="text-success">Запущено</p>
+                <p class="text-success text-center m-0">Активна</p>
                 {% elif send.status == 'create' %}
-                <p class="text-warning">Созданно</p>
+                <p class="text-warning text-center m-0">Созданна</p>
                 {% elif send.status == 'freeze' %}
-                <p class="text-info">Заморожено</p>
+                <p class="text-info text-center m-0">Заморожена</p>
                 {% elif send.status == 'end' %}
-                <p class="text-secondary">Завершено</p>
+                <p class="text-secondary text-center m-0">Завершена</p>
                 {% endif %}
             </div>
+            <h6>Рассылка: {{ send.message.title_message }}</h6>
         </div>
         <div class="card-body">
             {% if send.date_first_send %}

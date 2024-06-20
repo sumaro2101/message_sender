@@ -22,17 +22,18 @@ class SendingMessage(models.Model):
         ordering = ['-date_first_send', '-status']
 
     def __str__(self):
-        return self.status
+        return f'{self.pk}-{self.periodicity}-{self.status}'
 
     def get_absolute_url(self):
         return reverse("mail_center:mail_detail", kwargs={"slug": self.slug})
 
 
 class ResultsSendMessages(models.Model):
+    
     send_task = models.ForeignKey("mail_center.SendingMessage", verbose_name='ссылка на объект рассылки', null=True, on_delete=models.SET_NULL)
     sheduler_task = models.ForeignKey("django_celery_beat.PeriodicTask", verbose_name='ссылка на объект события', null=True, on_delete=models.SET_NULL)
     date_done = models.DateTimeField(auto_now=True, verbose_name='Дата окончания задачи')
-    result = models.CharField(max_length=50, null=True, blank=True)
+    result = models.CharField(max_length=50, choices=(('success', 'Успешно'), ('failed', 'Провалено')))
 
     class Meta:
         
@@ -41,5 +42,5 @@ class ResultsSendMessages(models.Model):
         verbose_name_plural = 'Результаты Рассылки сообщений'
 
     def __str__(self):
-        return self.result
+        return f'{self.pk}-{self.send_task}-{self.result}'
     

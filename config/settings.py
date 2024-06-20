@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     #phonenumber_field
     'phonenumber_field',
     
+    'django_countries',
+    
     #django-formset
     'formset',
     
@@ -191,13 +193,15 @@ EMAIL_HOST_PASSWORD = os.environ.get('PASSWORD_HOST_YANDEX')
 EMAIL_USE_SSL = True if YANDEX_MAIL.get('connecttype') == 'SSL' else False
 EMAIL_USE_TLS = True if YANDEX_MAIL.get('connecttype') == 'TLS' else False
 
+DEFAULT_CHARSET = 'utf-8'
+
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
 
 CELERY_BROKER_URL = find_env('BROKER_URL')
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = find_env('DEFAULT_DATABASE_BEAT')

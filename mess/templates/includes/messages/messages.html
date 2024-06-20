@@ -16,10 +16,17 @@
                     </span>
                 </span>
             </div>
+            <div style="margin-left: 60px;">
+                {% if message.actual %}
+                    <p class="text-success">Актуальный</p>
+                {% else %}
+                    <p class="text-danger">Деактивирован</p>
+                {% endif %}
+            </div>
             <div>
                 <div>
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:update_mess' message.slug %}">Редактировать</a>
-                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:delete_mess' message.slug %}">Удалить</a>
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:delete_mess' message.slug %}">{% if message.actual %}Деактивировать{% else %}Активировать{% endif %}</a>
                 </div>
             </div>
         </header>
@@ -35,9 +42,11 @@
                 </p>
             </div>
         </div>
+        {% if message.actual %}
         <div class="d-flex justify-content-center">
             <a class="btn btn-success" style="--bs-btn-padding-y: .50rem; --bs-btn-padding-x: .70rem; --bs-btn-font-size: .90rem;" href="{% url 'mail_center:mail_create' message.slug %}">Начать рассылку</a>
         </div>
+        {% endif %}
     </div>
 </article>
 {% endfor %}

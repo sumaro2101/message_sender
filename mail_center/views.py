@@ -1,10 +1,11 @@
 from typing import Any
 from django.db.models.base import Model as Model
-from django.db.models.query import QuerySet
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.contrib.auth import mixins
+from django.core.exceptions import PermissionDenied
 
 from pytils.translit import slugify
 
@@ -17,18 +18,19 @@ from .mixins import OwnerOrStaffPermissionMixin
 from mess.models import MessageInfo
 # Create your views here.
 
-
 class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DetailView):
     queryset = SendingMessage.objects.select_related('message', 'owner_send')
     context_object_name = 'mail'
     
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         task = get_task(self.object)
         context['task'] = task
         context['clients'] = self.object.clients.filter(actual=True)
+        context['title'] = 'Send'
+        context['catg_selected'] = 5
         
-        if self.object.status in ['freeze', 'create'] or not self.object.clients.filter(actual=True).exists():
+        if self.object.status in ['freeze', 'create', 'end'] or not self.object.clients.filter(actual=True).exists():
             context['next_send'] = None
             context['procent_to_send'] = None
         elif not task.last_run_at and task.start_time or task.last_run_at < task.start_time:
@@ -47,6 +49,30 @@ class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DetailVie
         
         return context
     
+    def post(self, request, *args, **kwargs):
+        update_fields = []
+        if status := request.POST.get('change_status'):
+            if not self.object.slug == status:
+                raise PermissionDenied()
+            if not self.object.status == 'freeze':
+                self.object.status = 'freeze'
+                update_fields.append('status')
+            else:
+                self.object.status = 'run'
+                update_fields.append('status')
+        
+        if end_task := request.POST.get('end_task'):
+            if not self.object.slug == end_task:
+                raise PermissionDenied()
+            if not self.object.status == 'end':
+                self.object.status = 'end'
+                self.object.date_first_send = None
+                update_fields.extend(['status', 'date_first_send', ])
+        
+        self.object.save(update_fields=update_fields)
+        update_task_interval(self.object, interval=None, changed_data=update_fields)
+        return redirect('mail_center:mail_detail', **{'slug': self.object.slug})
+    
     
 class ListSendMessages(mixins.LoginRequiredMixin, ListView):
     model = SendingMessage
@@ -54,18 +80,39 @@ class ListSendMessages(mixins.LoginRequiredMixin, ListView):
     paginate_by = 4
     template_name = 'mail_center/mail_list.html'
     
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self):
         queryset = super().get_queryset()
+        request_get = self.request.GET
+        match request_get.get('status'):
+            case 'run':
+                queryset = queryset.filter(status='run')
+                self.filter_select = '2'
+            case 'create':
+                queryset = queryset.filter(status='create')
+                self.filter_select = '3'
+            case 'freeze':
+                queryset = queryset.filter(status='freeze')
+                self.filter_select = '4'
+            case 'end':
+                queryset = queryset.filter(status='end')
+                self.filter_select = '5'
+            case _:
+                self.filter_select = '1'
+            
         if not self.request.user.is_staff and not self.request.user.is_superuser:
-            queryset = queryset.filter(owner_send=self.request.user).order_by('-pk').select_related('message')
+            queryset = queryset.filter(owner_send=self.request.user).order_by('-status').select_related('message')
         else:
-            queryset = queryset.order_by('-pk').select_related('message')
+            queryset = queryset.order_by('-status').select_related('message')
         return queryset
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Send'
         context['catg_selected'] = 5
+        context['filter_select'] = self.filter_select
         return context
     
     
@@ -92,7 +139,8 @@ class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateVi
         form.save()
         
         self.object = form
-        create_task_interval(object_=form, task='mail_center.tasks.send', interval=periodicity, start_time=start_time)
+        kwargs = {'template_render': 'mail_form/mail_send_form.html'}
+        create_task_interval(object_=form, task='mail_center.tasks.send', interval=periodicity, start_time=start_time, **kwargs)
         return HttpResponseRedirect(self.get_success_url())
     
     def get_initial(self) -> dict[str, Any]:
@@ -111,6 +159,8 @@ class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateVi
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['message'] = self.message
+        context['title'] = 'Send'
+        context['catg_selected'] = 5
         return context
       
     def test_func(self) -> bool | None:
@@ -122,6 +172,11 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
     form_class = FormSendMesssage
     context_object_name = 'mail_up'
     
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any):
+        if self.object.status == 'end':
+            raise PermissionDenied()
+        return super().get(request, *args, **kwargs)    
+    
     def get_form_kwargs(self) -> dict[str, Any]:
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -129,7 +184,7 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
     
     def form_valid(self, form):
         if form.changed_data:
-            periodicity = form.cleaned_data['periodicity']
+            periodicity = form.cleaned_data['periodicity'] if 'periodicity' in form.changed_data else None
             start_time = form.cleaned_data['date_first_send']
             if not start_time and not form.instance.status == 'create':
                 form.changed_data.append('status')
@@ -138,12 +193,20 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
                 form.changed_data.append('status')
                 form.instance.status = 'run'
             self.object = form.save()
+            kwargs = {'template_render': 'mail_form/mail_send_form.html'}
             update_task_interval(object_=self.object,
                                 interval=periodicity,
                                 start_time=start_time,
-                                changed_data=form.changed_data)
+                                changed_data=form.changed_data,
+                                **kwargs)
         
         return HttpResponseRedirect(self.get_success_url())
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Send'
+        context['catg_selected'] = 5
+        return context
     
     
 class DeleteSend(mixins.PermissionRequiredMixin, DeleteView):
@@ -157,4 +220,10 @@ class DeleteSend(mixins.PermissionRequiredMixin, DeleteView):
     def form_valid(self, form):
         delete_task_interval(self.object)
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Send'
+        context['catg_selected'] = 5
+        return context
     

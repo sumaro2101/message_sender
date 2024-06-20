@@ -4,13 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h1>Регистрация персонала</h1>
-            <form action="{% url 'users:reg' %}" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button class="btn btn-success" type="submit">Добавить</button>
-                <a class="btn border" href="{% url 'mess:main' %}">Отменить</a>
-            </form>
+            {% include 'includes/users/form_register.html' %}
         </div>
     </div>
 </div>

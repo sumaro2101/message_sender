@@ -1,4 +1,5 @@
 from django.db.models.query import QuerySet
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import decorators, mixins
 from django.urls import reverse_lazy
@@ -21,8 +22,8 @@ class MessagesListView(mixins.LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if not self.request.user.is_staff:
-            return queryset.select_related('employee').filter(employee=self.request.user)
-        return queryset.select_related('employee')
+            return queryset.select_related('employee').filter(employee=self.request.user).order_by('-actual', '-time_edit')
+        return queryset.select_related('employee').order_by('-actual', '-time_edit')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,6 +70,13 @@ class MessageDeleteView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, 
     success_url = reverse_lazy('mess:list')
     extra_context = {'title': 'update', 'catg_selected': 2}
 
+    def form_valid(self, form):
+        if self.object.actual:
+            self.object.actual = False
+        else:
+            self.object.actual = True
+        self.object.save(update_fields=['actual'])
+        return HttpResponseRedirect(self.get_success_url())
   
 @decorators.login_required
 def main_list(request):
