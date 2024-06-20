@@ -16,7 +16,7 @@ from mail_center.services import create_task_interval, update_task_interval, del
 @admin.register(SendingMessage)
 class SendingMessageAdmin(admin.ModelAdmin):
     model = SendingMessage
-    list_display = ('pk', 'message', 'clients', 'date_first_send', 'periodicity', 'status')
+    list_display = ('pk', 'message', 'clients', 'date_first_send', 'periodicity', 'enabled', 'status')
 
     fieldsets = (
         (('Информация о письме'), {
@@ -28,7 +28,7 @@ class SendingMessageAdmin(admin.ModelAdmin):
             'classes': ('extrapretty', 'wide'),
         }),
         (('Статус'), {
-            'fields': ('status',),
+            'fields': ('status', 'enabled'),
             'classes': ('extrapretty', 'wide'),
         })
     )
@@ -44,7 +44,7 @@ class SendingMessageAdmin(admin.ModelAdmin):
     
     def get_readonly_fields(self, request: HttpRequest, obj: Any | None = ...) -> list[str] | tuple[Any, ...]:
         if not request.user.is_superuser:
-            self.readonly_fields = ('status')
+            self.readonly_fields = ('status', 'message', 'clients', 'date_first_send', 'periodicity', )
         return super().get_readonly_fields(request, obj)
     
     def _change_status(self, obj: Model) -> Tuple[List[str], Model]:
