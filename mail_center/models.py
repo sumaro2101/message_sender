@@ -14,7 +14,7 @@ class SendingMessage(models.Model):
     date_first_send = models.DateTimeField(verbose_name='время первой отправки', default=None, blank=True, null=True)
     periodicity = models.DurationField(verbose_name='периодичность отправки', choices=choise_period_time, default=choise_period_time[9])
     slug = models.SlugField(max_length=256, null=True, unique=True)
-    enabled = models.BooleanField(default=True, verbose_name='отключение рассылки')
+    enabled = models.BooleanField(default=True, verbose_name='активность рассылки')
     status = models.CharField(max_length=50, choices=[('end', 'Завершено'), ('create', 'Созданно'), ('freeze', 'Заморожено'), ('run', 'Запущено')], default='create')
 
     class Meta:

@@ -43,7 +43,7 @@ class SendingMessageAdmin(admin.ModelAdmin):
         return queryset.select_related('message')
     
     def get_readonly_fields(self, request: HttpRequest, obj: Any | None = ...) -> list[str] | tuple[Any, ...]:
-        if not request.user.is_superuser:
+        if not request.user.is_superuser or request.user.groups.filter(name='moderator').exists():
             self.readonly_fields = ('status', 'message', 'clients', 'date_first_send', 'periodicity', )
         return super().get_readonly_fields(request, obj)
     
@@ -62,11 +62,16 @@ class SendingMessageAdmin(admin.ModelAdmin):
             raise TypeError(f'{obj} должен быть классом модели')
         
         update_fields: List[str] = []
-        
-        if not obj.date_first_send and not obj.status == 'create':
+        if not obj.enabled:
+            obj.status = 'end'
+            obj.date_first_send = None
+            update_fields.extend(['status', 'date_first_send',])
+            
+        elif not obj.date_first_send and not obj.status == 'create':
                 obj.status = 'freeze'
                 update_fields.append('status')
-        elif obj.date_first_send and obj.status in ('create', 'freeze'):
+                
+        elif obj.date_first_send and obj.status in ('create', 'freeze', 'end'):
             obj.status = 'run'
             update_fields.append('status')
             

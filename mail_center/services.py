@@ -156,7 +156,7 @@ def _check_task(name_task: str) -> PeriodicTask:
     try:
         task_object = PeriodicTask.objects.get(name=name_task)
     except (ObjectDoesNotExist, MultipleObjectsReturned):
-        raise
+        return None
     return task_object
 
 
@@ -246,9 +246,13 @@ def _core_task(name: str,
             task_object.save(update_fields=update_fields)
             
         case 'delete':
+            # В случае если событие не будет найдено, будет пропуск
+            # Это возможно если по ошибке было удалено событие раньше чем рассылка
             task_object = _check_task(name)
-            task_object.delete()
-            
+            if task_object:
+                task_object.delete()
+            else:
+                print(f'По {name} событие не было найдено, целевой объект был удален')
         case _:
             raise ValueError(f'type_processing должен быть только "create", "update", "delete". Было полученно значение {type_processing}')
                 

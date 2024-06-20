@@ -186,13 +186,22 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
         if form.changed_data:
             periodicity = form.cleaned_data['periodicity'] if 'periodicity' in form.changed_data else None
             start_time = form.cleaned_data['date_first_send']
-            if not start_time and not form.instance.status == 'create':
+            
+            if not form.enabled:
+                form.instance.status = 'end'
+                form.instance.date_first_send = None
+                form.changed_data.extend('status', 'date_first_send',)
+                
+            elif not start_time and not form.instance.status == 'create':
                 form.changed_data.append('status')
                 form.instance.status = 'freeze'
+                
             elif start_time and form.instance.status in ('create', 'freeze'):
                 form.changed_data.append('status')
                 form.instance.status = 'run'
+                
             self.object = form.save()
+            
             kwargs = {'template_render': 'mail_form/mail_send_form.html'}
             update_task_interval(object_=self.object,
                                 interval=periodicity,
