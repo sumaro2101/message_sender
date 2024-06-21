@@ -8,12 +8,41 @@ from django_countries.fields import CountryField
 
 
 class User(AbstractUser):
-    image = models.ImageField(upload_to='users/', blank=True, null=True, verbose_name='аватар')
-    email = models.EmailField(max_length=254, unique=True, verbose_name='эмеил')
-    is_verify_email = models.BooleanField(default=False, verbose_name='подтвержденный эмеил')
-    phone = PhoneNumberField(null=True, blank=False, unique=True, verbose_name='номер телефона')
-    country = CountryField(verbose_name='страна', null=True, blank_label='(select country)')
-    gender = models.CharField(verbose_name='пол', choices=(('men', 'Мужчина'), ('women', 'Женщина'), (None, 'Не выбрано')), null=True, default=None)
+    """Модель пользователя
+    """    
+    image = models.ImageField(upload_to='users/',
+                              blank=True, null=True,
+                              verbose_name='аватар'
+                              )
+    
+    email = models.EmailField(max_length=254,
+                              unique=True,
+                              verbose_name='эмеил'
+                              )
+    
+    is_verify_email = models.BooleanField(default=False,
+                                          verbose_name='подтвержденный эмеил'
+                                          )
+    
+    phone = PhoneNumberField(null=True,
+                             blank=False,
+                             verbose_name='номер телефона'
+                             )
+    
+    country = CountryField(verbose_name='страна',
+                           null=True,
+                           blank=True,
+                           blank_label='(select country)'
+                           )
+    
+    gender = models.CharField(verbose_name='пол',
+                              choices=(('men', 'Мужчина'),
+                                       ('women', 'Женщина'),
+                                       (None, 'Не выбрано')),
+                              null=True,
+                              blank=True,
+                              default=None
+                              )
     
     class Meta:
         db_table = 'user'

@@ -1,20 +1,5 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
-    <link type="text/css" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/bootstrap-grid.min.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/bootstrap-utilities.min.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/bootstrap-reboot.min.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-<body>
-    {% include 'includes/users/includes_login.html' %}
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% block content %}
+{% include 'includes/users/includes_login.html' %}
+{% endblock content %}

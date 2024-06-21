@@ -14,7 +14,7 @@ from .forms import FormSendMesssage
 from .services import (check_message, create_task_interval, update_task_interval,
                        delete_task_interval,
                        get_task, get_procent_interval_time)
-from .mixins import OwnerOrStaffPermissionMixin
+from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
 from mess.models import MessageInfo
 # Create your views here.
 
@@ -74,14 +74,11 @@ class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DetailVie
         return redirect('mail_center:mail_detail', **{'slug': self.object.slug})
     
     
-class ListSendMessages(mixins.LoginRequiredMixin, ListView):
+class ListSendMessages(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView):
     model = SendingMessage
     context_object_name = 'messages'
     paginate_by = 4
     template_name = 'mail_center/mail_list.html'
-    
-    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any):
-        return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -110,7 +107,7 @@ class ListSendMessages(mixins.LoginRequiredMixin, ListView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Send'
+        context['title'] = 'NewsLetter'
         context['catg_selected'] = 5
         context['filter_select'] = self.filter_select
         return context
@@ -164,7 +161,7 @@ class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateVi
         return context
       
     def test_func(self) -> bool | None:
-        return self.message.employee == self.request.user or self.request.user.is_superuser
+        return not self.request.user.groups.filter(name='moderator').exists() or self.message.employee == self.request.user or self.request.user.is_superuser
     
 
 class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateView):
@@ -173,7 +170,7 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
     context_object_name = 'mail_up'
     
     def get(self, request: HttpRequest, *args: str, **kwargs: Any):
-        if self.object.status == 'end':
+        if self.object.status == 'end' or self.request.user.groups.filter(name='moderator').exists():
             raise PermissionDenied()
         return super().get(request, *args, **kwargs)    
     
@@ -218,7 +215,7 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
         return context
     
     
-class DeleteSend(mixins.PermissionRequiredMixin, DeleteView):
+class DeleteSend(mixins.PermissionRequiredMixin, mixins.UserPassesTestMixin, DeleteView):
     model = SendingMessage
     permission_required = 'mail_center.delete_sendingmessage'
     context_object_name = 'send_delete'
@@ -235,4 +232,7 @@ class DeleteSend(mixins.PermissionRequiredMixin, DeleteView):
         context['title'] = 'Send'
         context['catg_selected'] = 5
         return context
+    
+    def test_func(self) -> bool | None:
+        return self.request.user.is_superuser
     

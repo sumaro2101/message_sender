@@ -6,7 +6,9 @@
     <div class="card p-3">
         <div class="d-flex card-title justify-content-between">
             <h2>Список сообщений</h2>
+            {% if not moderator %}
             <a href="{% url 'mess:create_mess' %}" class="btn border">Создать сообщение</a>
+            {% endif %}
         </div>
         <div class="card-body">
             {% include 'includes/messages/messages.html' %}

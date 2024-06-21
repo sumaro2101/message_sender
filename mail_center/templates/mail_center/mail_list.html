@@ -7,7 +7,9 @@
     <div class="card p-3">
         <div class="d-flex card-title justify-content-between">
             <h2>Центр рассылок</h2>
+            {% if not moderator %}
             <a href="{% url 'mess:list' %}" class="btn border">Добавить рассылку</a>
+            {% endif %}
         </div>
         <ul class="nav nav-pills ms-3 mt-2">
             <li class="nav-item">

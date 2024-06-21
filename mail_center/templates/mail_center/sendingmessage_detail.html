@@ -19,7 +19,9 @@
                     <h6>Рассылка</h6>
                     <div class="d-flex">
                         {% if not mail.status == 'end' %}
+                        {% if not request.user.is_staff %}
                         <a class="btn border me-2" href="{% url 'mail_center:mail_update' mail.slug %}">Изменить</a>
+                        {% endif %}
                         <form class="me-2" action="{{ mail.get_absolute_url }}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="end_task" value="{{ mail.slug }}">

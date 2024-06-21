@@ -37,7 +37,6 @@ class FormSendMesssage(ModelForm):
                 self.add_error('date_first_send', 'Время не может быть задним числом')
         return date_first_send
     
-    
     class Meta:
         model = SendingMessage
         fields = ('clients', 'periodicity', 'date_first_send')

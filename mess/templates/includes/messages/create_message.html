@@ -13,10 +13,6 @@
         <label class="form-label" for="id_text_message">Содержимое сообщения:</label>
         <textarea class="form-control" name="text_message" cols="40" rows="10" required id="id_text_message">{{ message.text_message }}</textarea>
     </p>
-    <p>
-        <label class="form-check-label" for="id_actual">Актуальность:</label>
-        <input class="form-check-input" type="checkbox" name="actual" id="id_actual" checked>
-    </p>
     <button class="btn btn-success" type="submit">Создать</button>
     <a class="btn border" href="{% url 'mess:list' %}">Отмена</a>
 </form>
