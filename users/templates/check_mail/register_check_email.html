@@ -1,0 +1,14 @@
+{% load i18n %}{% autoescape off %}
+Вы получили это сообщение потому что вы зарегистрировались на сайте {{ site_name }}
+
+Пожалуйста перейдите по следующей ссылке для подтверждения регистрации
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'users:verify_email' uidb64=uid token=token %}
+{% endblock %}
+Ваше имя пользователя: {{ user.get_username }}
+
+Спасибо вам за регистрацию
+
+{{ site_name }} команда
+
+{% endautoescape %}

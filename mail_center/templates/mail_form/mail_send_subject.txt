@@ -1,0 +1,3 @@
+{% load i18n %}{% autoescape off %}
+Рассылка сообщений от {{ name }}
+{% endautoescape %}

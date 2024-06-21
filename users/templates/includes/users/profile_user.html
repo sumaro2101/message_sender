@@ -1,0 +1,48 @@
+{% load static %}
+
+<h3 class="p-2">
+    Личный кабинет пользователя
+</h3>
+<div class="card m-1 p-2">
+    <div class="card-body p-3 card_big_style">
+
+        <div class="my-3 card_big_images">
+                {% if current_user.image %}
+                <img src="{{ current_user.image.url }}" class="d-block w-auto card-style-image" alt="{{ current_user.username }}">
+                {% else %}
+                <img src="{% static 'images/image not found.jpeg' %}" class="d-block w-auto card-style-image" alt="{{ current_user.username }}">
+                {% endif %}
+        </div>
+
+        <div style="grid-area: spec-brand">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Имя пользователя: <strong>{{ current_user.username }}</strong></p>
+              <p style="font-size: .80rem; line-height: .6875rem;">Дата регистрации: {{ current_user.date_joined }}</p>
+            </div>
+            {% if request.user == current_user or request.user.is_staff %}
+            <div>
+              <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'users:update' current_user.username %}">Изменить личные данные</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if request.user == current_user or request.user.is_staff %}
+        <div class="d-flex" style="grid-area:stat;">
+          <div style="font-size: .80rem; line-height: 1.250rem;">Эмеил: {% if current_user.email %}{{ current_user.email }}{% else %} не указан{% endif %}</div>
+          {% if request.user == current_user and not current_user.is_verify_email %}
+            <a class="ms-2 link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="font-size: .80rem; line-height: 1.250rem;" href="{% url 'users:verify_email' %}">Необходимо верифицировать почту</a>
+          {% endif %}
+        </div>
+        
+        <div style="font-size: .80rem; line-height: 1.250rem; grid-area:info;">Телефон: {% if current_user.phone %}{{ current_user.phone }}{% else %} не указан{% endif %}</div>
+        {% endif %}
+        <div style="font-size: .80rem; line-height: 1.250rem; grid-area:buy;">Страна: {% if current_user.country %}{{ current_user.country }}{% else %} не указан{% endif %}</div>
+        <div style="font-size: .80rem; line-height: 1.250rem; grid-area:wrap;">Имя: {% if current_user.get_short_name %}{{ current_user.get_short_name }}{% else %} не указан{% endif %}</div>
+        <div style="font-size: .80rem; line-height: 1.250rem; grid-area:add-sales">Фамилия: {% if current_user.last_name %}{{ current_user.last_name }}{% else %} не указан{% endif %}</div>
+        {% if request.user == current_user %}
+        <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover mt-4" style="font-size: .80rem; line-height: 1.250rem; grid-area:free" href="{% url 'users:password_change' %}">Изменить пароль</a>
+        {% endif %}
+    </div>
+</div>
