@@ -36,7 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = [find_env('ALLOWED_HOSTS'),]
 INTERNAL_IPS = ['127.0.0.1']
 
-CACHE_ENABLE = False
+CACHE_ENABLE = True
 GLOBAL_CACHE = False
 
 
@@ -156,6 +156,9 @@ if CACHE_ENABLE:
             'BACKEND': find_env('BACKEND_CACHE'),
             'LOCATION': find_env('LOCATION_CACHE'),
             'TIMEOUT': 60 * 10,
+            'OPTIONS': {
+                'db': '1',
+            }
             }
         case _:
             backend_cache = {

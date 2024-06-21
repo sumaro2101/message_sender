@@ -13,7 +13,8 @@ from .models import MessageInfo
 from .forms import CreateMessageForm
 from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
 from mail_center.models import SendingMessage
-from mail_center.services import update_task_interval
+from mail_center.core.scheduler_core import update_task_interval
+from mail_center.cache import get_or_set_cache, delete_cache
 # Create your views here.
 
 
@@ -25,7 +26,9 @@ class MessagesListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
     extra_context = {'title': 'Messages', 'catg_selected': 2,}
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = get_or_set_cache(MessageInfo, is_queryset_all=True)
+        if not queryset:
+            queryset = super().get_queryset()
         if not self.request.user.is_staff:
             return queryset.select_related('employee').filter(employee=self.request.user).order_by('-actual', '-time_edit')
         return queryset.select_related('employee').order_by('-actual', '-time_edit')
@@ -41,6 +44,7 @@ class MessageCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, C
     def form_valid(self, form):
         form.instance.employee = self.request.user
         form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.title_message)}'
+        delete_cache(MessageInfo, is_queryset_all=True)
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:
@@ -62,6 +66,7 @@ class MessageUpdateView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, 
     
     def form_valid(self, form):
         form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.title_message)}'
+        delete_cache(MessageInfo, is_queryset_all=True)
         return super().form_valid(form)
 
     def test_func(self) -> bool | None:
@@ -100,7 +105,10 @@ class MessageChangeActivityView(mixins.LoginRequiredMixin, OwnerOrStaffPermissio
             if objects:
                 SendingMessage.objects.bulk_update(objs=objects, fields=fields)
                 [update_task_interval(new, interval=None, start_time=new.date_first_send, changed_data=fields) for new in objects]
-            
+                [delete_cache(SendingMessage, new.slug) for new in objects]
+                
+        delete_cache(SendingMessage, is_queryset_all=True)
+           
         return HttpResponseRedirect(self.get_success_url())
   
   

@@ -9,7 +9,10 @@ from pytils.translit import slugify
 from typing import Any, List, Tuple, Union
 
 from .models import SendingMessage, ResultsSendMessages
-from mail_center.services import create_task_interval, update_task_interval, delete_task_interval
+from mail_center.core.scheduler_core import (create_task_interval,
+                                             update_task_interval,
+                                             delete_task_interval,
+                                             )
 
 # Register your models here.
 

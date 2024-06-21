@@ -11,6 +11,7 @@ from pytils.translit import slugify
 from .models import ClientServise
 from .forms import AddClientForm
 from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
+from mail_center.cache import get_or_set_cache, delete_cache
 # Create your views here.
 
     
@@ -22,7 +23,9 @@ class ClientsListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView):
     extra_context = {'title': 'Clients', 'catg_selected': 3}
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = get_or_set_cache(ClientServise, is_queryset_all=True)
+        if not queryset:
+            queryset = super().get_queryset()
         if not self.request.user.is_staff and not self.request.user.is_superuser:
             return queryset.filter(Q(employee=self.request.user)).order_by('client_first_name').select_related('employee')
         return queryset.order_by('client_first_name').select_related('employee')
@@ -37,6 +40,7 @@ class ClientCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, Cr
     
     def form_valid(self, form: BaseModelForm):
         form.instance.employee = self.request.user
+        delete_cache(ClientServise, is_queryset_all=True)
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:
@@ -53,6 +57,7 @@ class ClientUpdateView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, U
     
     def form_valid(self, form):
         form.instance.slug = f'{slugify(form.instance.employee.pk)}-{slugify(form.instance.client_last_name)}'
+        delete_cache(ClientServise, is_queryset_all=True)
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:
@@ -73,5 +78,6 @@ class ClientToggleActivityView(mixins.LoginRequiredMixin ,OwnerOrStaffPermission
         else:
             self.object.actual = True
         self.object.save(update_fields=['actual'])
+        delete_cache(ClientServise, is_queryset_all=True)
         return HttpResponseRedirect(self.get_success_url())
     

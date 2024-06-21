@@ -1,26 +1,46 @@
 from typing import Any
 from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.contrib.auth import mixins
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from pytils.translit import slugify
 
 from .models import SendingMessage
 from .forms import FormSendMesssage
-from .services import (check_message, create_task_interval, update_task_interval,
-                       delete_task_interval,
-                       get_task, get_procent_interval_time)
+from .services import (check_message,
+                       get_task,
+                       get_procent_interval_time,
+                       )
+from mail_center.core.scheduler_core import (create_task_interval,
+                                             update_task_interval,
+                                             delete_task_interval,
+                                             )
 from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
+from mail_center.cache import get_or_set_cache, delete_cache
 from mess.models import MessageInfo
 # Create your views here.
 
-class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DetailView):
-    queryset = SendingMessage.objects.select_related('message', 'owner_send')
+
+
+class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, CheckModeratorMixin, DetailView):
+    model = SendingMessage
     context_object_name = 'mail'
+    
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        queryset = self.get_queryset()
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        self.object = get_or_set_cache(model=queryset, slug=slug)
+        
+        if not self.object:
+            self.object = queryset.get(slug=slug)
+        return self.object
     
     def get_context_data(self, *, object_list=None, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -67,10 +87,12 @@ class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, DetailVie
             if not self.object.status == 'end':
                 self.object.status = 'end'
                 self.object.date_first_send = None
+                self.object.enabled = False
                 update_fields.extend(['status', 'date_first_send', ])
         
         self.object.save(update_fields=update_fields)
         update_task_interval(self.object, interval=None, changed_data=update_fields)
+        delete_cache(SendingMessage, self.kwargs['slug'])
         return redirect('mail_center:mail_detail', **{'slug': self.object.slug})
     
     
@@ -81,7 +103,9 @@ class ListSendMessages(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
     template_name = 'mail_center/mail_list.html'
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = get_or_set_cache(SendingMessage, is_queryset_all=True)
+        if not queryset:
+            queryset = super().get_queryset()
         request_get = self.request.GET
         match request_get.get('status'):
             case 'run':
@@ -138,6 +162,7 @@ class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateVi
         self.object = form
         kwargs = {'template_render': 'mail_form/mail_send_form.html'}
         create_task_interval(object_=form, task='mail_center.tasks.send', interval=periodicity, start_time=start_time, **kwargs)
+        delete_cache(SendingMessage, is_queryset_all=True)
         return HttpResponseRedirect(self.get_success_url())
     
     def get_initial(self) -> dict[str, Any]:
@@ -184,7 +209,7 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
             periodicity = form.cleaned_data['periodicity'] if 'periodicity' in form.changed_data else None
             start_time = form.cleaned_data['date_first_send']
             
-            if not form.enabled:
+            if not form.instance.enabled:
                 form.instance.status = 'end'
                 form.instance.date_first_send = None
                 form.changed_data.extend('status', 'date_first_send',)
@@ -205,6 +230,7 @@ class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateV
                                 start_time=start_time,
                                 changed_data=form.changed_data,
                                 **kwargs)
+            delete_cache(SendingMessage, self.kwargs['slug'])
         
         return HttpResponseRedirect(self.get_success_url())
     

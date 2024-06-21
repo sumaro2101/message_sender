@@ -141,6 +141,7 @@
                         </div>
                     </div>
                             <ul class="nav d-flex flex-column mt-3">
+                                <hr>
                                 {% for client in form.clients %}
                                 <li>
                                     <input type="checkbox" class="btn-check" value="{{ client.data.value }}" id="btn-check-{{ client.data.value }}-outlined" {% if client.data.selected %}checked{% endif %} name="clients">

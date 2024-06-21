@@ -6,20 +6,20 @@
         <div class="card p-4">
             <div>
                 {% if mail.status == 'run' %}
-                <p class="text-success text-center m-0">Активна</p>
+                <p class="text-success text-center m-0" style="line-height: 0;">Активна</p>
                 {% elif mail.status == 'create' %}
-                <p class="text-warning text-center m-0">Созданна</p>
+                <p class="text-warning text-center m-0" style="line-height: 0;">Созданна</p>
                 {% elif mail.status == 'freeze' %}
-                <p class="text-info text-center m-0">Заморожена</p>
+                <p class="text-info text-center m-0" style="line-height: 0;">Заморожена</p>
                 {% elif mail.status == 'end' %}
-                <p class="text-secondary text-center m-0">Завершена</p>
+                <p class="text-secondary text-center m-0" style="line-height: 0;">Завершена</p>
                 {% endif %}
             </div>
                 <div class="card-title d-flex justify-content-between">
                     <h6>Рассылка</h6>
                     <div class="d-flex">
                         {% if not mail.status == 'end' %}
-                        {% if not request.user.is_staff %}
+                        {% if not moderator %}
                         <a class="btn border me-2" href="{% url 'mail_center:mail_update' mail.slug %}">Изменить</a>
                         {% endif %}
                         <form class="me-2" action="{{ mail.get_absolute_url }}" method="post">
@@ -28,7 +28,7 @@
                             <button class="btn border">Завершить</button>
                         </form>
                         {% endif %}
-                        {% if perms.mail_center.delete_sendingmessage %}
+                        {% if request.user.is_superuser %}
                         <a class="btn border" href="{% url 'mail_center:mail_delete' mail.slug %}">Удалить</a>
                         {% endif %}
                     </div>
