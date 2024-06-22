@@ -8,14 +8,15 @@
   padding: 32px;
   position: relative;
   display: grid;
-  grid-template-areas: "header header" "left spec-brand" "left stat" "left info" "left buy" "left wrap" "left add-sales" "left free" "gallery gallery";
+  grid-template-areas: "left spec-brand" "left stat" "left info" "left buy" "left wrap" "left add-sales" "left free" "gallery gallery";
   grid-template-columns: 1fr minmax(590px,1fr);
-  grid-template-rows: auto 120px;
+  grid-template-rows: 1fr;
   margin-bottom: 20px;
 }
 .card_big_images {
   grid-area: left;
   margin-right: 32px;
+  height: 372px;
 }
 .card_big_images_carousel {
   display: flex;
@@ -153,13 +154,13 @@
   display: flex;
   flex-flow: row wrap;
   grid-area: add-sales;
-}
+} 
 
 .card-style-image {
   aspect-ratio: auto;
   cursor: zoom-in;
   height: auto;
-  max-height: 100%;
+  max-height: 300px;
   max-width: 100%;
   width: auto;
 }

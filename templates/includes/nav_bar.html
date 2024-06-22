@@ -26,7 +26,8 @@
             <li class="nav-item dropdown">
                 <a class="nav-link  dropdown-toggle {% if catg_selected == 6 %} active {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page" href="/login/">Для администратора</a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/registration/">Добавить персонал</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:reg' %}">Добавить пользователя</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:users_list' %}">Список пользователей</a></li>
                     <li><a class="dropdown-item" href="/admin/">Панель администратора</a></li>
                 </ul>
             </li>
@@ -34,17 +35,31 @@
         </ul>
       </div>
       <div class="position-absolute top-50 translate-middle" style="right: 0;">
-          <div class="d-flex justify-content-center align-items-center">
-            <h6 class="m-0 me-2">{{ user.get_username }}</h6>
-            {% if request.user.is_authenticated %}
-            <form action="{% url 'users:logout' %}" method="post">
+        {% if request.user.is_authenticated %}
+        <div class="btn-group" data-bs-theme="dark">
+          <button class="btn dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" id="dropdownMenuButtonDark" aria-expanded="false">
+            <div class="d-inline" style="height: 100%; width: 100%; align-self: center;">
+              {% if user.image %}
+              <img src="{{ user.image.url }}" style="border-radius: 100%; overflow: hidden; height: 24px; width: 24px;" alt="{{ user.username }}">
+              {% else %}
+              <img src="{% static 'images/image_not_found.jpeg' %}" class="me-2" style="border-radius: 100%; overflow: hidden; height: 24px; width: 24px;" alt="{{ user.username }}">
+              {% endif %}
+            </div>
+            {{ user.get_username }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end text-bg-secondary" aria-labelledby="dropdownMenuButtonDark">
+            <li><a class="dropdown-item" href="{{ user.get_absolute_url }}">Личный кабинет</a></li>
+            <li><a class="dropdown-item" href="{% url 'mail_center:mails' %}">Мои рассылки</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <form class="dropdown-item" action="{% url 'users:logout' %}" method="post">
               {% csrf_token %}
-              <button class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" type="submit">Выйти</button>
+              <button class="dropdown-item" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" type="submit">Выйти</button>
             </form>
-            {% else %}
-            <a class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'users:login' %}">Войти</a>
-            {% endif %}
-          </div>
+          </ul>
+        </div>
+        {% else %}
+        <a class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'users:login' %}">Войти</a>
+        {% endif %}
       </div>
     </div>
 </nav>
