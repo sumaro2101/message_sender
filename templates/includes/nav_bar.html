@@ -26,7 +26,8 @@
             <li class="nav-item dropdown">
                 <a class="nav-link  dropdown-toggle {% if catg_selected == 6 %} active {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page" href="/login/">Для администратора</a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'users:reg' %}">Добавить персонал</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:reg' %}">Добавить пользователя</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:users_list' %}">Список пользователей</a></li>
                     <li><a class="dropdown-item" href="/admin/">Панель администратора</a></li>
                 </ul>
             </li>

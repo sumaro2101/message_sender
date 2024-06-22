@@ -17,6 +17,7 @@ urlpatterns = [
     path('regisration/verify/<uidb64>/<token>/', views.UserConfirmEmailView.as_view(), name='verify_email'),
     
     #user
+    path('users/', views.UserListView.as_view(), name='users_list'),
     path('user/<str:username>/', views.UserDetailView.as_view(), name='user'),
     path('user/<str:username>/update/', views.UpdateProfileUser.as_view(), name='update'),
     

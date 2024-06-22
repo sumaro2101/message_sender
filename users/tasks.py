@@ -1,8 +1,11 @@
 from django.template import loader
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
-from typing import Union, Dict, List
+from typing import Union, Dict
+
+from celery import shared_task
 
 from mail_center.celery import app
 
@@ -36,4 +39,11 @@ def send_verify_email(email: str,
 
     email_message = EmailMultiAlternatives(subject, body, server_email, [email])
     email_message.send()
+   
+    
+@shared_task
+def delete_non_verify_users():
+    """Удаляет не верефицированых пользователей если они какое то время не подтверждали почту
+    """    
+    get_user_model().objects.filter(is_verify_email=False).delete()
     

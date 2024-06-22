@@ -3,7 +3,6 @@
 <div class="container">
   <div class="card p-3">
     <div class="offset-1 col-10">
-
       <h3 class="p-2">
           Изменения данных пользователя
       </h3>
@@ -72,7 +71,16 @@
                     <label class="form-label" style="font-size: .80rem; line-height: 1.250rem;" for="id_country">Страна</label>
                   </div>
                   <div class="form-error">{{ form.country.errors }}</div>
-              </p> 
+
+                  <div class="col-md-6 mt-2 form-floating" style="grid-area:wrap;">
+                    <select class="form-select form-select-sm" name="gender"  id="id_gender">
+                    {% for gen in form.gender %}
+                      {{ gen }}
+                    {% endfor %}
+                    </select>
+                    <label class="form-label" style="font-size: .80rem; line-height: 1.250rem;" for="id_country">Пол</label>
+                  </div>
+                  <div class="form-error">{{ form.country.errors }}</div>
             </div>
             <div class="mt-5">
               <button class="btn btn-secondary ms-2" type="submit">Сохранить</button>

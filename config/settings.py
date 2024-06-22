@@ -87,6 +87,11 @@ MIDDLEWARE = [
     #debug-toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
+
+CELERY_IMPORTS = [
+    'users.tasks'
+]
+
 if CACHE_ENABLE and GLOBAL_CACHE:
     MIDDLEWARE += [
         #global cache

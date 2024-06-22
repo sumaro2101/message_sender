@@ -30,7 +30,7 @@ class RegisterUserForm(UserCreationForm):
     
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'phone', 'country', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'phone', 'first_name', 'last_name', 'password1', 'password2']
         labels = {
             'email': 'E-mail',
             'first_name': 'Имя',
@@ -41,7 +41,6 @@ class RegisterUserForm(UserCreationForm):
                                              number_attrs={'class': "form-control", 'style': 'width:230px'},
                                              attrs={'style': 'font-size:12px'},
                                              ),
-            'country': CountrySelectWidget()
         }
         
     def clean_email(self):
@@ -59,21 +58,6 @@ class RegisterUserForm(UserCreationForm):
         
         return phone
     
-    def send_mail(
-        self,
-        subject_template_name,
-        email_template_name,
-        context,
-        from_email,
-        to_email
-    ):
-        subject = loader.render_to_string(subject_template_name, context)
-        subject = "".join(subject.splitlines())
-        body = loader.render_to_string(email_template_name, context)
-
-        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
-        email_message.send()
-    
     
 class UserUpdateForm(UserChangeForm):
     username = forms.CharField(disabled=True)
@@ -83,7 +67,7 @@ class UserUpdateForm(UserChangeForm):
     
     class Meta:
         model = get_user_model()
-        fields = ['username', 'image', 'email', 'phone', 'country', 'first_name', 'last_name',]
+        fields = ['username', 'image', 'email', 'phone', 'gender', 'country', 'first_name', 'last_name',]
         labels = {
             'first_name': 'Имя',
             'last_name': 'Фамилия',

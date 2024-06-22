@@ -1,19 +1,29 @@
 from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet, Q
 from django.http import HttpRequest, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator, decorator_from_middleware
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth import update_session_auth_hash
 from django.utils.encoding import force_bytes
 from django.middleware.csrf import CsrfViewMiddleware
-from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
+from django.views.generic import (TemplateView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  ListView
+                                  )
 from django.contrib.auth import get_user_model, mixins
 from django.utils.http import int_to_base36
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import (LoginView, PasswordChangeView, PasswordChangeDoneView,
                                        PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView,
-                                       PasswordResetCompleteView, PasswordContextMixin)
+                                       PasswordResetCompleteView, PasswordContextMixin
+                                       )
+
+from typing import Any
 
 from users.mixins import RequiredNotAuthenticatedMixin
 from .forms import (UserChangePasswordForm, UserLoginForm, RegisterUserForm,
@@ -35,12 +45,37 @@ class UserDetailView(DetailView):
     slug_field = 'username'
     context_object_name = 'current_user'
     
+    def post(self, request: HttpRequest, *args: str, **kwargs):
+        obj = self.get_object()
+        
+        if not obj.is_verify_email:
+            return redirect('users:user', **{'username': self.kwargs['username']})
+        
+        if obj.is_active:
+            obj.is_active = False
+        else:
+            obj.is_active = True
+            
+        obj.save(update_fields=['is_active'])
+        
+        return redirect('users:user', **{'username': self.kwargs['username']})
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Profile'
         context['cat_selected'] = 4
         return context
     
+    
+class UserListView(ListView):
+    model = get_user_model()
+    context_object_name = 'users'
+    paginate_by = 30
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset().filter(Q(is_superuser=False), Q(is_staff=False)).order_by('-is_active')
+        return queryset
+
 
 class AuthView(RequiredNotAuthenticatedMixin, LoginView):
     template_name = 'users/login.html'
@@ -73,7 +108,7 @@ class RegisterUser(mixins.UserPassesTestMixin, PasswordContextMixin, CreateView)
         form.save()
         
         user = get_user_model()._default_manager.get(email=email)
-        username = user.get_username()
+        username = user.username
         current_site = '127.0.0.1:8000'
         site_name = 'Messender'
         update_session_auth_hash(self.request, user)
@@ -81,7 +116,7 @@ class RegisterUser(mixins.UserPassesTestMixin, PasswordContextMixin, CreateView)
         context = {
                 "email": email,
                 "domain": current_site,
-                "site_name": 'Messender',
+                "site_name": site_name,
                 "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                 "user": username,
                 "token": self.token_generator.make_token(user),
@@ -90,9 +125,9 @@ class RegisterUser(mixins.UserPassesTestMixin, PasswordContextMixin, CreateView)
         
         send_verify_email.apply_async(kwargs={'email': email,
                                               'context': context,
+                                              'email_template_name': 'check_mail/register_check_email.html'
                                               })
-        
-        
+  
         self.object = form
         return HttpResponseRedirect(self.get_success_url())
 
@@ -164,7 +199,7 @@ class UpdateProfileUser(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, U
     
     def test_func(self) -> bool | None:
         obj = self.get_object()
-        return self.request.user == obj or self.request.user.is_staff
+        return self.request.user == obj or self.request.user.is_superuser
     
     def get_success_url(self) -> str:
         return reverse_lazy('users:user', kwargs={'username': self.kwargs.get('username')})
@@ -174,14 +209,14 @@ class UserChoiceWayView(TemplateView):
     template_name = 'passwords/password_choice_way.html'
     
     
-class UserChangePassword(mixins.LoginRequiredMixin, PasswordChangeView):
+class UserChangePassword(PasswordChangeView):
     form_class = UserChangePasswordForm
     template_name = 'passwords/password_change_form.html'
     success_url = reverse_lazy("users:password_change_done")
     extra_context = {'title': 'ChangePassword', 'cat_selected': 4}
 
     
-class UserChangePasswordDone(mixins.LoginRequiredMixin, PasswordChangeDoneView):
+class UserChangePasswordDone(PasswordChangeDoneView):
     template_name = 'passwords/password_change_done.html'
     extra_context = {'title': 'Done', 'cat_selected': 4}
     
