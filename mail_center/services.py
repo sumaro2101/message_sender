@@ -87,6 +87,7 @@ def send_mails(model_subject: Model, emails: List[str], template_render: Union[s
     email_message = EmailMultiAlternatives(subject, body, server_mail, users)
     email_message.send()
 
+
 def check_message(model_message: Model, message_id: str) -> Union[Http404, Model]:
     """Проверяет существование письма и возвращает
 

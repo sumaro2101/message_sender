@@ -48,4 +48,7 @@ class User(AbstractUser):
         db_table = 'user'
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+        
+    def get_absolute_url(self):
+        return reverse("users:user", kwargs={"username": self.username})
             

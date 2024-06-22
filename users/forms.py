@@ -1,28 +1,36 @@
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from typing import Any
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
+from django import forms
+from django.template import loader
+from django.core.mail import EmailMultiAlternatives
 
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from phonenumber_field.formfields import PhoneNumberField
 from django_countries.widgets import CountrySelectWidget
 
-class UserAuthForm(AuthenticationForm):
+
+class UserLoginForm(AuthenticationForm):
+    
     username = forms.CharField()
-    password = forms.CharField()
+    password = forms.CharField(label='Пароль')
+    
     class Meta:
-        model = get_user_model()
+        model = get_user_model
         fields = ['username', 'password']
-  
+        widgets = {
+            'phone': PhoneNumberPrefixWidget(),
+        }
         
-class UserRegForm(UserCreationForm):
+
+class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Имя пользователя')
     password1 = forms.CharField(label='Пароль')
     password2 = forms.CharField(label='Повтор пароля')
     
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'phone', 'country', 'first_name', 'last_name', 'password1', 'password2', 'gender']
-            
+        fields = ['username', 'email', 'phone', 'country', 'first_name', 'last_name', 'password1', 'password2']
         labels = {
             'email': 'E-mail',
             'first_name': 'Имя',
@@ -36,18 +44,56 @@ class UserRegForm(UserCreationForm):
             'country': CountrySelectWidget()
         }
         
-        def clean_email(self):
-            email = self.cleaned_data['email']
-            
-            if get_user_model().objects.filter(email=email).exists():
-                raise forms.ValidationError("Такой E-mail уже существует!")
+    def clean_email(self):
+        email = self.cleaned_data['email']
         
-            return email
+        if get_user_model().objects.filter(email=email).exists():
+            raise forms.ValidationError("Такой E-mail уже существует!")
+        
+        return email
     
-        def clean_phone(self):
-            phone = self.cleaned_data['phone']
-            if get_user_model().objects.filter(phone=phone).exists():
-                raise forms.ValidationError("Такой номер телефона уже зарегистрирован в системе!")
-            
-            return phone
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if get_user_model().objects.filter(phone=phone).exists():
+            raise forms.ValidationError("Такой номер телефона уже зарегистрирован в системе!")
+        
+        return phone
+    
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email
+    ):
+        subject = loader.render_to_string(subject_template_name, context)
+        subject = "".join(subject.splitlines())
+        body = loader.render_to_string(email_template_name, context)
+
+        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+        email_message.send()
+    
+    
+class UserUpdateForm(UserChangeForm):
+    username = forms.CharField(disabled=True)
+    email = forms.EmailField(disabled=True)
+    phone = PhoneNumberField(disabled=True, required=False)
+    image = forms.ImageField(required=False)
+    
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'image', 'email', 'phone', 'country', 'first_name', 'last_name',]
+        labels = {
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+        }
+        widgets = {
+            'country': CountrySelectWidget()
+        }
+        
+class UserChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField()
+    new_password1 = forms.CharField()
+    new_password2 = forms.CharField()
         

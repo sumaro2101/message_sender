@@ -22,12 +22,15 @@
                             <label class="form-label" for="id_password">Пароль</label>
                             <input class="form-control" type="password" name="password" autocomplete="current-password" required id="id_password">
                         </p>
-                        <button class="btn border mt-2" type="submit">Войти</button>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn border mt-2" type="submit">Войти</button>
+                            <a class="btn border mt-2" href="{% url 'users:password_way' %}">Забыл пароль</a>
+                        </div>
                     </form>
                 </div>
                 <div class="card-footer mt-4">
-                    <p style="font-size: 12px;">Данный сервис предназначен только для соотвествующего персонала и является закрытым для общего использования.</p>
-                    <p style="font-size: 12px;"><strong>Если по каким по причинам вы не можете Авторизоваться - вам нужно обратиться к администратору.</strong></p>
+                    <p style="font-size: 12px;">Данный сервис предоставляет доступ к различной функциональности по рассылке сообщений клиентам.</p>
+                    <p style="font-size: 12px;"><strong>Если по каким то причинам у вас возникли пробемы с авторицией вы можете обратится по адресу: MessenderHelp@mess.com</strong></p>
                 </div>
             </div>
         </div>
