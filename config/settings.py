@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'our_clients.apps.OurClientsConfig',
     'mail_center.apps.MailCenterConfig',
+    'blog.apps.BlogConfig',
 
 ]
 

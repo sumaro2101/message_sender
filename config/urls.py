@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('users.urls', namespace='users')),
     path('', include('our_clients.urls', namespace='our_clients')),
     path('', include('mail_center.urls', namespace='mail_center')),
+    path('', include('blog.urls', namespace='blog')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

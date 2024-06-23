@@ -30,6 +30,13 @@ class ClientsListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView):
             return queryset.filter(Q(employee=self.request.user)).order_by('client_first_name').select_related('employee')
         return queryset.order_by('client_first_name').select_related('employee')
     
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['content_manager'] = get_or_set_cache(self.request.user.groups, slug='content-manager', type_field='name')
+        context['title'] = 'Clients'
+        context['catg_selected'] = 3
+        return context
+    
     
 class ClientCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateView):
     model = ClientServise

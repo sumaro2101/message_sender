@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="card p-3">
+      <div>
+          <h3>Удаление поста</h3>
+          <div class="card bg-body-tertiary mt-4 p-2" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+              <form action="{% url 'blog:deletepost' post.slug %}" method="post">
+                  {% csrf_token %}
+                  <p>Подтвердите удаление поста: {{ post.title }}</p>
+                  <span class="d-flex justify-content-center">
+                      <button type="submit" class="btn btn-secondary btn-lg me-2" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Подтвердить</button>
+                      <a href="{% url 'blog:post' post.slug %}" class="btn border align-content-center" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Отмена</a>
+                  </span>
+              </form>
+          </div>
+        </div>
+    </div>
+</div>

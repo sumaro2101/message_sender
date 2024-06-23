@@ -6,7 +6,7 @@
       <h3 class="p-2">
           Изменения данных пользователя
       </h3>
-      <div class="card m-1 p-2 ps-4">
+      <div class="card bg-body-tertiary m-1 p-2 ps-4" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
           <form action="{% url 'users:update' user_edit.username %}" method="post" enctype="multipart/form-data">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next }}" />

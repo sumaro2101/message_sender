@@ -19,7 +19,14 @@ from mail_center.core.scheduler_core import (create_task_interval,
 @admin.register(SendingMessage)
 class SendingMessageAdmin(admin.ModelAdmin):
     model = SendingMessage
-    list_display = ('pk', 'message', 'clients', 'date_first_send', 'periodicity', 'enabled', 'status')
+    list_display = ('pk',
+                    'message',
+                    'clients',
+                    'date_first_send',
+                    'periodicity',
+                    'enabled',
+                    'status',
+                    )
 
     fieldsets = (
         (('Информация о письме'), {
@@ -47,7 +54,12 @@ class SendingMessageAdmin(admin.ModelAdmin):
     
     def get_readonly_fields(self, request: HttpRequest, obj: Any | None = ...) -> list[str] | tuple[Any, ...]:
         if not request.user.is_superuser or request.user.groups.filter(name='moderator').exists():
-            self.readonly_fields = ('status', 'message', 'clients', 'date_first_send', 'periodicity', )
+            self.readonly_fields = ('status',
+                                    'message',
+                                    'clients',
+                                    'date_first_send',
+                                    'periodicity',
+                                    )
         return super().get_readonly_fields(request, obj)
     
     def _change_status(self, obj: Model) -> Tuple[List[str], Model]:

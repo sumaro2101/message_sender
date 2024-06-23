@@ -29,7 +29,7 @@ from users.mixins import RequiredNotAuthenticatedMixin
 from .forms import (UserChangePasswordForm, UserLoginForm, RegisterUserForm,
                     UserUpdateForm)
 from users.tasks import send_verify_email
-import config.settings as settiings
+from mail_center.cache import get_or_set_cache
 
 import random
 
@@ -61,13 +61,14 @@ class UserDetailView(DetailView):
         return redirect('users:user', **{'username': self.kwargs['username']})
     
     def get_context_data(self, **kwargs):
+        content_manager = get_or_set_cache(self.request.user.groups, slug='content-manager', type_field='name')
         context = super().get_context_data(**kwargs)
         context['title'] = 'Profile'
-        context['cat_selected'] = 4
+        context['content_manager'] = content_manager
         return context
     
     
-class UserListView(ListView):
+class UserListView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, ListView):
     model = get_user_model()
     context_object_name = 'users'
     paginate_by = 30
@@ -75,13 +76,16 @@ class UserListView(ListView):
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset().filter(Q(is_superuser=False), Q(is_staff=False)).order_by('-is_active')
         return queryset
+    
+    def test_func(self) -> bool | None:
+        return self.request.user.is_superuser or self.request.user.is_staff
 
 
 class AuthView(RequiredNotAuthenticatedMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
     
-    extra_context = {'title': 'Authentication', 'cat_selected': 5}
+    extra_context = {'title': 'Authentication'}
     
     def get_success_url(self) -> str:
         return reverse_lazy('mail_center:mails')
@@ -95,7 +99,7 @@ class RegisterUser(mixins.UserPassesTestMixin, PasswordContextMixin, CreateView)
     success_url = reverse_lazy('users:done')
     title = ('Завершение регистрации')
     token_generator = default_token_generator
-    extra_context = {'title': 'Registration', 'cat_selected': 5}
+    extra_context = {'title': 'Registration'}
     
     @method_decorator(csrf_protect)
     def dispatch(self, *args, **kwargs):
@@ -141,7 +145,7 @@ class UserConfirmEmailView(RequiredNotAuthenticatedMixin, TemplateView):
     template_name = 'check_mail/verify_done.html'
     reset_url_token = "verify_email"
     token_generator = default_token_generator
-    extra_context = {'title': 'ConfirmEmail', 'cat_selected': 5}
+    extra_context = {'title': 'ConfirmEmail'}
     
     def dispatch(self, *args, **kwargs):
         self.valid = False
@@ -195,7 +199,7 @@ class UpdateProfileUser(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, U
     slug_field = 'username'
     slug_url_kwarg = 'username'
     template_name = 'users/change_profile.html'
-    extra_context = {'title': 'UpdateProfile', 'cat_selected': 4}
+    extra_context = {'title': 'UpdateProfile'}
     
     def test_func(self) -> bool | None:
         obj = self.get_object()
@@ -213,18 +217,16 @@ class UserChangePassword(PasswordChangeView):
     form_class = UserChangePasswordForm
     template_name = 'passwords/password_change_form.html'
     success_url = reverse_lazy("users:password_change_done")
-    extra_context = {'title': 'ChangePassword', 'cat_selected': 4}
+    extra_context = {'title': 'ChangePassword'}
 
     
 class UserChangePasswordDone(PasswordChangeDoneView):
     template_name = 'passwords/password_change_done.html'
-    extra_context = {'title': 'Done', 'cat_selected': 4}
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         update_session_auth_hash(self.request, self.request.user)
-        context["title"] = 'Electronic Shop'
-        context["cat_selected"] = 4
+        context["title"] = 'Done'
         return context
     
 
@@ -251,13 +253,12 @@ class UserPasswordTemporary(PasswordResetView):
     template_name = 'passwords/password_reset_form.html'
     email_template_name = 'passwords/password_temporary_email.html'
     success_url = reverse_lazy('users:password_reset_done')
-    extra_context = {'title': 'Reset', 'cat_selected': 4, 'is_temporary': True,}
+    extra_context = {'title': 'Reset', 'is_temporary': True,}
     
     
 class UserPasswordTemporaryDone(PasswordResetConfirmView):
     template_name = 'passwords/password_temporary_done.html'
     password_value = int_to_base36(random.getrandbits(41))
-    extra_context = {'title': 'Done', 'cat_selected': 4}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -265,6 +266,7 @@ class UserPasswordTemporaryDone(PasswordResetConfirmView):
         user.set_password(self.password_value)
         user.save(update_fields=('password',))
         
+        context['title'] = 'Done'
         context['temporary_password'] = self.password_value
         return context
     

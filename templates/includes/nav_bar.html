@@ -11,19 +11,22 @@
             <li class="nav-item">
                 <a class="nav-link {% if catg_selected == 1 %} active {% endif %}" aria-current="page" href="/">Главная страница</a>
             </li>
-            {% if request.user.is_authenticated %}
+            {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link {% if catg_selected == 2 %} active {% endif %}" aria-current="page" href="/messages/">Центр сообщений</a>
+                <a class="nav-link {% if catg_selected == 2 %} active {% endif %}" aria-current="page" href="{% url 'mess:list' %}">Центр сообщений</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link {% if catg_selected == 3 %} active {% endif %}" aria-current="page" href="/clients/">Центр клиентов</a>
+                <a class="nav-link {% if catg_selected == 3 %} active {% endif %}" aria-current="page" href="{% url 'our_clients:clients' %}">Центр клиентов</a>
             </li>
             {% endif %}
             <li class="nav-item ">
-                <a class="nav-link  {% if catg_selected == 5 %} active {% endif %} " aria-current="page" href="/mails/">Центр рассылок</a>
+                <a class="nav-link  {% if catg_selected == 5 %} active {% endif %} " aria-current="page" href="{% url 'mail_center:mails' %}">Центр рассылок</a>
             </li>
+            <li class="nav-item ">
+              <a class="nav-link  {% if catg_selected == 7 %} active {% endif %} " aria-current="page" href="{% url 'blog:posts' %}">Блог</a>
+          </li>
             {% if request.user.is_superuser or request.user.is_staff %}
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown ms-4">
                 <a class="nav-link  dropdown-toggle {% if catg_selected == 6 %} active {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page" href="/login/">Для администратора</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'users:reg' %}">Добавить пользователя</a></li>

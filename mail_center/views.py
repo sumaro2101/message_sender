@@ -44,11 +44,13 @@ class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, CheckMode
     
     def get_context_data(self, *, object_list=None, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+        content_manager = get_or_set_cache(self.request.user.groups, slug='content-manager', type_field='name')
         task = get_task(self.object)
         context['task'] = task
         context['clients'] = self.object.clients.filter(actual=True)
         context['title'] = 'Send'
         context['catg_selected'] = 5
+        context['content_manager'] = content_manager
         
         if self.object.status in ['freeze', 'create', 'end'] or not self.object.clients.filter(actual=True).exists():
             context['next_send'] = None
@@ -130,10 +132,12 @@ class ListSendMessages(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
         return queryset
         
     def get_context_data(self, **kwargs):
+        content_manager = get_or_set_cache(self.request.user.groups, slug='content-manager', type_field='name')
         context = super().get_context_data(**kwargs)
         context['title'] = 'NewsLetter'
         context['catg_selected'] = 5
         context['filter_select'] = self.filter_select
+        context['content_manager'] = content_manager
         return context
     
     
