@@ -2,13 +2,16 @@ from django.db.models import QuerySet, Model
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.contrib.auth import get_user_model
+from django.db.models.manager import EmptyManager
 
-from django_celery_beat.models import IntervalSchedule, PeriodicTask
+from django_celery_beat.models import PeriodicTask
 
 from typing import Type, Union, Literal
 
 
-def _get_single_name_item(object_: Model, slug: Union[str, None] = None) -> str:
+def _get_single_name_item(object_: Model,
+                          slug: Union[str, None] = None) -> str:
     """Вывод уникального имени для Model
 
     Args:
@@ -18,12 +21,21 @@ def _get_single_name_item(object_: Model, slug: Union[str, None] = None) -> str:
         str: Возращает готовое уникальное имя
     """    
     if slug:
-        if isinstance(object_, QuerySet):
-            obj_meta = object_.model._meta
+        # Проверка если объект является группой
+        try:
+            model = isinstance(object_.instance, get_user_model())
+            if model:
+                obj_meta = object_.model._meta
+                return f'{obj_meta.app_label}_{obj_meta.model_name}_{slug}_{object_.instance.username}'
+            else:
+                raise
+        except:
+            if isinstance(object_, (QuerySet)):
+                obj_meta = object_.model._meta
+                return f'{obj_meta.app_label}_{obj_meta.model_name}_{slug}'
+            
+            obj_meta = object_._meta
             return f'{obj_meta.app_label}_{obj_meta.model_name}_{slug}'
-        
-        obj_meta = object_._meta
-        return f'{obj_meta.app_label}_{obj_meta.model_name}_{slug}'
     raise ValueError(f'slug атрибут - {slug}, нужно указать значение для класса Model')
 
 
@@ -61,16 +73,24 @@ def _make_name_object_cache(target_object: Union[QuerySet[Type[Model]], Model],
 
     Returns:
         str: Возвращает готовое уникальное имя
-    """    
-    if isinstance(target_object, QuerySet) or is_queryset_all:
-        name = _get_multiple_name_items(target_object, slug)
+    """
+    # Проверка если объект является группой
+    try:
+        model = isinstance(target_object.instance, get_user_model())
+        if model:
+            name = _get_multiple_name_items(target_object, slug)
+        else:
+            raise
+    except:
+        if isinstance(target_object, (QuerySet)) or is_queryset_all:
+            name = _get_multiple_name_items(target_object, slug)
+            
+        elif issubclass(target_object, Model):
+            name = _get_single_name_item(target_object, slug)
+            
+        else:
+            raise ValueError(f'{target_object} не является подклассом Model или Queryset')
         
-    elif issubclass(target_object, Model):
-        name = _get_single_name_item(target_object, slug)
-        
-    else:
-        raise ValueError(f'{target_object} не является подклассом Model или Queryset')
-    
     return name
 
 
@@ -98,6 +118,9 @@ def get_or_set_cache(model: Union[Model, QuerySet[Model]],
                                  
     if not settings.CACHE_ENABLE:
         return None
+    if isinstance(model, EmptyManager):
+        return None
+    
     if slug:
         if not isinstance(slug, str):
             raise TypeError(f'slug атрибут - {slug}, необходима строка')
@@ -107,32 +130,31 @@ def get_or_set_cache(model: Union[Model, QuerySet[Model]],
     cache_obj = cache.get(name_object)
     
     if not cache_obj:
-        if isinstance(model, QuerySet) or is_queryset_all:
+        # Проверка если объект является группой
+        try:
+            check_user_instance = isinstance(model.instance, get_user_model())
+        except:
+            check_user_instance = None
+        if isinstance(model, QuerySet) or is_queryset_all or check_user_instance:
             # В случае если из QuerySet необходимо вытащить определенный объект по slug или name
             if slug and type_field:
-                try:
-                    match type_field:
-                        case 'name':
-                            cache_obj = model.get(name=slug)
-                        case 'slug':
-                            cache_obj = model.get(slug=slug)
-                        case _:
-                            cache_obj = model.all()
-                except (ObjectDoesNotExist, MultipleObjectsReturned):
-                    raise(f'Произошла ошибка на уровне поиска объекта по "{type_field}={slug}" из Queryset')      
+                match type_field:
+                    case 'name':
+                        cache_obj = model.filter(name=slug).first()
+                    case 'slug':
+                        cache_obj = model.filter(slug=slug).first()
+                    case _:
+                        cache_obj = model.all()  
             else:
                 cache_obj = model.objects.all()
         elif issubclass(model, (Model, PeriodicTask)):
-            try:
-                match type_field:
-                    case 'name':
-                        cache_obj = model.objects.get(name=slug)
-                    case 'slug':
-                        cache_obj = model.objects.get(slug=slug)
-                    case _:
-                        raise
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                raise (f'Произошла ошибка на уровне вывода объекта по "{type_field}={slug}" из Queryset')
+            match type_field:
+                case 'name':
+                    cache_obj = model.objects.filter(name=slug).first()
+                case 'slug':
+                    cache_obj = model.objects.filter(slug=slug).first()
+                case _:
+                    raise
         else:
             raise TypeError(f'{model} атрибут не является подклассом Model или Queryset')
         cache.set(name_object, cache_obj)
@@ -140,7 +162,9 @@ def get_or_set_cache(model: Union[Model, QuerySet[Model]],
     return cache_obj
 
 
-def delete_cache(model: Union[Model, QuerySet[Type[Model]]], slug: Union[str, None] = None, is_queryset_all: bool = False) -> None:
+def delete_cache(model: Union[Model, QuerySet[Type[Model]]],
+                 slug: Union[str, None] = None,
+                 is_queryset_all: bool = False) -> None:
     """Удаление кэша из Базы данных оперeделенного объекта,
     по задумке все что нужно это построить ключ из этих аргументов для удаления
 

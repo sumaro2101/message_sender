@@ -14,7 +14,7 @@ from .forms import CreateMessageForm
 from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
 from mail_center.models import SendingMessage
 from mail_center.core.scheduler_core import update_task_interval
-from mail_center.cache import get_or_set_cache, delete_cache
+from mail_center.cache import get_or_set_cache
 # Create your views here.
 
 
@@ -23,7 +23,6 @@ class MessagesListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
     paginate_by = 4
     context_object_name = 'messages'
     template_name = 'messages/messages_list.html'
-    extra_context = {'title': 'Messages', 'catg_selected': 2,}
     
     def get_queryset(self):
         queryset = get_or_set_cache(MessageInfo, is_queryset_all=True)
@@ -32,6 +31,14 @@ class MessagesListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
         if not self.request.user.is_staff:
             return queryset.select_related('employee').filter(employee=self.request.user).order_by('-actual', '-time_edit')
         return queryset.select_related('employee').order_by('-actual', '-time_edit')
+    
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        content_manager = get_or_set_cache(self.request.user.groups, slug='content-manager', type_field='name')
+        context['content_manager'] = content_manager
+        context['title'] = 'Messages'
+        context['catg_selected'] = 2
+        return context
     
 
 class MessageCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateView):

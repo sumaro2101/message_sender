@@ -1,0 +1,84 @@
+{% load static %}
+<div class="container">
+    <div class="card p-3">
+      <div>
+          <div class="ms-1">
+              <a class="icon-link text-black link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'blog:posts' %}"><svg class="bi" aria-hidden="true"><use xlink:href="#arrow-left"></use></svg>Назад</a>
+          </div>
+          <h4>Блог пользователя {{post.name_user}}</h4>
+          <div class="card bg-body-tertiary mt-2 p-3" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" >
+          <div>
+              <span style="display: flex;">
+                  <span>
+                      <div class="d-flex">
+                          <a href="{{ post.name_user.get_absolute_url }}" class="posts-comment-image-link me-2">
+                              <div style="height: 24px; width: 24px;">
+                                  {% if post.name_user.image %}
+                                  <img src="{{ post.name_user.image.url }}" style="border-radius: 3px; display: block; overflow: hidden; height: 24px; width: 24px;" alt="{{ comment.description }}">
+                                  {% else %}
+                                  <img src="{% static 'images/image_not_found.jpeg' %}" style="border-radius: 3px; display: block; overflow: hidden; height: 24px; width: 24px;" alt="{{ comment.description }}">
+                                  {% endif %}
+                              </div>   
+                          </a>
+                          <h2 style="white-space: nowrap; font-size: .8125rem; font-weight: 700; line-height: 25px;">{{ post.name_user.get_username }}</h2>
+                      </div>
+                      <div style="display: flex;"> 
+                          <a href="{% url 'blog:post' post.slug %}" class="link-underline link-underline-opacity-0 text-black" style="margin-right: 8px">
+                              <div style="font-size: .8125rem; font-weight: 500; line-height: .9375rem;">
+                                  {% if post.is_edit %}
+                                  {{ post.text_to_edit }} {{ post.time_edit }}
+                                  {% else %}
+                                  {{ post.text_to_post }} {{ post.time_published }}
+                                  {% endif %}
+                              </div>
+                          </a>
+                          <span style="display: flex; align-items: center; height: 1em;">
+                              <span style="font-size: .8125rem; font-weight: 700; line-height: 1;">Количество просмотров:</span>
+                              <span style="margin-left: 2px; font-size: .8125rem; font-weight: 700; line-height: 1;">{{ post.views }}</span>
+                          </span>
+                      </div>
+                  </span> 
+                  {% if user.is_authenticated and post.name_user == user or request.user.is_superuser %}
+                  <span class="d-flex position-absolute" style="top: 10px; right: 10px;">
+                      <a href="{% url 'blog:updatepost' post.slug %}" class="btn border me-1" style="font-size: 12px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Изменить</a>
+                      <a href="{% url 'blog:deletepost' post.slug %}" class="btn border" style="font-size: 12px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Удалить</a>
+                  </span>
+                  {% elif content_manager %}
+                  <span class="d-flex position-absolute" style="top: 10px; right: 10px;">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="publish" value="{{ post.is_published }}">
+                        <button class="btn border me-1" style="font-size: 12px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" role="button" type="submit">{% if post.is_published %}Cнять с публикации{% else %}Разрешить к публикации{% endif %}</button>
+                    </form>
+                </span>
+                {% endif %}
+              </span>
+          </div>
+          <div style="margin-top: 18px;">
+              <h6 class="card-title" style="font-size: 15px;">{{ post.title }}</h6>
+          </div>
+          <div style="max-height: none; padding: 8px 0; position: relative;">
+              <div style="font-size: 1rem; line-height: 1.56; overflow-wrap: break-word;">
+                  <figure style="margin: 0;">
+                      {% if post.image %}
+                      <img src="{{ post.image.url }}" style="cursor: pointer; max-width: 100%; height: auto; vertical-align: middle; overflow: hidden;" alt="{{ post.title }}">
+                      {% else %}
+                      <img src="{% static 'images/image_not_found.jpeg' %}" style="cursor: pointer; max-width: 100%; height: 200px; vertical-align: middle;" alt="{{ post.title }}">
+                      {% endif %}
+                  </figure>
+                  <p style="margin-top: 12px; font-size: 1rem; line-height: 1.56;">{{ post.description|linebreaks }}</p>
+                  </div>
+          </div>
+          <div style="padding-top: 8px; border-top: 1px solid transparent; display: flex; justify-content: flex-start; width: 100%;">
+              <div>
+                  <a class="link-underline link-underline-opacity-0 text-black" href="{% url 'blog:post' post.slug %}">Комментарии: {{ post.comment_count }}</a>
+              </div>
+          </div>
+          </div>
+          {% if user.is_authenticated %}
+          {% include 'includes/blog/comment_form.html' %}
+          {% endif %}
+          {% include 'includes/blog/comments_post.html' %}
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 <div class="g-col-4">
-    <div class="card p-3 mb-4" style="height: 370px;">
+    <div class="card bg-body-tertiary p-3 mb-4" style="height: 370px; padding: 16px 16px 12px; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
         <header class="d-flex align-items-center justify-content-between flex-wrap-nowrap mb-2" style="height: 24px; margin: -4px; padding: 4px;">
             <div class="d-flex" style="margin: 0 4px 0 0; max-width: 100%;">
                 <span class="d-flex align-items-center" style="max-width: 100%;">
@@ -16,12 +16,14 @@
                 </span>
             </div>
             <div>
+                {% if not content_manager %}
                 <div>
                     {% if not moderator %}
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:update_client' client.pk %}">Изменить</a>
                     {% endif %}
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:delete_client' client.pk %}">{% if client.actual %}Деактивировать{% else %}Активировать{% endif %}</a>
                 </div>
+                {% endif %}
             </div>
         </header>
         <div class="border mb-2" ></div>
