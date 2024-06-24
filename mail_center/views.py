@@ -29,7 +29,7 @@ from mess.models import MessageInfo
 
 
 
-class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, CheckModeratorMixin, DetailView):
+class ViewSend(mixins.LoginRequiredMixin, CheckModeratorMixin, mixins.UserPassesTestMixin, DetailView):
     model = SendingMessage
     context_object_name = 'mail'
     
@@ -97,6 +97,11 @@ class ViewSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, CheckMode
         delete_cache(SendingMessage, self.kwargs['slug'])
         return redirect('mail_center:mail_detail', **{'slug': self.object.slug})
     
+    def test_func(self) -> bool | None:
+        self.object = self.get_object()
+        return self.request.user == self.object.owner_send\
+            or self.request.user.is_staff
+    
     
 class ListSendMessages(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView):
     model = SendingMessage
@@ -141,7 +146,7 @@ class ListSendMessages(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView)
         return context
     
     
-class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateView):
+class CreateSend(mixins.LoginRequiredMixin, CheckModeratorMixin, CreateView):
     model = SendingMessage
     form_class = FormSendMesssage
     
@@ -190,7 +195,7 @@ class CreateSend(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateVi
         return context
       
     def test_func(self) -> bool | None:
-        return not self.request.user.groups.filter(name='moderator').exists() or self.message.employee == self.request.user or self.request.user.is_superuser
+        return not self.request.user.is_staff or self.message.employee == self.request.user or self.request.user.is_superuser
     
 
 class UpdateSend(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateView):

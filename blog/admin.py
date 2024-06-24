@@ -12,6 +12,7 @@ class PostsAdmin(admin.ModelAdmin):
                     'title',
                     'name_user',
                     'image',
+                    'description',
                     'slug',
                     'views',
                     'likes',
@@ -29,9 +30,32 @@ class PostsAdmin(admin.ModelAdmin):
                      'time_published',
                      )
     
+    def get_readonly_fields(self, request: HttpRequest, obj: Any | None = ...) -> list[str] | tuple[Any, ...]:
+        content_manager = get_or_set_cache(request.user.groups, slug='content-manager', type_field='name')
+        if content_manager:
+            self.readonly_fields = (
+                                    'image',
+                                    'views',
+                                    'description',
+                                    'likes',
+                                    'time_published',
+                                    'time_edit',
+                                    'is_edit',
+                                    'text_to_edit',
+                                    'comment_count',
+                                    )
+        else:
+            self.readonly_fields = ()
+        return self.readonly_fields
+    
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]: 
+        queryset = super().get_queryset(request)
+        return queryset.select_related('name_user',)
+
     list_filter = 'is_edit',
     
     prepopulated_fields = {'slug': ('name_user', 'title')}
+    
     
     
 @admin.register(PostComment)

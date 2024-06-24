@@ -38,7 +38,7 @@ class ClientsListView(mixins.LoginRequiredMixin, CheckModeratorMixin, ListView):
         return context
     
     
-class ClientCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, CreateView):
+class ClientCreateView(mixins.LoginRequiredMixin, CheckModeratorMixin,  mixins.UserPassesTestMixin, CreateView):
     model = ClientServise
     form_class = AddClientForm
     template_name = 'our_clients/cliendinfo_form.html'
@@ -51,7 +51,7 @@ class ClientCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, Cr
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:
-        return not self.request.user.groups.filter(name='moderator').exists()
+        return not self.moderator and not self.request.user.is_staff or self.request.user.is_superuser
 
 
 class ClientUpdateView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateView):

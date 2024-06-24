@@ -14,7 +14,7 @@ from .forms import CreateMessageForm
 from .mixins import OwnerOrStaffPermissionMixin, CheckModeratorMixin
 from mail_center.models import SendingMessage
 from mail_center.core.scheduler_core import update_task_interval
-from mail_center.cache import get_or_set_cache
+from mail_center.cache import get_or_set_cache, delete_cache
 # Create your views here.
 
 
@@ -55,7 +55,7 @@ class MessageCreateView(mixins.LoginRequiredMixin, mixins.UserPassesTestMixin, C
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:
-        return not self.request.user.groups.filter(name='moderator').exists()
+        return not self.request.user.is_staff or self.request.user.is_superuser
     
     
 class MessageUpdateView(mixins.LoginRequiredMixin, OwnerOrStaffPermissionMixin, UpdateView):
@@ -118,6 +118,3 @@ class MessageChangeActivityView(mixins.LoginRequiredMixin, OwnerOrStaffPermissio
            
         return HttpResponseRedirect(self.get_success_url())
   
-  
-def main_list(request):
-    return render(request, 'messages/main.html', {'title': 'main', 'catg_selected': 1})
