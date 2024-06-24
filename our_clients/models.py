@@ -17,9 +17,7 @@ class ClientServise(models.Model):
                                  null=True
                                  )
     
-    client_mail = models.EmailField(verbose_name='эмеил клиента',
-                                    unique=True
-                                    )
+    client_mail = models.EmailField(verbose_name='эмеил клиента',)
     
     client_first_name = models.CharField(max_length=80,
                                          verbose_name='имя клиента'

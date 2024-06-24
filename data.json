@@ -460,10 +460,22 @@
         }
     },
     {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 22,
+        "fields": {
+            "minute": "0",
+            "hour": "4",
+            "day_of_month": "*/1",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
         "model": "django_celery_beat.periodictasks",
         "pk": 1,
         "fields": {
-            "last_update": "2024-06-18T19:56:16.717Z"
+            "last_update": "2024-06-24T22:59:01.900Z"
         }
     },
     {
@@ -488,24 +500,24 @@
             "one_off": false,
             "start_time": null,
             "enabled": true,
-            "last_run_at": "2024-06-17T22:00:00.000Z",
-            "total_run_count": 3,
-            "date_changed": "2024-06-18T07:09:13.226Z",
+            "last_run_at": "2024-06-24T22:26:41.732Z",
+            "total_run_count": 4,
+            "date_changed": "2024-06-24T22:55:24.876Z",
             "description": ""
         }
     },
     {
         "model": "django_celery_beat.periodictask",
-        "pk": 33,
+        "pk": 34,
         "fields": {
-            "name": "mail_center.sendingmessage_64",
-            "task": "mail_center.tasks.send",
-            "interval": 1,
-            "crontab": null,
+            "name": "check_non_verify_user_delete",
+            "task": "users.tasks.delete_non_verify_users",
+            "interval": null,
+            "crontab": 22,
             "solar": null,
             "clocked": null,
             "args": "[]",
-            "kwargs": "{\"object_unique_name\": \"mail_center.sendingmessage_64\"}",
+            "kwargs": "{}",
             "queue": null,
             "exchange": null,
             "routing_key": null,
@@ -514,12 +526,25 @@
             "expires": null,
             "expire_seconds": null,
             "one_off": false,
-            "start_time": "2024-06-18T19:57:00Z",
+            "start_time": null,
             "enabled": true,
             "last_run_at": null,
             "total_run_count": 0,
-            "date_changed": "2024-06-18T19:56:16.716Z",
+            "date_changed": "2024-06-24T22:33:52.716Z",
             "description": ""
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "title_message": "test",
+            "text_message": "test",
+            "slug": "1-test",
+            "time_create": "2024-06-24T22:10:34.947Z",
+            "time_edit": "2024-06-24T22:10:34.947Z",
+            "actual": true
         }
     },
     {
@@ -627,21 +652,34 @@
         }
     },
     {
+        "model": "mess.messageinfo",
+        "pk": 15,
+        "fields": {
+            "employee": 3,
+            "title_message": "test",
+            "text_message": "test",
+            "slug": "3-test",
+            "time_create": "2024-06-24T22:54:09.952Z",
+            "time_edit": "2024-06-24T22:54:09.952Z",
+            "actual": true
+        }
+    },
+    {
         "model": "users.user",
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$720000$iw6CI7lJbdhVhW1FLcYqzf$+EBWXJGWMe7wmEXClWevHQAUDLRzMxihX0kwI6da4BQ=",
-            "last_login": "2024-06-18T19:54:54.537Z",
+            "last_login": "2024-06-24T22:57:00.853Z",
             "is_superuser": true,
             "username": "root",
             "first_name": "",
             "last_name": "",
             "is_staff": true,
             "is_active": true,
-            "date_joined": "2024-06-14T18:45:31.499Z",
+            "date_joined": "2024-06-14T18:45:31Z",
             "image": "",
             "email": "root@gmail.com",
-            "is_verify_email": false,
+            "is_verify_email": true,
             "phone": null,
             "country": null,
             "gender": null,
@@ -654,18 +692,43 @@
         "pk": 2,
         "fields": {
             "password": "pbkdf2_sha256$720000$7wXqZ8jqk6XsSyXPGJ3SKV$X+8NmOjdCxvP70M3MNbdocPw3zNlXPPW0LA4a/Qakbw=",
-            "last_login": "2024-06-18T17:55:20.368Z",
+            "last_login": "2024-06-24T22:52:06.327Z",
             "is_superuser": false,
             "username": "alex",
             "first_name": "",
             "last_name": "",
-            "is_staff": false,
+            "is_staff": true,
             "is_active": true,
             "date_joined": "2024-06-16T12:18:50Z",
             "image": "",
             "email": "alex@gmail.com",
-            "is_verify_email": false,
+            "is_verify_email": true,
             "phone": null,
+            "country": null,
+            "gender": null,
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$mZ0Am6yK5Xp324AbmlMlid$rMTI4mzjYBH6AMkl+2qVkiz1Ye0mas6dvHN87r6M1Bc=",
+            "last_login": "2024-06-24T22:54:00.390Z",
+            "is_superuser": false,
+            "username": "sumaro",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-06-24T22:53:46.587Z",
+            "image": "",
+            "email": "sumaro@gmail.com",
+            "is_verify_email": true,
+            "phone": "+79132459055",
             "country": null,
             "gender": null,
             "groups": [],
@@ -778,24 +841,86 @@
         }
     },
     {
-        "model": "mail_center.sendingmessage",
-        "pk": 64,
+        "model": "our_clients.clientservise",
+        "pk": 11,
         "fields": {
-            "owner_send": 1,
-            "message": 5,
-            "date_first_send": "2024-06-18T19:57:00Z",
-            "periodicity": "00:15:00",
-            "slug": "1-root-64-kakoe-to-soobschenie",
-            "status": "run",
-            "clients": [
-                10,
-                7,
-                6,
-                4,
-                2,
-                5,
-                1
-            ]
+            "employee": 3,
+            "client_mail": "hflsaeif@fsa.fasf",
+            "client_first_name": "fdsaf",
+            "client_last_name": "fsad",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-24T22:54:21.036Z",
+            "time_edit": "2024-06-24T22:54:21.036Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 12,
+        "fields": {
+            "employee": 3,
+            "client_mail": "nfd@fkf.fa",
+            "client_first_name": "fdsf",
+            "client_last_name": "fsad",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-24T22:54:29.397Z",
+            "time_edit": "2024-06-24T22:54:29.397Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "blog.postcomment",
+        "pk": 1,
+        "fields": {
+            "post": 1,
+            "parent": null,
+            "user_name": 2,
+            "image": "",
+            "text": "test message",
+            "time_published": "2024-06-24T22:46:17.655Z",
+            "time_edit": "2024-06-24T22:46:17.655Z",
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "likes": 0,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.postcomment",
+        "pk": 2,
+        "fields": {
+            "post": 1,
+            "parent": 1,
+            "user_name": 2,
+            "image": "",
+            "text": "second message",
+            "time_published": "2024-06-24T22:46:28.380Z",
+            "time_edit": "2024-06-24T22:46:28.380Z",
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "likes": 0,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 1,
+        "fields": {
+            "title": "testt",
+            "name_user": 1,
+            "image": "",
+            "description": "testt",
+            "slug": "sumaro-testt",
+            "views": 9,
+            "likes": 0,
+            "time_published": "2024-06-24T22:15:36.647Z",
+            "time_edit": null,
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "comment_count": 2,
+            "is_published": true
         }
     }
 ]

@@ -192,8 +192,8 @@ USE_TZ = True
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 YANDEX_MAIL = yandex_mail()
 EMAIL_HOST = YANDEX_MAIL.get('host')
