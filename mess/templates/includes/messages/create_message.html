@@ -1,0 +1,18 @@
+
+<form action="{% if message %}{% url 'mess:update_mess' message.slug %}{% else %}{% url 'mess:create_mess' %}{% endif %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="text" value="{{ next }}"/>
+    {% if form.non_field_errors %}
+        <div class="form-error" style="font-size: 14px;"><strong>{{ form.non_field_errors }}</strong></div>
+    {% endif %}
+    <p>
+        <label class="form-label" for="id_title_message">Заголовок сообщения:</label>
+        <input class="form-control" type="text" {% if message %}value="{{ message.title_message }}"{% endif %} name="title_message" maxlength="100" required id="id_title_message">
+    </p>
+    <p>
+        <label class="form-label" for="id_text_message">Содержимое сообщения:</label>
+        <textarea class="form-control" name="text_message" cols="40" rows="10" required id="id_text_message">{{ message.text_message }}</textarea>
+    </p>
+    <button class="btn btn-success" type="submit">Создать</button>
+    <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'mess:list' %}">Отмена</a>
+</form>

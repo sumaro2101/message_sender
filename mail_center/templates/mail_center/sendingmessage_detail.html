@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+        <div class="card bg-body-tertiary p-4 mb-3" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+            <div>
+                {% if mail.status == 'run' %}
+                <p class="text-success text-center m-0" style="line-height: 0;">Активна</p>
+                {% elif mail.status == 'create' %}
+                <p class="text-warning text-center m-0" style="line-height: 0;">Созданна</p>
+                {% elif mail.status == 'freeze' %}
+                <p class="text-info text-center m-0" style="line-height: 0;">Заморожена</p>
+                {% elif mail.status == 'end' %}
+                <p class="text-secondary text-center m-0" style="line-height: 0;">Завершена</p>
+                {% endif %}
+            </div>
+                <div class="card-title d-flex justify-content-between">
+                    <h6>Рассылка</h6>
+                    <div class="d-flex">
+                        {% if not mail.status == 'end' and not content_manager %}
+                        {% if not moderator %}
+                        <a class="btn border me-2" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'mail_center:mail_update' mail.slug %}">Изменить</a>
+                        {% endif %}
+                        <form class="me-2" action="{{ mail.get_absolute_url }}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="end_task" value="{{ mail.slug }}">
+                            <button class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Завершить</button>
+                        </form>
+                        {% endif %}
+                        {% if request.user.is_superuser %}
+                        <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'mail_center:mail_delete' mail.slug %}">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-center" style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">Детали рассылки<br></h2>
+                    {% if not content_manager %}
+                    <form class="text-end mb-3" action="{{ mail.get_absolute_url }}" method="post">
+                        {% csrf_token %}
+                        {% if mail.date_first_send and not mail.status == 'end' %}
+                        <input type="hidden" name="change_status" value="{{ mail.slug }}">
+                        <button class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">{% if not mail.status == 'freeze' %}Заморозить{% else %}Разморозить{% endif %}</button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="card-body bg-white border rounded mb-5">
+                    <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">Заловок: {{ mail.message.title_message }}</p>
+                    <hr>
+                    <p class="text-center" style="font-size: .9375rem; line-height: 0.5rem; font-weight: 700;">Временные периоды</p>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            {% if mail.date_first_send %}
+                            <p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Время начала рассылки: <span class="text-decoration-underline">{{ mail.date_first_send }}</span></p>
+                            {% endif %}
+                            {% if mail.date_last_send %}
+                            <p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Время последней отправки: {{ mail.date_first_send }}</p>
+                            {% endif %}
+                            {% if mail.periodicity %}
+                            <p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Установлена периодичность каждые: {{ mail.periodicity }}</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if task.last_run_at %}<p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Время последней отправки: <span class="text-decoration-underline">{{ task.last_run_at }}</span></p>{% endif %}
+                            {% if task.total_run_count %}<p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Количество отправок:{{ task.total_run_count }}</p>{% endif %}
+                        </div>
+                        <div>
+                            {% if next_send %}<p style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Время следующей отправки: <span class="text-decoration-underline">{{ next_send }}</span></p>
+                            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ procent_to_send }}" aria-valuemin="0" aria-valuemax="100">
+                                {% with "width: "|add:procent_to_send|add:"%" as procent %}
+                                <div class="progress-bar bg-success" style="{{ procent }}">{{ procent_to_send }}%</div>
+                                {% endwith %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    <h2 class="text-center" style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">Описание рассылки<br></h2>
+                    <div class="mt-2">
+                        <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">{{ mail.message.text_message }}</p>
+                    </div>
+                </div>
+                <h2 class="text-center mt-5 mb-3" style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">Детали клиентов<br></h2>
+                <div class="d-flex flex-column">
+                    {% for client in clients %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p style="margin: 0 5px 0 0; font-size: .8125rem;">
+                                        Эмеил: <span>{{ client.client_mail }}</span>
+                                    </p>
+                                    <p style="margin: 0 5px 0 0; font-size: .8125rem;">
+                                        Имя: <span>{{ client.client_first_name }}</span>
+                                    </p>
+                                    <p style="margin: 0 5px 0 0; font-size: .8125rem;">
+                                        Фамилия: <span>{{ client.client_last_name }}</span>
+                                    </p>
+                                    {% if  client.client_middle_name %}
+                                    <p style="margin: 0 5px 0 0; font-size: .8125rem;">
+                                        Отчество: <span>{{ client.client_middle_name }}</span>
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <h4 class="text-center" style="margin: 0 5px 0 0; font-size: .8125rem; font-weight: 700;">Информация клиента</h4>
+                                <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">
+                                    {{ client.client_info }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock content %}

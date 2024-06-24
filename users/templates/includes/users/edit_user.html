@@ -1,0 +1,93 @@
+{% load static %}
+{% load countries %}
+<div class="container">
+  <div class="card p-3">
+    <div class="offset-1 col-10">
+      <h3 class="p-2">
+          Изменения данных пользователя
+      </h3>
+      <div class="card bg-body-tertiary m-1 p-2 ps-4" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+          <form action="{% url 'users:update' user_edit.username %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}" />
+      
+              {% if form.non_field_errors %}
+              <div class="form-error">{{ form.non_field_errors }}</div>
+              {% endif %}
+          <div class="card-body p-2 card_big_style">
+                   
+                <div class="card_big_images">
+                  <label class="form-label" style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;" for="id_image">Изображение</label>
+                  {% if user_edit.image %}
+                      <a href="{{ user_edit.image.url }}">
+                          <img src="{{ user_edit.image.url }}" class="d-block w-auto card-style-image" alt="{{ user_edit.username }}">
+                      </a>
+                      <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="image-clear" id="image-clear_id">
+                        <label class="form-check-label" style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;" for="image-clear_id">Удалить</label>
+                      </div>
+                    <span style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Изменить:</span>
+                  {% else %}
+                      <img src="{% static 'images/image_not_found.jpeg' %}" class="d-block w-auto card-style-image" alt="{{ user_edit.username }}">
+                  {% endif %}
+                    <input style="font-size: 0.60rem;" class="form-control form-control-sm" type="file" name="image" accept="image/*" id="id_image">
+                    <div class="form-error">{{ form.image.errors }}</div>
+                  </div>
+      
+                  <div class="col-md-6" style="grid-area: spec-brand">
+                      <div class="d-flex flex-column">
+                        <div>
+                          <p style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Имя пользователя:<strong class="ms-2">{{ user_edit.username }}</strong></p>
+                        </div>
+                        <div class="mt-2">
+                          <p style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Телефон:<strong class="ms-2">{{ user_edit.phone }}</strong></p>
+                        </div>
+                        <div class="mt-2">
+                          <p style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Эмеил:<strong class="ms-2">{{ user_edit.email}}</strong></p>
+                        </div>
+                      </div>
+                  </div>
+      
+                  <div class="col-md-6 mt-2 form-floating" style="grid-area:stat;">
+                    <input class="form-control" style="font-size: .80rem;" type="text" {% if user_edit.first_name %}value="{{ user_edit.first_name }}"{% endif %} name="first_name" maxlength="150" id="id_first_name">
+                    <label style="font-size: .80rem;" for="id_first_name">Имя:</label>
+                    <div class="form-error">{{ form.first_name.errors }}</div>
+                  </div>
+      
+                  <div class="col-md-6 mt-2 form-floating" style="grid-area:info;">
+                    <input class="form-control" style="font-size: .80rem; line-height: 1.250rem;" type="text" {% if user_edit.last_name %}value="{{ user_edit.last_name }}"{% endif %} name="last_name" maxlength="150" id="id_last_name">
+                    <label style="font-size: .80rem; line-height: 1.250rem;" for="id_last_name">Фамилия:</label>
+                    <div class="form-error">{{ form.last_name.errors }}</div>
+                  </div>
+      
+                  <div class="col-md-6 mt-2 form-floating" style="grid-area:buy;">
+                    <select class="form-select form-select-sm" name="country"  id="id_country">
+                      <option value="{% if user_edit.country %}{{ user_edit.country }}{% endif %}" selected>{% if user_edit.country %}{{ user_edit.country }}{% else %}-----{% endif %}</option>
+                      {% get_countries as countries %}
+                      {% for country in countries %}
+                      <option value="{{ country.code }}">{{ country.name }}</option>
+                      {% endfor %}   
+                    </select>
+                    <label class="form-label" style="font-size: .80rem; line-height: 1.250rem;" for="id_country">Страна</label>
+                  </div>
+                  <div class="form-error">{{ form.country.errors }}</div>
+
+                  <div class="col-md-6 mt-2 form-floating" style="grid-area:wrap;">
+                    <select class="form-select form-select-sm" name="gender"  id="id_gender">
+                    {% for gen in form.gender %}
+                      {{ gen }}
+                    {% endfor %}
+                    </select>
+                    <label class="form-label" style="font-size: .80rem; line-height: 1.250rem;" for="id_country">Пол</label>
+                  </div>
+                  <div class="form-error">{{ form.country.errors }}</div>
+            </div>
+            <div class="mt-5">
+              <button class="btn btn-secondary ms-2" type="submit">Сохранить</button>
+              <a href="{% url 'users:user' user_edit.username %}" class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Отменить</a>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="g-col-4">
+    <div class="card bg-body-tertiary p-3 mb-4" style="height: 370px; padding: 16px 16px 12px; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+        <header class="d-flex align-items-center justify-content-between flex-wrap-nowrap mb-2" style="height: 24px; margin: -4px; padding: 4px;">
+            <div class="d-flex" style="margin: 0 4px 0 0; max-width: 100%;">
+                <span class="d-flex align-items-center" style="max-width: 100%;">
+                    <span class="d-flex flex-column">
+                        {% if request.user.is_superuser or moderator %}
+                        <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">{{ client.employee.username }}</div>
+                        {% endif %}
+                        {% if client.time_edit == client.time_create %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ client.time_create }}</div>
+                        {% else %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ client.time_edit }}</div>
+                        {% endif %}
+                    </span>
+                </span>
+            </div>
+            <div>
+                {% if not content_manager %}
+                <div>
+                    {% if not moderator %}
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:update_client' client.pk %}">Изменить</a>
+                    {% endif %}
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:delete_client' client.pk %}">{% if client.actual %}Деактивировать{% else %}Активировать{% endif %}</a>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <div class="border mb-2" ></div>
+        <div class="card-title d-flex justify-content-between">
+            <h5>{{ client.client_mail }}</h5>
+            {% if client.actual %}
+            <p class="text-success">Актуальный</p>
+            {% else %}
+            <p class="text-danger">Деактивирован</p>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <p>
+                Имя: {{ client.client_first_name }}
+            </p>
+            <p>
+                Фамилия: {{ client.client_last_name }}
+            </p>
+            {% if client.client_middle_name %}
+            <p>
+                Отчество: {{ client.client_middle_name }}
+            </p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <p>{{ client.client_info|truncatechars:150 }}</p>
+        </div>
+    </div>
+</div>

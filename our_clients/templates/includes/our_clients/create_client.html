@@ -1,0 +1,55 @@
+
+<form class="p-3" action="{% if client_p %}{% url 'our_clients:update_client' client_p.pk %}{% else %}{% url 'our_clients:create_client' %}{% endif %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="text" value="{{ next }}"/>
+    {% if form.non_field_errors %}
+        <div class="form-error" style="font-size: 14px;"><strong>{{ form.non_field_errors }}</strong></div>
+    {% endif %}
+    <p>
+        <label class="form-label" for="id_client_mail">Эмеил клиента:*</label>
+        <input class="form-control" type="email" name="client_mail" maxlength="254" {% if client_p %}value="{{ client_p.client_mail }}"{% endif %} required id="id_client_mail">
+        {% if form.errors.client_mail %}
+        <div>
+            <div class="form-error" style="font-size: 14px;"><strong>{{ form.errors.client_mail }}</strong></div>
+        </div>
+        {% endif %}
+    </p>
+    <p>
+        <label class="form-label" for="id_client_first_name">Имя клиента:*</label>
+        <input class="form-control" type="text" name="client_first_name" maxlength="80" {% if client_p %}value="{{ client_p.client_first_name }}"{% endif %} required id="id_client_first_name">
+        {% if form.errors.client_first_name %}
+        <div>
+            <div class="form-error" style="font-size: 14px;"><strong>{{ form.errors.client_first_name }}</strong></div>
+        </div>
+        {% endif %}
+    </p>
+    <p>
+        <label class="form-label" for="id_client_last_name">Фамилия клиента:*</label>
+        <input class="form-control" type="text" name="client_last_name" maxlength="120" {% if client_p %}value="{{ client_p.client_last_name }}"{% endif %} required id="id_client_last_name">
+        {% if form.errors.client_last_name %}
+        <div>
+            <div class="form-error" style="font-size: 14px;"><strong>{{ form.errors.client_last_name }}</strong></div>
+        </div>
+        {% endif %}
+    </p>
+    <p>
+        <label class="form-label" for="id_client_middle_name">Отчество клиента:</label>
+        <input class="form-control" type="text" name="client_middle_name" maxlength="120" {% if client_p and client_p.client_middle_name %}value="{{ client_p.client_middle_name }}"{% endif %} id="id_client_middle_name">
+        {% if form.errors.client_middle_name %}
+        <div>
+            <div class="form-error" style="font-size: 14px;"><strong>{{ form.errors.client_middle_name }}</strong></div>
+        </div>
+        {% endif %}
+    </p>
+    <p>
+        <label class="form-label" for="id_client_info">Информания о клиенте:</label>
+        <textarea class="form-control" name="client_info" cols="40" rows="10" id="id_client_info">{% if client_p %}{{ client_p.client_info }}{% endif %}</textarea>
+        {% if form.errors.client_info %}
+        <div>
+            <div class="form-error" style="font-size: 14px;"><strong>{{ form.errors.client_info }}</strong></div>
+        </div>
+        {% endif %}
+    </p>
+    <button class="btn btn-success" type="submit">Создать</button>
+    <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'our_clients:clients' %}">Отмена</a>
+</form>

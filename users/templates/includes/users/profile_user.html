@@ -1,0 +1,58 @@
+{% load static %}
+<div class="container">
+  <div class="card p-3">
+    <div class="offset-1 col-10">
+
+      <h3 class="p-2">
+          Личный кабинет пользователя
+      </h3>
+      <div class="card bg-body-tertiary m-1 p-2" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+          <div class="card-body p-3 card_big_style">
+              <div class="my-3 card_big_images">
+                      {% if current_user.image %}
+                      <img src="{{ current_user.image.url }}" class="d-block w-auto card-style-image" alt="{{ current_user.username }}">
+                      {% else %}
+                      <img src="{% static 'images/image_not_found.jpeg' %}" class="d-block w-auto card-style-image" alt="{{ current_user.username }}">
+                      {% endif %}
+              </div>
+              <div style="grid-area: spec-brand">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p style="line-height: .9375rem; font-size: .8125rem; font-weight: 700;">Имя пользователя: <strong>{{ current_user.username }}</strong></p>
+                    <p style="font-size: .80rem; line-height: .6875rem;">Дата регистрации: {{ current_user.date_joined }}</p>
+                  </div>
+                  {% if not content_manager %}
+                  {% if request.user == current_user or request.user.is_superuser %}
+                  <div>
+                    <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'users:update' current_user.username %}">Изменить личные данные</a>
+                  </div>
+                  {% elif request.user.is_staff and not current_user.is_staff and not current_user.is_superuser and current_user.is_verify_email %}
+                  <form action="{{ current_user.get_absolute_url }}" method="post">
+                    {% csrf_token %}
+                    <button class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" role="button">{% if current_user.is_active %}Заблокировать{% else %}Разблокировать{% endif %}</button>
+                  </form>
+                  {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+      
+              {% if request.user == current_user or request.user.is_staff %}
+              <div class="d-flex flex-column" style="grid-area:stat;">
+                <div class="d-flex">
+                  <div style="font-size: .80rem; line-height: 1.250rem;">Эмеил: {% if current_user.email %}{{ current_user.email }}{% else %} не указан{% endif %}</div>
+                </div>
+                
+                <div style="font-size: .80rem; line-height: 1.250rem;">Телефон: {% if current_user.phone %}{{ current_user.phone }}{% else %} не указан{% endif %}</div>
+                {% endif %}
+                <div style="font-size: .80rem; line-height: 1.250rem;">Страна: {% if current_user.country %}{{ current_user.country }}{% else %} не указан{% endif %}</div>
+                <div style="font-size: .80rem; line-height: 1.250rem;">Имя: {% if current_user.get_short_name %}{{ current_user.get_short_name }}{% else %} не указан{% endif %}</div>
+                <div style="font-size: .80rem; line-height: 1.250rem;">Фамилия: {% if current_user.last_name %}{{ current_user.last_name }}{% else %} не указан{% endif %}</div>
+                {% if request.user == current_user %}
+                <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="font-size: .80rem; line-height: 1.250rem;" href="{% url 'users:password_change' %}">Изменить пароль</a>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

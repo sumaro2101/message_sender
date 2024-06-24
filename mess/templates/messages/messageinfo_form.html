@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="d-flex card-title justify-content-between">
+            {% if message %}<h2>Редактирование сообщения</h2>{% else %}<h2>Создание сообщения</h2>{% endif %}
+            <a href="{% url 'mess:list' %}" class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Назад</a>
+        </div>
+        <div class="card-body">
+            {% include 'includes/messages/create_message.html' %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

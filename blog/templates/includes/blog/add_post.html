@@ -1,0 +1,47 @@
+{% load static %}
+<div class="container">
+    <div class="card p-3">
+      <div>
+          <h3>{% if post %}Изменение статьи{% else %}Добавление статьи{% endif %}</h3>
+          <div class="card bg-body-tertiary mt-4 p-2" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+              <form action="{% if post %}{% url 'blog:updatepost' post.slug %}{% else %}{% url 'blog:addpost' %}{% endif %}" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-error">{{ form.non_field_errors }}</div>
+                  <p class="mb-3">
+                      <label for="id_title" class="form-label">{{ form.title.label }}</label>
+                      <input type="text" name="title" id="id_title" class="form-control" maxlength="200" minlength="5" {% if post %} value="{{ post.title }}"{% endif %} required>
+                      <div class="form-error">{{ form.title.errors }}</div>
+                  </p>
+                  <p class="mb-3">
+                      <label for="id_image" class="form-label">{{ form.image.label }}</label>
+                      {% if post %}
+                      <div>
+                          <span>На данный момент:</span>
+                          {% if post.image %}
+                          <a href="{{ post.image.url }}">
+                              {{ post.image.url }}
+                          </a>
+                          {% else %}
+                          <img src="{% static 'images/image_not_found.jpeg' %}" style="border-radius: 3px; display: block; overflow: hidden; height: 24px; width: 24px;" alt="{{ post.description }}">
+                          {% endif %}
+                          <input type="checkbox" name="image-clear" id="image-clear_id">
+                          <label for="image-clear_id">Очистить</label>
+                          <br>
+                          <span>Изменить:</span>
+                      </div>
+                      {% endif %}
+                      <input type="file" name="image" id="id_image" class="form-control" accept="image/*">
+                      <div class="form-error">{{ form.image.errors }}</div>
+                  </p>
+                  <p class="mb-3">
+                      <label for="id_description" class="form-label">{{ form.description.label }}</label>
+                      <textarea type="text" name="description" id="id_description" class="form-control" cols="40" rows="10" minlength="5"required>{{ post.description }}</textarea>
+                      <div class="form-error">{{ form.description.errors }}</div>
+                  </p>
+                  <button class="btn btn-secondary ms-2">{% if post %}Сохранить{% else %}Создать{% endif %}</button>
+                  <a href="{% if post %}{% url 'blog:post' post.slug %}{% else %}{% url 'blog:posts' %}{% endif %}" class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Отменить</a>
+              </form> 
+          </div>
+        </div>
+    </div>
+</div>

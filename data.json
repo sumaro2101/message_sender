@@ -1,0 +1,926 @@
+[
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 1,
+        "fields": {
+            "every": 900,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 2,
+        "fields": {
+            "every": 1800,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 3,
+        "fields": {
+            "every": 3600,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 4,
+        "fields": {
+            "every": 7200,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 5,
+        "fields": {
+            "every": 10800,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 6,
+        "fields": {
+            "every": 14400,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 7,
+        "fields": {
+            "every": 18000,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 8,
+        "fields": {
+            "every": 21600,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 9,
+        "fields": {
+            "every": 43200,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 10,
+        "fields": {
+            "every": 1,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 11,
+        "fields": {
+            "every": 2,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 12,
+        "fields": {
+            "every": 3,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 13,
+        "fields": {
+            "every": 4,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 14,
+        "fields": {
+            "every": 5,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 15,
+        "fields": {
+            "every": 6,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 16,
+        "fields": {
+            "every": 7,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 17,
+        "fields": {
+            "every": 14,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 18,
+        "fields": {
+            "every": 21,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 19,
+        "fields": {
+            "every": 30,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 20,
+        "fields": {
+            "every": 60,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 21,
+        "fields": {
+            "every": 90,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 22,
+        "fields": {
+            "every": 120,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 23,
+        "fields": {
+            "every": 150,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 24,
+        "fields": {
+            "every": 180,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 25,
+        "fields": {
+            "every": 360,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "pk": 26,
+        "fields": {
+            "every": 60,
+            "period": "seconds"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 1,
+        "fields": {
+            "minute": "0",
+            "hour": "4",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "Asia/Omsk"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 2,
+        "fields": {
+            "minute": "*/15",
+            "hour": "*",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 3,
+        "fields": {
+            "minute": "*/30",
+            "hour": "*",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 4,
+        "fields": {
+            "minute": "0",
+            "hour": "*/1",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 5,
+        "fields": {
+            "minute": "0",
+            "hour": "*/2",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 6,
+        "fields": {
+            "minute": "0",
+            "hour": "*/3",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 7,
+        "fields": {
+            "minute": "0",
+            "hour": "*/4",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 8,
+        "fields": {
+            "minute": "0",
+            "hour": "*/5",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 9,
+        "fields": {
+            "minute": "0",
+            "hour": "*/6",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 10,
+        "fields": {
+            "minute": "0",
+            "hour": "*/12",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 11,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/1",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 12,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/2",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 13,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/3",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 14,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/4",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 15,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/5",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 16,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/6",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 17,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/7",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 18,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/14",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 19,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "*/21",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 20,
+        "fields": {
+            "minute": "0",
+            "hour": "0",
+            "day_of_month": "1",
+            "month_of_year": "*/1",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 21,
+        "fields": {
+            "minute": "*/1",
+            "hour": "*",
+            "day_of_month": "*",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.crontabschedule",
+        "pk": 22,
+        "fields": {
+            "minute": "0",
+            "hour": "4",
+            "day_of_month": "*/1",
+            "month_of_year": "*",
+            "day_of_week": "*",
+            "timezone": "UTC"
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictasks",
+        "pk": 1,
+        "fields": {
+            "last_update": "2024-06-24T22:59:01.900Z"
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "pk": 1,
+        "fields": {
+            "name": "celery.backend_cleanup",
+            "task": "celery.backend_cleanup",
+            "interval": null,
+            "crontab": 1,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": 43200,
+            "one_off": false,
+            "start_time": null,
+            "enabled": true,
+            "last_run_at": "2024-06-24T22:26:41.732Z",
+            "total_run_count": 4,
+            "date_changed": "2024-06-24T22:55:24.876Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "pk": 34,
+        "fields": {
+            "name": "check_non_verify_user_delete",
+            "task": "users.tasks.delete_non_verify_users",
+            "interval": null,
+            "crontab": 22,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "start_time": null,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "date_changed": "2024-06-24T22:33:52.716Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "title_message": "test",
+            "text_message": "test",
+            "slug": "1-test",
+            "time_create": "2024-06-24T22:10:34.947Z",
+            "time_edit": "2024-06-24T22:10:34.947Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 2,
+        "fields": {
+            "employee": 1,
+            "title_message": "Тест сообщения",
+            "text_message": "Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения Тест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщенияТест сообщения",
+            "slug": "1-test-soobsheniya",
+            "time_create": "2024-05-15T12:38:58.184Z",
+            "time_edit": "2024-05-15T12:38:58.184Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 3,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Какое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщение Какое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщениеКакое то сообщение",
+            "slug": "1-kakoe-to-soobshenie",
+            "time_create": "2024-05-15T13:06:04.574Z",
+            "time_edit": "2024-05-15T13:06:04.574Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 4,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание",
+            "slug": "root-kakoe-to-soobschenie",
+            "time_create": "2024-05-15T18:34:37.974Z",
+            "time_edit": "2024-05-15T18:34:37.974Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 5,
+        "fields": {
+            "employee": 1,
+            "title_message": "Какое то сообщение",
+            "text_message": "Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание Содержание",
+            "slug": "1-kakoe-to-soobschenie",
+            "time_create": "2024-05-15T18:34:58.130Z",
+            "time_edit": "2024-05-15T20:18:27.782Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 10,
+        "fields": {
+            "employee": 1,
+            "title_message": "fdsafdsgagdsag",
+            "text_message": "gdsagdsgasd",
+            "slug": "2-fdsafdsgagdsag",
+            "time_create": "2024-05-16T19:34:44.273Z",
+            "time_edit": "2024-05-16T19:34:44.273Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 11,
+        "fields": {
+            "employee": 1,
+            "title_message": "Норм сообщение",
+            "text_message": "ОАЫЩОАЛДЫФОАДЫОАШДЫ",
+            "slug": "1-norm-soobschenie",
+            "time_create": "2024-06-14T21:08:33.107Z",
+            "time_edit": "2024-06-14T21:08:33.107Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 12,
+        "fields": {
+            "employee": 1,
+            "title_message": "testMessage",
+            "text_message": "TEstMESSAGE",
+            "slug": "1-testmessage",
+            "time_create": "2024-06-15T21:22:15.786Z",
+            "time_edit": "2024-06-15T21:22:15.786Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 14,
+        "fields": {
+            "employee": 2,
+            "title_message": "test",
+            "text_message": "test",
+            "slug": "2-test",
+            "time_create": "2024-06-18T17:11:01.289Z",
+            "time_edit": "2024-06-18T17:11:01.289Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "mess.messageinfo",
+        "pk": 15,
+        "fields": {
+            "employee": 3,
+            "title_message": "test",
+            "text_message": "test",
+            "slug": "3-test",
+            "time_create": "2024-06-24T22:54:09.952Z",
+            "time_edit": "2024-06-24T22:54:09.952Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$iw6CI7lJbdhVhW1FLcYqzf$+EBWXJGWMe7wmEXClWevHQAUDLRzMxihX0kwI6da4BQ=",
+            "last_login": "2024-06-24T22:57:00.853Z",
+            "is_superuser": true,
+            "username": "root",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-06-14T18:45:31Z",
+            "image": "",
+            "email": "root@gmail.com",
+            "is_verify_email": true,
+            "phone": null,
+            "country": null,
+            "gender": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$7wXqZ8jqk6XsSyXPGJ3SKV$X+8NmOjdCxvP70M3MNbdocPw3zNlXPPW0LA4a/Qakbw=",
+            "last_login": "2024-06-24T22:52:06.327Z",
+            "is_superuser": false,
+            "username": "alex",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-06-16T12:18:50Z",
+            "image": "",
+            "email": "alex@gmail.com",
+            "is_verify_email": true,
+            "phone": null,
+            "country": null,
+            "gender": null,
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$mZ0Am6yK5Xp324AbmlMlid$rMTI4mzjYBH6AMkl+2qVkiz1Ye0mas6dvHN87r6M1Bc=",
+            "last_login": "2024-06-24T22:54:00.390Z",
+            "is_superuser": false,
+            "username": "sumaro",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-06-24T22:53:46.587Z",
+            "image": "",
+            "email": "sumaro@gmail.com",
+            "is_verify_email": true,
+            "phone": "+79132459055",
+            "country": null,
+            "gender": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fsafs@fadsfa.fas",
+            "client_first_name": "fsafsf",
+            "client_last_name": "fasfasF",
+            "client_middle_name": null,
+            "client_info": "FASFDSFASDFADSFDSFADSFADSF",
+            "time_create": "2024-05-16T17:29:46.995Z",
+            "time_edit": "2024-05-16T18:13:05.070Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 2,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fsf@fasdfsd.faf",
+            "client_first_name": "fdsafdsf",
+            "client_last_name": "fdasfds",
+            "client_middle_name": null,
+            "client_info": "fsdafdsafasdf",
+            "time_create": "2024-05-16T17:30:50.902Z",
+            "time_edit": "2024-06-14T21:17:14.912Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 4,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fafafsf@faf.fsf",
+            "client_first_name": "fasfasf",
+            "client_last_name": "fasfasfasfs",
+            "client_middle_name": null,
+            "client_info": "fsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfdfsdfdsafdsafadfd",
+            "time_create": "2024-05-16T17:49:58.072Z",
+            "time_edit": "2024-06-14T21:17:19.808Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 5,
+        "fields": {
+            "employee": 1,
+            "client_mail": "fdsfsl@dsadl.dsad",
+            "client_first_name": "dsadsff",
+            "client_last_name": "fdsfdsaf",
+            "client_middle_name": null,
+            "client_info": "fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa fsfsa",
+            "time_create": "2024-05-16T18:02:12.360Z",
+            "time_edit": "2024-05-16T18:13:11.432Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 6,
+        "fields": {
+            "employee": null,
+            "client_mail": "yukiu217@gmail.com",
+            "client_first_name": "Aleex",
+            "client_last_name": "Pavlov",
+            "client_middle_name": null,
+            "client_info": "Это я",
+            "time_create": "2024-06-15T21:22:54.679Z",
+            "time_edit": "2024-06-15T21:22:54.679Z",
+            "actual": false
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 7,
+        "fields": {
+            "employee": null,
+            "client_mail": "test@fsaf.ds",
+            "client_first_name": "fasfs",
+            "client_last_name": "fsaf",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-16T12:44:16.701Z",
+            "time_edit": "2024-06-16T12:44:16.701Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 10,
+        "fields": {
+            "employee": 2,
+            "client_mail": "dasdfs@cdf.fs",
+            "client_first_name": "fsafas",
+            "client_last_name": "fsaf",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-18T17:21:40.903Z",
+            "time_edit": "2024-06-18T18:05:32.793Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 11,
+        "fields": {
+            "employee": 3,
+            "client_mail": "hflsaeif@fsa.fasf",
+            "client_first_name": "fdsaf",
+            "client_last_name": "fsad",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-24T22:54:21.036Z",
+            "time_edit": "2024-06-24T22:54:21.036Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "our_clients.clientservise",
+        "pk": 12,
+        "fields": {
+            "employee": 3,
+            "client_mail": "nfd@fkf.fa",
+            "client_first_name": "fdsf",
+            "client_last_name": "fsad",
+            "client_middle_name": null,
+            "client_info": "",
+            "time_create": "2024-06-24T22:54:29.397Z",
+            "time_edit": "2024-06-24T22:54:29.397Z",
+            "actual": true
+        }
+    },
+    {
+        "model": "blog.postcomment",
+        "pk": 1,
+        "fields": {
+            "post": 1,
+            "parent": null,
+            "user_name": 2,
+            "image": "",
+            "text": "test message",
+            "time_published": "2024-06-24T22:46:17.655Z",
+            "time_edit": "2024-06-24T22:46:17.655Z",
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "likes": 0,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.postcomment",
+        "pk": 2,
+        "fields": {
+            "post": 1,
+            "parent": 1,
+            "user_name": 2,
+            "image": "",
+            "text": "second message",
+            "time_published": "2024-06-24T22:46:28.380Z",
+            "time_edit": "2024-06-24T22:46:28.380Z",
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "likes": 0,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 1,
+        "fields": {
+            "title": "testt",
+            "name_user": 1,
+            "image": "",
+            "description": "testt",
+            "slug": "sumaro-testt",
+            "views": 9,
+            "likes": 0,
+            "time_published": "2024-06-24T22:15:36.647Z",
+            "time_edit": null,
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "comment_count": 2,
+            "is_published": true
+        }
+    }
+]

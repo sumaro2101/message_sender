@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="d-flex card-title justify-content-between">
+            <h2>Список клиентов</h2>
+            {% if not moderator and not content_manager %}
+            <a href="{% url 'our_clients:create_client' %}" class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">Добавить клиента</a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-3">
+                {% for client in clients %}
+                    {% include 'includes/our_clients/card_client.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% include 'paginate.html' %}
+</div>
+{% endblock content %}

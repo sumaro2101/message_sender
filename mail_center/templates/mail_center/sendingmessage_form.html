@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="d-flex card-title justify-content-between">
+            <h2>{% if not mail_up %}Создание рассылки{% else %}Изменение рассылки{% endif %}</h2>
+        </div>
+        <form class="row g-2" method='post' action="{% if not mail_up %}{% url 'mail_center:mail_create' message.slug %}{% else %}{% url 'mail_center:mail_update' mail_up.slug %}{% endif %}">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <article class="card bg-body-tertiary mt-4" style="padding: 16px 16px 12px; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+                    <div class="card-title">
+                        <h5>Выбранное сообщение</h5>
+                        <hr>
+                    </div>
+                    <div>
+                        <header class="d-flex align-items-center justify-content-between flex-wrap-nowrap mb-2"
+                            style="height: 24px; margin: -4px; padding: 4px;">
+                            <div class="d-flex" style="margin: 0 4px 0 0; max-width: 100%;">
+                                <span class="d-flex align-items-center" style="max-width: 100%;">
+                                    <span class="d-flex" style="align-items: baseline; flex-direction: row;">
+                                        <div
+                                            style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">
+                                            {% if not mail_up %}{{ message.employee.username }}{% else %}{{ mail_up.message.employee.username }}{% endif %}</div>
+                                        {% if not mail_up %}
+                                            {% if message.time_edit == message.time_create %}
+                                            <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_create }}
+                                            </div>
+                                            {% else %}
+                                            <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_edit }}
+                                            </div>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if mail_up.message.time_edit == mail_up.message.time_create %}
+                                            <div style="font-size: .75rem; line-height: .6875rem;">{{ mail_up.message.time_create }}
+                                            </div>
+                                            {% else %}
+                                            <div style="font-size: .75rem; line-height: .6875rem;">{{ mail_up.message.time_edit }}
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </div>
+                        </header>
+                        <div class="posts-comment-body ms-3 mb-3">
+                            <div>
+                                <p>
+                                    <strong>{% if not mail_up %}{{ message.title_message }}{% else %}{{ mail_up.message.title_message }}{% endif %}</strong>
+                                </p>
+                            </div>
+                            <div>
+                                <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">
+                                    {% if not mail_up %}{{ message.text_message }}{% else %}{{ mail_up.message.text_message }}{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <h5>Настройки рассылки</h5>
+                        <div class="mb-2">
+                            <label class="form-label" for="id_date_first_send">Время начала рассылки</label>
+                            {{ form.date_first_send }}
+                            <div class="form-error">{{ form.date_first_send.errors }}</div>
+                        </div>
+                        <label class="form-label" for="id_periodicity">Интервал времени:</label>
+                        {{ form.periodicity }}
+                    </div>
+                </article>
+                {% comment %} <select name="periodicity" id="id_periodicity">
+                    <optgroup label="Минуты">
+                        <option value="0:01:00" {% if mail_up.periodicity == "0:01:00" %}selected{% endif %}>Каждую минуту</option>
+                        <option value="0:15:00" {% if mail_up.periodicity == "0:15:00" %}selected{% endif %}>Каждые 15 минут</option>             
+                        <option value="0:30:00" {% if mail_up.periodicity == "0:30:00" %}selected{% endif %}>Каждый 30 минут</option>
+                    </optgroup>
+                    <optgroup label="Часы">
+                        <option value="1:00:00" {% if mail_up.periodicity == "1:00:00" %}selected{% endif %}>Каждый 1 час</option>
+                      
+                        <option value="2:00:00" {% if mail_up.periodicity == "2:00:00" %}selected{% endif %}>Каждые 2 часа</option>
+                      
+                        <option value="3:00:00" {% if mail_up.periodicity == "3:00:00" %}selected{% endif %}>Каждые 3 часа</option>
+                      
+                        <option value="4:00:00" {% if mail_up.periodicity == "4:00:00" %}selected{% endif %}>Каждые 4 часа</option>
+                      
+                        <option value="5:00:00" {% if mail_up.periodicity == "5:00:00" %}selected{% endif %}>Каждые 5 часов</option>
+                      
+                        <option value="6:00:00" {% if mail_up.periodicity == "6:00:00" %}selected{% endif %}>Каждые 6 часов</option>
+                      
+                        <option value="12:00:00" {% if mail_up.periodicity == "12:00:00" %}selected{% endif %}>Каждые 12 часов</option>
+                    </optgroup>
+                    <optgroup label="Дни">
+                        <option value="1 day, 0:00:00" {% if not mail_up %}selected{% elif mail_up.periodicity == "1 day, 0:00:00" %}selected{% endif %}>Каждые 1 сутки</option>
+                      
+                        <option value="2 days, 0:00:00" {% if mail_up.periodicity == "2 days, 0:00:00" %}selected{% endif %}>Каждые 2 суток</option>
+                        <option value="3 days, 0:00:00" {% if mail_up.periodicity == "3 days, 0:00:00" %}selected{% endif %}>Каждые 3 суток</option>
+                      
+                      
+                        <option value="4 days, 0:00:00" {% if mail_up.periodicity == "4 days, 0:00:00" %}selected{% endif %}>Каждые 4 суток</option>
+                      
+                        <option value="5 days, 0:00:00" {% if mail_up.periodicity == "5 days, 0:00:00" %}selected{% endif %}>Каждые 5 суток</option>
+                      
+                        <option value="6 days, 0:00:00" {% if mail_up.periodicity == "6 days, 0:00:00" %}selected{% endif %}>Каждые 6 суток</option>
+                    </optgroup>
+                    <optgroup label="Недели">
+                        <option value="7 days, 0:00:00" {% if mail_up.periodicity == "7 days, 0:00:00" %}selected{% endif %}>Каждую 1 неделю</option>
+                      
+                        <option value="14 days, 0:00:00" {% if mail_up.periodicity == "14 days, 0:00:00" %}selected{% endif %}>Каждые 2 недели</option>
+                      
+                        <option value="21 days, 0:00:00" {% if mail_up.periodicity == "21 days, 0:00:00" %}selected{% endif %}>Каждые 3 недели</option>
+                    </optgroup>
+                    <optgroup label="Месяцы">
+                        
+                        <option value="30 days, 0:00:00" {% if mail_up.periodicity == "30 days, 0:00:00" %}selected{% endif %}>Каждый 1 месяц</option>
+                      
+                        <option value="60 days, 0:00:00" {% if mail_up.periodicity == "60 days, 0:00:00" %}selected{% endif %}>Каждые 2 месяца</option>
+                      
+                        <option value="90 days, 0:00:00" {% if mail_up.periodicity == "90 days, 0:00:00" %}selected{% endif %}>Каждые 3 месяца</option>
+                      
+                        <option value="120 days, 0:00:00" {% if mail_up.periodicity == "120 days, 0:00:00" %}selected{% endif %}>Каждые 4 месяца</option>
+                      
+                        <option value="150 days, 0:00:00" {% if mail_up.periodicity == "150 days, 0:00:00" %}selected{% endif %}>Каждые 5 месяцев</option>
+                      
+                        <option value="180 days, 0:00:00" {% if mail_up.periodicity == "180 days, 0:00:00" %}selected{% endif %}>Каждые 6 месяцев</option>
+                      
+                        <option value="360 days, 0:00:00" {% if mail_up.periodicity == "360 days, 0:00:00" %}selected{% endif %}>Каждый 12 месяцев</option>
+                    </optgroup>
+                  </select> {% endcomment %}
+            </div>
+            <div class="col-md-6 ">
+                <div class="card mt-4 bg-body-tertiary" style="padding: 16px 16px 12px; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+                    <h5>Выбор клиентов<hr></h5>
+                    
+                    <div class="d-block mt-2">
+                        <div class="d-flex justify-content-between">
+                            <p><strong>Статус</strong></p>
+                            <p><strong>Эмеил</strong></p>
+                            <p><strong>Имя Фамилия</strong></p>
+                        </div>
+                    </div>
+                            <ul class="nav d-flex flex-column mt-3">
+                                <hr>
+                                {% for client in form.clients %}
+                                <li>
+                                    <input type="checkbox" class="btn-check" value="{{ client.data.value }}" id="btn-check-{{ client.data.value }}-outlined" {% if client.data.selected %}checked{% endif %} name="clients">
+                                    <label class="btn btn-outline d-block" for="btn-check-{{ client.data.value }}-outlined">
+                                        <div class="card-body d-flex p-0 justify-content-between">
+                                            {% if client.data.value.instance.actual %}
+                                                <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-success">Актуальный</p>
+                                            {% else %}
+                                                <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-danger">Деактивирован</p>
+                                            {% endif %}
+                                            <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">
+                                                {{ client.data.label }}
+                                            </div>
+                                            <div class="d-flex">
+                                                <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">
+                                                    {{ client.data.value.instance.client_first_name }}
+                                                </div>
+                                                <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">
+                                                    {{ client.data.value.instance.client_last_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <hr>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                    <div class="form-error">{{ form.clients.errors }}</div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-sm me-2" type="submit">Принять</button>
+                <a class="btn btn-secondary btn-sm" href="{% if not mail_up %}{% url 'mess:list' %}{% else %}{{ mail_up.get_absolute_url }}{% endif %}">Отменить</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

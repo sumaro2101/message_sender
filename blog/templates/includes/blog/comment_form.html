@@ -1,0 +1,11 @@
+{% load static %}
+<div class="card bg-body-tertiary mt-4 p-2" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+    <h5>Напишите свой комментарий:</h5>
+    <form action="{% url 'blog:post' post.slug %}" method="post">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        <textarea name="text" class="form-control" style="resize: none;" id="id_text" cols="40" rows="10" placeholder="Введите ваше сообщение" required></textarea>
+        <div class="form-error">{{ form.description.errors }}</div>
+        <p><button class="btn border mt-2" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" type="submit">Опубликовать</button></p>
+    </form>
+</div>

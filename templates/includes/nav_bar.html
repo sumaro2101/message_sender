@@ -1,0 +1,68 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top mb-5">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MailSender</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link {% if catg_selected == 1 %} active {% endif %}" aria-current="page" href="/">Главная страница</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link {% if catg_selected == 2 %} active {% endif %}" aria-current="page" href="{% url 'mess:list' %}">Центр сообщений</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link {% if catg_selected == 3 %} active {% endif %}" aria-current="page" href="{% url 'our_clients:clients' %}">Центр клиентов</a>
+            </li>
+            {% endif %}
+            <li class="nav-item ">
+                <a class="nav-link  {% if catg_selected == 5 %} active {% endif %} " aria-current="page" href="{% url 'mail_center:mails' %}">Центр рассылок</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link  {% if catg_selected == 7 %} active {% endif %} " aria-current="page" href="{% url 'blog:posts' %}">Блог</a>
+          </li>
+            {% if request.user.is_superuser or request.user.is_staff %}
+            <li class="nav-item dropdown ms-4">
+                <a class="nav-link  dropdown-toggle {% if catg_selected == 6 %} active {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-current="page" href="/login/">Для администратора</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'users:reg' %}">Добавить пользователя</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:users_list' %}">Список пользователей</a></li>
+                    <li><a class="dropdown-item" href="/admin/">Панель администратора</a></li>
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+      </div>
+      <div class="position-absolute top-50 translate-middle" style="right: 0;">
+        {% if request.user.is_authenticated %}
+        <div class="btn-group" data-bs-theme="dark">
+          <button class="btn dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" id="dropdownMenuButtonDark" aria-expanded="false">
+            <div class="d-inline" style="height: 100%; width: 100%; align-self: center;">
+              {% if user.image %}
+              <img src="{{ user.image.url }}" style="border-radius: 100%; overflow: hidden; height: 24px; width: 24px;" alt="{{ user.username }}">
+              {% else %}
+              <img src="{% static 'images/image_not_found.jpeg' %}" class="me-2" style="border-radius: 100%; overflow: hidden; height: 24px; width: 24px;" alt="{{ user.username }}">
+              {% endif %}
+            </div>
+            {{ user.get_username }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end text-bg-secondary" aria-labelledby="dropdownMenuButtonDark">
+            <li><a class="dropdown-item" href="{{ user.get_absolute_url }}">Личный кабинет</a></li>
+            <li><a class="dropdown-item" href="{% url 'mail_center:mails' %}">Мои рассылки</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <form class="dropdown-item" action="{% url 'users:logout' %}" method="post">
+              {% csrf_token %}
+              <button class="dropdown-item" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" type="submit">Выйти</button>
+            </form>
+          </ul>
+        </div>
+        {% else %}
+        <a class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'users:login' %}">Войти</a>
+        {% endif %}
+      </div>
+    </div>
+</nav>

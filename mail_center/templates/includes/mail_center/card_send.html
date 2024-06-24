@@ -1,0 +1,32 @@
+<a class="link-underline link-underline-opacity-0" href="{{ send.get_absolute_url }}">
+    <div class="card bg-body-tertiary p-2 mb-3" style="border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+        <div class="card-title d-block">
+            <div>
+                {% if send.status == 'run' %}
+                <p class="text-success text-center m-0">Активна</p>
+                {% elif send.status == 'create' %}
+                <p class="text-warning text-center m-0">Созданна</p>
+                {% elif send.status == 'freeze' %}
+                <p class="text-info text-center m-0">Заморожена</p>
+                {% elif send.status == 'end' %}
+                <p class="text-secondary text-center m-0">Завершена</p>
+                {% endif %}
+            </div>
+            <h6>Рассылка: {{ send.message.title_message }}</h6>
+        </div>
+        <div class="card-body">
+            {% if send.date_first_send %}
+            <p>Время первой отправки: {{send.date_first_send}}</p>
+            {% endif %}
+            {% if send.date_last_send %}
+            <p>Время последней отправки: {{send.date_first_send}}</p>
+            {% endif %}
+            {% if send.periodicity %}
+            <p>Установлена периодичность каждые {{ send.periodicity }}</p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <p>Описание рассылки:<br> {{ send.message.text_message }}</p>
+        </div>
+    </div>
+</a>

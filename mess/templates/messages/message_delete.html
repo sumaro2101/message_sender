@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="card-body">
+            <form action="{% url 'mess:delete_mess' message.slug %}" method="post">
+                {% csrf_token %}
+                <h4>{% if message.actual %}Деактивация{% else %}Активация{% endif %} сообщения:</h4>
+                <p>{{ message.title_message }}</p>
+                <button class="btn {% if message.actual %}btn-danger{% else %}btn-success{% endif %}" type="submit">{% if message.actual %}Деактивация{% else %}Активация{% endif %}</button>
+                <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'mess:list' %}">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

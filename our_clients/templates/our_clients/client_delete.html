@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+        <div class="card-body">
+            <form action="{% url 'our_clients:delete_client' client_p.pk %}" method="post">
+                {% csrf_token %}
+                <h4>{% if client_p.actual %}Деактивация{% else %}Активация{% endif %} клиента:</h4>
+                <p>{{ client_p.client_mail}}: {{ client_p.client_first_name }} {{ client_p.client_last_name }} {% if client_p.client_middle_name %}{{ client_p.client_middle_name }}{% endif %}</p>
+                <button class="btn {% if client_p.actual %}btn-danger{% else %}btn-success{% endif %}" type="submit">{% if client_p.actual %}Деактивация{% else %}Активация{% endif %}</button>
+                <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'our_clients:clients' %}">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

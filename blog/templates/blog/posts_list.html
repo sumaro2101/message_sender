@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-3">
+      <div >
+          <div class='m-0 p-2'>
+              <div class='card-body p-0'>
+                  <h3>MailSender Блог</h3>
+                  {% if user.is_authenticated and not request.user.is_staff or request.user.is_superuser %}
+                  <div class="position-absolute" style="top: 10px; right: 10px;" >
+                      <a class="btn border" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);" href="{% url 'blog:addpost' %}">Добавить статью</a>
+                  </div>
+                  {% endif %}
+                  {% for post in posts %}
+                  {% include "includes/blog/post_prew.html" %}
+                  {% endfor %}
+                  {% include 'paginate.html' %}
+              </div>
+              
+          </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

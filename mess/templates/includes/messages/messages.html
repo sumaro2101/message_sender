@@ -1,0 +1,56 @@
+{% load static %}
+
+{% for message in messages %}
+<article class="card bg-body-tertiary mt-4" style="padding: 16px 16px 12px; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);">
+    <div>
+        <div class="text-center">
+            {% if message.actual %}
+                <p class="text-success p-0 m-0 mt-1" style="line-height: 0px;">Актуальный</p>
+            {% else %}
+                <p class="text-danger p-0 m-0 mt-1" style="line-height: 0px;">Деактивирован</p>
+            {% endif %}
+        </div>
+        <header class="d-flex align-items-center justify-content-between flex-wrap-nowrap mb-2" style="height: 24px; margin: -4px; padding: 4px;">
+            <div class="d-flex" style="margin: 0 4px 0 0; max-width: 100%;">
+                <span class="d-flex align-items-center" style="max-width: 100%;">
+                    <span class="d-flex" style="align-items: baseline; flex-direction: row;">
+                        <div style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;">{{ message.employee.username }}</div>
+                        {% if message.time_edit == message.time_create %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_create }}</div>
+                        {% else %}
+                        <div style="font-size: .75rem; line-height: .6875rem;">{{ message.time_edit }}</div>
+                        {% endif %}
+                    </span>
+                </span>
+            </div>
+            <div>
+                {% if not content_manager %}
+                <div>
+                    {% if not moderator %}
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:update_mess' message.slug %}">Редактировать</a>
+                    {% endif %}
+                    <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'mess:delete_mess' message.slug %}">{% if message.actual %}Деактивировать{% else %}Активировать{% endif %}</a>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <div class="posts-comment-body ms-3 mb-3">
+            <div>
+                <p>
+                    <strong>{{ message.title_message }}</strong>
+                </p>
+            </div>
+            <div>
+                <p style="font-size: .9375rem; line-height: 1.375rem; margin: 0; padding: 0;">
+                    {{ message.text_message }}
+                </p>
+            </div>
+        </div>
+        {% if message.actual and not moderator and not content_manager %}
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-success" style="--bs-btn-padding-y: .50rem; --bs-btn-padding-x: .70rem; --bs-btn-font-size: .90rem;" href="{% url 'mail_center:mail_create' message.slug %}">Начать рассылку</a>
+        </div>
+        {% endif %}
+    </div>
+</article>
+{% endfor %}

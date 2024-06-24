@@ -1,0 +1,52 @@
+{% load static %}
+
+
+<div class="container">
+    <div class="card p-3">
+      <div class="offset-1 col-10">
+        <h3 class="p-2">
+            Список пользователей
+        </h3>
+        <div class="card-body">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Ник</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Активный Эмеил</th>
+                        <th scope="col">Статус пользователя</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.pk }}</th>
+                        <td><a class="text-black link-underline link-underline-opacity-0" href="{{ user.get_absolute_url }}">{{ user.get_username }}</a></td>
+                        <td><a class="text-black link-underline link-underline-opacity-0" href="{{ user.get_absolute_url }}">{{ user.email }}</a></td>
+                        <td><a class="text-black link-underline link-underline-opacity-0" href="{{ user.get_absolute_url }}">{% if user.first_name %}{{ user.first_name }}{% else %}---{% endif %}</a></td>
+                        <td><a class="text-black link-underline link-underline-opacity-0" href="{{ user.get_absolute_url }}">{% if user.last_name %}{{ user.last_name }}{% else %}---{% endif %}</a></td>
+                        <td>{% if user.is_verify_email %}
+                            <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-success">Актуальный</p>
+                        {% else %}
+                            <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-danger">Деактивирован</p>
+                        {% endif %}
+                        </td>
+                        <td>
+                            {% if user.is_active %}
+                                <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-success">Актуальный</p>
+                            {% else %}
+                                <p style="margin: 0 5px 0 0; line-height: .9375rem; font-size: .8125rem; font-weight: 700;" class="text-danger">Деактивирован</p>
+                            {% endif %}
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        
+      </div>
+    </div>
+</div>
