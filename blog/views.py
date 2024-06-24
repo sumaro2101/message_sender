@@ -97,8 +97,7 @@ class PostDetailView(ModelFormMixin, DetailView):
         return redirect('blog:post', post.slug)
             
 
-@method_decorator(never_cache, 'dispatch')
-class AddPostCreateView(LoginRequiredMixin ,CreateView):
+class AddPostCreateView(LoginRequiredMixin,UserPassesTestMixin, CreateView):
     model = Posts
     form_class = AddPostForm
     template_name = 'blog/posts_form.html'
@@ -108,6 +107,9 @@ class AddPostCreateView(LoginRequiredMixin ,CreateView):
         form.instance.name_user = self.request.user
         form.instance.slug = f'{slugify(form.instance.name_user)}-{slugify(form.instance.title)}'
         return super().form_valid(form)
+    
+    def test_func(self) -> bool | None:
+        return not self.request.user.is_staff or self.request.user.is_superuser
     
   
 class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
