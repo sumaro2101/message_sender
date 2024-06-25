@@ -1,4 +1,682 @@
 [
+   
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add crontab",
+            "content_type": 6,
+            "codename": "add_crontabschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change crontab",
+            "content_type": 6,
+            "codename": "change_crontabschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete crontab",
+            "content_type": 6,
+            "codename": "delete_crontabschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view crontab",
+            "content_type": 6,
+            "codename": "view_crontabschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add interval",
+            "content_type": 7,
+            "codename": "add_intervalschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change interval",
+            "content_type": 7,
+            "codename": "change_intervalschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete interval",
+            "content_type": 7,
+            "codename": "delete_intervalschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view interval",
+            "content_type": 7,
+            "codename": "view_intervalschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add periodic task",
+            "content_type": 8,
+            "codename": "add_periodictask"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change periodic task",
+            "content_type": 8,
+            "codename": "change_periodictask"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete periodic task",
+            "content_type": 8,
+            "codename": "delete_periodictask"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view periodic task",
+            "content_type": 8,
+            "codename": "view_periodictask"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add periodic tasks",
+            "content_type": 9,
+            "codename": "add_periodictasks"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change periodic tasks",
+            "content_type": 9,
+            "codename": "change_periodictasks"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete periodic tasks",
+            "content_type": 9,
+            "codename": "delete_periodictasks"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view periodic tasks",
+            "content_type": 9,
+            "codename": "view_periodictasks"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add solar event",
+            "content_type": 10,
+            "codename": "add_solarschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change solar event",
+            "content_type": 10,
+            "codename": "change_solarschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete solar event",
+            "content_type": 10,
+            "codename": "delete_solarschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view solar event",
+            "content_type": 10,
+            "codename": "view_solarschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 41,
+        "fields": {
+            "name": "Can add clocked",
+            "content_type": 11,
+            "codename": "add_clockedschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 42,
+        "fields": {
+            "name": "Can change clocked",
+            "content_type": 11,
+            "codename": "change_clockedschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 43,
+        "fields": {
+            "name": "Can delete clocked",
+            "content_type": 11,
+            "codename": "delete_clockedschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 44,
+        "fields": {
+            "name": "Can view clocked",
+            "content_type": 11,
+            "codename": "view_clockedschedule"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 45,
+        "fields": {
+            "name": "Can add сообщение",
+            "content_type": 12,
+            "codename": "add_messageinfo"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 46,
+        "fields": {
+            "name": "Can change сообщение",
+            "content_type": 12,
+            "codename": "change_messageinfo"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 47,
+        "fields": {
+            "name": "Can delete сообщение",
+            "content_type": 12,
+            "codename": "delete_messageinfo"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 48,
+        "fields": {
+            "name": "Can view сообщение",
+            "content_type": 12,
+            "codename": "view_messageinfo"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 49,
+        "fields": {
+            "name": "Can add пользователь",
+            "content_type": 13,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 50,
+        "fields": {
+            "name": "Can change пользователь",
+            "content_type": 13,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 51,
+        "fields": {
+            "name": "Can delete пользователь",
+            "content_type": 13,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 52,
+        "fields": {
+            "name": "Can view пользователь",
+            "content_type": 13,
+            "codename": "view_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 53,
+        "fields": {
+            "name": "Can add клиент",
+            "content_type": 14,
+            "codename": "add_clientservise"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 54,
+        "fields": {
+            "name": "Can change клиент",
+            "content_type": 14,
+            "codename": "change_clientservise"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 55,
+        "fields": {
+            "name": "Can delete клиент",
+            "content_type": 14,
+            "codename": "delete_clientservise"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 56,
+        "fields": {
+            "name": "Can view клиент",
+            "content_type": 14,
+            "codename": "view_clientservise"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 57,
+        "fields": {
+            "name": "Can add Рассылка",
+            "content_type": 15,
+            "codename": "add_sendingmessage"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 58,
+        "fields": {
+            "name": "Can change Рассылка",
+            "content_type": 15,
+            "codename": "change_sendingmessage"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 59,
+        "fields": {
+            "name": "Can delete Рассылка",
+            "content_type": 15,
+            "codename": "delete_sendingmessage"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 60,
+        "fields": {
+            "name": "Can view Рассылка",
+            "content_type": 15,
+            "codename": "view_sendingmessage"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 61,
+        "fields": {
+            "name": "Can add Результаты рассылки",
+            "content_type": 16,
+            "codename": "add_resultssendmessages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 62,
+        "fields": {
+            "name": "Can change Результаты рассылки",
+            "content_type": 16,
+            "codename": "change_resultssendmessages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 63,
+        "fields": {
+            "name": "Can delete Результаты рассылки",
+            "content_type": 16,
+            "codename": "delete_resultssendmessages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 64,
+        "fields": {
+            "name": "Can view Результаты рассылки",
+            "content_type": 16,
+            "codename": "view_resultssendmessages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 65,
+        "fields": {
+            "name": "Can add пост",
+            "content_type": 17,
+            "codename": "add_posts"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 66,
+        "fields": {
+            "name": "Can change пост",
+            "content_type": 17,
+            "codename": "change_posts"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 67,
+        "fields": {
+            "name": "Can delete пост",
+            "content_type": 17,
+            "codename": "delete_posts"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 68,
+        "fields": {
+            "name": "Can view пост",
+            "content_type": 17,
+            "codename": "view_posts"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 69,
+        "fields": {
+            "name": "Can add комментарий",
+            "content_type": 18,
+            "codename": "add_postcomment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 70,
+        "fields": {
+            "name": "Can change комментарий",
+            "content_type": 18,
+            "codename": "change_postcomment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 71,
+        "fields": {
+            "name": "Can delete комментарий",
+            "content_type": 18,
+            "codename": "delete_postcomment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 72,
+        "fields": {
+            "name": "Can view комментарий",
+            "content_type": 18,
+            "codename": "view_postcomment"
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "content-manager",
+            "permissions": [
+                69,
+                70,
+                65,
+                66,
+                52
+            ]
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 2,
+        "fields": {
+            "name": "moderator",
+            "permissions": [
+                58,
+                60,
+                46,
+                48,
+                54,
+                52
+            ]
+        }
+    },
     {
         "model": "django_celery_beat.intervalschedule",
         "pk": 1,
@@ -475,7 +1153,7 @@
         "model": "django_celery_beat.periodictasks",
         "pk": 1,
         "fields": {
-            "last_update": "2024-06-24T22:59:01.900Z"
+            "last_update": "2024-06-25T10:03:47.857Z"
         }
     },
     {
@@ -531,6 +1209,34 @@
             "last_run_at": null,
             "total_run_count": 0,
             "date_changed": "2024-06-24T22:33:52.716Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "pk": 35,
+        "fields": {
+            "name": "mail_center.sendingmessage_1",
+            "task": "mail_center.tasks.send",
+            "interval": 9,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{\"template_render\": \"mail_form/mail_send_form.html\", \"object_unique_name\": \"mail_center.sendingmessage_1\"}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "start_time": "2024-06-26T10:03:00Z",
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "date_changed": "2024-06-25T10:03:47.856Z",
             "description": ""
         }
     },
@@ -669,7 +1375,7 @@
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$720000$iw6CI7lJbdhVhW1FLcYqzf$+EBWXJGWMe7wmEXClWevHQAUDLRzMxihX0kwI6da4BQ=",
-            "last_login": "2024-06-24T22:57:00.853Z",
+            "last_login": "2024-06-25T13:52:53.455Z",
             "is_superuser": true,
             "username": "root",
             "first_name": "",
@@ -692,7 +1398,7 @@
         "pk": 2,
         "fields": {
             "password": "pbkdf2_sha256$720000$7wXqZ8jqk6XsSyXPGJ3SKV$X+8NmOjdCxvP70M3MNbdocPw3zNlXPPW0LA4a/Qakbw=",
-            "last_login": "2024-06-24T22:52:06.327Z",
+            "last_login": "2024-06-25T10:27:38.229Z",
             "is_superuser": false,
             "username": "alex",
             "first_name": "",
@@ -707,7 +1413,7 @@
             "country": null,
             "gender": null,
             "groups": [
-                1
+                2
             ],
             "user_permissions": []
         }
@@ -732,6 +1438,31 @@
             "country": null,
             "gender": null,
             "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$eFIltlUh6iOFMidnAMTkqg$qNOrCH7eNK4hLSKB7KIGdM6x/Az18oWOQxWTmBYlZxo=",
+            "last_login": "2024-06-25T13:53:40.156Z",
+            "is_superuser": false,
+            "username": "content",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-06-25T13:52:39Z",
+            "image": "",
+            "email": "content@gmail.com",
+            "is_verify_email": true,
+            "phone": "+79136623456",
+            "country": null,
+            "gender": null,
+            "groups": [
+                1
+            ],
             "user_permissions": []
         }
     },
@@ -871,6 +1602,23 @@
         }
     },
     {
+        "model": "mail_center.sendingmessage",
+        "pk": 1,
+        "fields": {
+            "owner_send": 1,
+            "message": 15,
+            "date_first_send": "2024-06-26T10:03:00Z",
+            "periodicity": "12:00:00",
+            "slug": "1-root-1-test",
+            "enabled": true,
+            "status": "run",
+            "clients": [
+                4,
+                5
+            ]
+        }
+    },
+    {
         "model": "blog.postcomment",
         "pk": 1,
         "fields": {
@@ -913,13 +1661,51 @@
             "image": "",
             "description": "testt",
             "slug": "sumaro-testt",
-            "views": 9,
+            "views": 14,
             "likes": 0,
             "time_published": "2024-06-24T22:15:36.647Z",
             "time_edit": null,
             "is_edit": false,
             "text_to_edit": "Изменено:",
             "comment_count": 2,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 2,
+        "fields": {
+            "title": "Статья",
+            "name_user": 1,
+            "image": "posts/2024/06/25/IMG_6002.webp",
+            "description": "Куда выбрасывать батарейки, всех волнует этот вопрос. Ответ кроется тут",
+            "slug": "root-statya",
+            "views": 6,
+            "likes": 0,
+            "time_published": "2024-06-25T09:46:38.756Z",
+            "time_edit": null,
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "comment_count": 0,
+            "is_published": true
+        }
+    },
+    {
+        "model": "blog.posts",
+        "pk": 3,
+        "fields": {
+            "title": "Лучшие компьютеры на сегодня",
+            "name_user": 1,
+            "image": "posts/2024/06/25/camphoto_758783491.jpeg",
+            "description": "Лучшие компьютеры, как они называются? Какова их цена? На что они способны, ответ - тут",
+            "slug": "root-luchshie-kompyuteryi-na-segodnya",
+            "views": 10,
+            "likes": 0,
+            "time_published": "2024-06-25T09:48:55.157Z",
+            "time_edit": null,
+            "is_edit": false,
+            "text_to_edit": "Изменено:",
+            "comment_count": 0,
             "is_published": true
         }
     }
