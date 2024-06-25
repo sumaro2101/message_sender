@@ -15,7 +15,7 @@ class MessageInfoAdmin(admin.ModelAdmin):
     
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
-        if get_or_set_cache(request.user.groups, slug='manager', type_field='name'):
+        if get_or_set_cache(request.user.groups, slug='moderator', type_field='name'):
             form.base_fields['employee'].disabled = True
             form.base_fields['title_message'].disabled = True
             form.base_fields['text_message'].disabled = True
