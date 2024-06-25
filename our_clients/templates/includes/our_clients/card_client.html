@@ -18,7 +18,7 @@
             <div>
                 {% if not content_manager %}
                 <div>
-                    {% if moderator %}
+                    {% if not moderator %}
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:update_client' client.pk %}">Изменить</a>
                     {% endif %}
                     <a class="btn border" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="{% url 'our_clients:delete_client' client.pk %}">{% if client.actual %}Деактивировать{% else %}Активировать{% endif %}</a>
