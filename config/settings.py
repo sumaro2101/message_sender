@@ -50,31 +50,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
-    
-    #celery
+    # celery
     'django_celery_beat',
-    
-    #debug_toolbar
+    # debug_toolbar
     'debug_toolbar',
-    #django-extensions
+    # django-extensions
     'django_extensions',
-    
-    #phonenumber_field
+    # phonenumber_field
     'phonenumber_field',
-    
     'django_countries',
-    
-    #django-formset
+    # django-formset
     'formset',
-    
-    #custom apps
+    # custom apps
     'mess.apps.MessConfig',
     'users.apps.UsersConfig',
     'our_clients.apps.OurClientsConfig',
     'mail_center.apps.MailCenterConfig',
     'blog.apps.BlogConfig',
     'main_page.apps.MainPageConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -85,8 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    #debug-toolbar
+    # debug-toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -96,7 +88,7 @@ CELERY_IMPORTS = [
 
 if CACHE_ENABLE and GLOBAL_CACHE:
     MIDDLEWARE += [
-        #global cache
+        # global cache
         'django.middleware.cache.UpdateCacheMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.cache.FetchFromCacheMiddleware',
@@ -107,7 +99,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -160,23 +152,16 @@ if CACHE_ENABLE:
     match find_env('TEST'):
         case 'False':
             backend_cache = {
-            'BACKEND': find_env('BACKEND_CACHE'),
-            'LOCATION': find_env('LOCATION_CACHE'),
-            'TIMEOUT': 60 * 10,
-            'OPTIONS': {
-                'db': '1',
-            }
+                'BACKEND': find_env('BACKEND_CACHE'),
+                'LOCATION': find_env('LOCATION_CACHE'),
+                'TIMEOUT': 60 * 10,
+                'OPTIONS': {'db': '1'},
             }
         case _:
-            backend_cache = {
-            'BACKEND': find_env('BACKEND_CACHE_TEST'),
-    }
-            
-    CACHES = {
-    'default': backend_cache,
-    }
-    CACHE_MIDDLEWARE_KEY_PREFIX='messender_cache'
-    CACHE_MIDDLEWARE_SECONDS=600
+            backend_cache = {'BACKEND': find_env('BACKEND_CACHE_TEST')}
+    CACHES = {'default': backend_cache}
+    CACHE_MIDDLEWARE_KEY_PREFIX = 'messender_cache'
+    CACHE_MIDDLEWARE_SECONDS = 600
 
 
 # Internationalization
@@ -220,7 +205,7 @@ CELERY_BEAT_SCHEDULER = find_env('DEFAULT_DATABASE_BEAT')
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [ BASE_DIR / 'static/' ]
+STATICFILES_DIRS = [BASE_DIR / 'static/']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
