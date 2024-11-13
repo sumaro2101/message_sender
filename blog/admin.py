@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from .models import Posts, PostComment
 from mail_center.cache import get_or_set_cache
-# Register your models here.
+
 
 @admin.register(Posts)
 class PostsAdmin(admin.ModelAdmin):
@@ -23,17 +23,25 @@ class PostsAdmin(admin.ModelAdmin):
                     'text_to_edit',
                     'comment_count',
                     )
-    
     search_fields = ('pk',
                      'title',
                      'name_user',
                      'time_published',
                      )
-    
-    
-    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+    list_filter = 'is_edit',
+    prepopulated_fields = {'slug': ('name_user', 'title')}
+
+    def get_form(self,
+                 request: Any,
+                 obj: Any | None = ...,
+                 change: bool = ...,
+                 **kwargs: Any,
+                 ) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
-        if get_or_set_cache(request.user.groups, slug='content-manager', type_field='name'):
+        if get_or_set_cache(request.user.groups,
+                            slug='content-manager',
+                            type_field='name',
+                            ):
             form.base_fields['title'].disabled = True
             form.base_fields['name_user'].disabled = True
             form.base_fields['image'].disabled = True
@@ -46,17 +54,12 @@ class PostsAdmin(admin.ModelAdmin):
             form.base_fields['comment_count'].disabled = True
 
         return form
-    
-    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]: 
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         queryset = super().get_queryset(request)
         return queryset.select_related('name_user',)
 
-    list_filter = 'is_edit',
-    
-    prepopulated_fields = {'slug': ('name_user', 'title')}
-    
-    
-    
+
 @admin.register(PostComment)
 class PostCommentAdmin(admin.ModelAdmin):
     list_display = ('pk',
@@ -72,13 +75,18 @@ class PostCommentAdmin(admin.ModelAdmin):
                     'is_edit',
                     'likes',
                     )
-    
     search_fields = ('post', 'user_name', 'time_published')
-    
     list_filter = 'is_edit',
-    
-    def get_readonly_fields(self, request: HttpRequest, obj: Any | None = ...) -> list[str] | tuple[Any, ...]:
-        content_manager = get_or_set_cache(request.user.groups, slug='content-manager', type_field='name')
+
+    def get_readonly_fields(self,
+                            request: HttpRequest,
+                            obj: Any | None = ...,
+                            ) -> list[str] | tuple[Any, ...]:
+        content_manager = get_or_set_cache(
+            request.user.groups,
+            slug='content-manager',
+            type_field='name',
+            )
         if content_manager:
             self.readonly_fields = ('post',
                                     'parent',
@@ -94,8 +102,7 @@ class PostCommentAdmin(admin.ModelAdmin):
         else:
             self.readonly_fields = ()
         return self.readonly_fields
-    
-    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]: 
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         queryset = super().get_queryset(request)
         return queryset.select_related('post', 'parent', 'user_name')
-    
