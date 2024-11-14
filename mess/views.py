@@ -76,7 +76,7 @@ class MessageUpdateView(mixins.LoginRequiredMixin,
     form_class = CreateMessageForm
     template_name = 'messages/messageinfo_form.html'
     context_object_name = 'message'
-    success_url = reverse_lazy('mess:list')    
+    success_url = reverse_lazy('mess:list')
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

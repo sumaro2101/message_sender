@@ -132,7 +132,7 @@ class RegisterUser(mixins.UserPassesTestMixin,
 
         user = get_user_model()._default_manager.get(email=email)
         username = user.username
-        current_site = '127.0.0.1:8000'
+        current_site = 'localhost'
         site_name = 'Messender'
         update_session_auth_hash(self.request, user)
 

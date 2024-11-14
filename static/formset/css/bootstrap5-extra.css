@@ -1,0 +1,109 @@
+@media (max-width: 575.98px) {
+  django-formset .dj-dual-selector :is(.dj-move-all-right, .dj-move-selected-right, .dj-move-all-left, .dj-move-selected-left) svg {
+    transform: rotate(90deg);
+  }
+}
+django-formset .dj-dual-selector input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+django-formset .dj-dual-selector :is(select, django-sortable-select) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px;
+  width: 100% !important;
+}
+django-formset .dj-dual-selector ~ .dj-field-errors {
+  text-align: end;
+}
+django-formset [is=django-dual-selector] {
+  width: 100%;
+}
+django-formset textarea[is=richtext] ~ * .btn > svg {
+  width: 1.2em;
+}
+django-formset .dj-richtext-wrapper [role=menubar] .dropdown-menu {
+  min-width: initial;
+}
+django-formset dialog {
+  padding: 0;
+  word-wrap: break-word;
+  background-color: var(--bs-body-bg);
+  border: var(--bs-border-width) solid var(--bs-border-color-translucent);
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+django-formset dialog .dialog-header {
+  padding: 1rem 1rem;
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+  border-top-left-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
+  border-top-right-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
+}
+django-formset dialog .dialog-header h3 {
+  margin: 0;
+}
+django-formset dialog .dialog-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+django-formset dialog .dialog-footer {
+  padding: 1rem;
+  border-top: var(--bs-border-width) solid var(--bs-border-color);
+  border-bottom-right-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
+  border-bottom-left-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
+}
+django-formset dialog .dialog-footer > * {
+  margin: 0.25rem;
+}
+
+.text-indent {
+  text-indent: 3em;
+}
+
+.text-outdent {
+  text-indent: -3em;
+  padding-left: 3em;
+}
+
+.text-margin-1 {
+  margin-left: 2em;
+}
+
+.text-margin-2 {
+  margin-left: 4em;
+}
+
+.text-margin-3 {
+  margin-left: 6em;
+}
+
+.text-margin-4 {
+  margin-left: 8em;
+}
+
+.text-margin-5 {
+  margin-left: 10em;
+}
+
+.text-margin-6 {
+  margin-left: 12em;
+}
+
+.text-margin-7 {
+  margin-left: 14em;
+}
+
+.text-margin-8 {
+  margin-left: 16em;
+}
+
+.text-margin-9 {
+  margin-left: 18em;
+}
+
+.text-margin-10 {
+  margin-left: 20em;
+}
+
+/*# sourceMappingURL=bootstrap5-extra.css.map */

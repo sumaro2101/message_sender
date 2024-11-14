@@ -55,7 +55,7 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def get_context_data(self,
                          *,
-                         object_list,
+                         object_list=None,
                          **kwargs,
                          ):
         content_manager = get_or_set_cache(
