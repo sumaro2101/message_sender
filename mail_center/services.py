@@ -105,7 +105,7 @@ def send_mails(model_subject: Model,
 
 def check_message(model_message: Model,
                   message_id: str,
-                  ) -> Http404 | Model:
+                  ) -> Model:
     """Проверяет существование письма и возвращает
 
     Args:
