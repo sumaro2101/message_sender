@@ -29,7 +29,8 @@ urlpatterns = [
     path('', include('our_clients.urls', namespace='our_clients')),
     path('', include('mail_center.urls', namespace='mail_center')),
     path('', include('blog.urls', namespace='blog')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
+     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 if settings.DEBUG:
     urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]

@@ -1,0 +1,122 @@
+services:
+  messender:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    volumes:
+      - .:/app
+      - ./static:/home/app/static/
+      - ./media:/home/app/media/
+    image: config
+    command: /start
+    expose:
+      - 8000
+    env_file:
+      - .env
+    environment:
+      - DOCKER_DEBUG=0
+    depends_on:
+      - redis
+      - db
+      - rabbitmq
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    volumes:
+      - ./static:/var/www/message_sender/static/
+      - ./media:/var/www/message_sender/media/
+      - ./docker/nginx:/etc/nginx/conf.d
+    expose:
+      - 8080
+    ports:
+      - "80:8080"
+    depends_on:
+      - messender
+  
+  db:
+    restart: always
+    image: postgres:16.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    hostname: db
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7.2.5-alpine
+    expose:
+      - 6379
+  
+  celery_worker:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    image: config
+    command: /start-celeryworker
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DOCKER_DEBUG=0
+    depends_on:
+      - redis
+      - db
+      - messender
+
+  celery_beat:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    image: config
+    command: /start-celerybeat
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DOCKER_DEBUG=0
+    depends_on:
+      - redis
+      - db
+      - messender
+  
+  rabbitmq:
+    hostname: rabbitmq
+    image: rabbitmq:4.0.3-management
+    env_file:
+      - .env
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    depends_on:
+      - db
+
+  dashboard:
+    build: 
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: /start-flower
+    volumes:
+      - .:/app
+    ports:
+      - 5555:5555
+    env_file:
+      - .env
+    depends_on:
+      - celery_worker
+      - rabbitmq
+      - db
+      - messender
+
+volumes:
+  postgres_data:
+  static:
+  media:
+  rabbitmq-data:

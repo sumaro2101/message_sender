@@ -14,7 +14,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-from config.config_parse import yandex_mail
 from config.utils import find_env
 
 
@@ -33,7 +32,7 @@ SECRET_KEY = 'django-insecure-i(7nvgjs=fiw$0*%qx3^!9-zgr0e0u%owrc+*$64^ysecc*amq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [find_env('ALLOWED_HOSTS'),]
+ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1']
 
 CACHE_ENABLE = True
@@ -124,8 +123,7 @@ DATABASES = {
         'NAME': find_env('DB_NAME'),
         'USER': find_env('DB_USER'),
         'HOST': find_env('DB_HOST'),
-        'PORT': find_env('DB_PORT'),
-        'PASSWORD': find_env('PASSWORD_POSTGRES'),
+        'PASSWORD': find_env('DB_PASSWORD'),
     }
 }
 
@@ -177,16 +175,19 @@ USE_TZ = True
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-YANDEX_MAIL = yandex_mail()
-EMAIL_HOST = YANDEX_MAIL.get('host')
-EMAIL_PORT = YANDEX_MAIL.get('port')
-EMAIL_HOST_USER = YANDEX_MAIL.get('hostuser')
-EMAIL_HOST_PASSWORD = os.environ.get('PASSWORD_HOST_YANDEX')
-EMAIL_USE_SSL = True if YANDEX_MAIL.get('connecttype') == 'SSL' else False
-EMAIL_USE_TLS = True if YANDEX_MAIL.get('connecttype') == 'TLS' else False
+EMAIL_CONNECT_TYPE = find_env('CONNECT_TYPE')
+
+EMAIL_HOST = find_env('SMTP_EMAIL_HOST')
+EMAIL_PORT = find_env('SMTP_EMAIL_PORT')
+EMAIL_HOST_USER = find_env('HOST_USER')
+EMAIL_HOST_PASSWORD = find_env('PASS_USER')
+EMAIL_USE_SSL = True if EMAIL_CONNECT_TYPE == 'SSL' else False
+EMAIL_USE_TLS = True if EMAIL_CONNECT_TYPE == 'TLS' else False
 
 DEFAULT_CHARSET = 'utf-8'
 
@@ -194,9 +195,22 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
+RMQ_HOST = find_env('RMQ_HOST')
+RMQ_PORT = find_env('RMQ_PORT')
+RMQ_USER = find_env('RABBITMQ_DEFAULT_USER')
+RMQ_PASS = find_env('RABBITMQ_DEFAULT_PASS')
 
-CELERY_BROKER_URL = find_env('BROKER_URL')
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+BROKER_URL = ('amqp://' +
+              RMQ_USER +
+              ':' +
+              RMQ_PASS +
+              '@' +
+              RMQ_HOST +
+              ':' +
+              RMQ_PORT)
+
+CELERY_BROKER_URL = BROKER_URL
+CELERY_RESULT_BACKEND = 'redis://redis'
 CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = find_env('DEFAULT_DATABASE_BEAT')
@@ -204,11 +218,11 @@ CELERY_BEAT_SCHEDULER = find_env('DEFAULT_DATABASE_BEAT')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static/']
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
